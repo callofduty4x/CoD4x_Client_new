@@ -1,0 +1,1 @@
+struct snd_alias_list_t* Com_FindSoundAlias(char const*);

@@ -1,0 +1,4 @@
+_Z11R_SetupPass16GfxCmdBufContextj
+_Z22R_SetupPassPerPrimArgs16GfxCmdBufContext
+_Z24R_SetupPassPerObjectArgs16GfxCmdBufContext
+_Z27R_SetupPassVertexShaderArgs16GfxCmdBufContext

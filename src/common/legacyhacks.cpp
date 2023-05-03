@@ -1,0 +1,1 @@
+char legacyHacks[0x60];

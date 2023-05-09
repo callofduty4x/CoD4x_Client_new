@@ -60,7 +60,7 @@ DCFLAGS=-fno-pie -O0 -g $(EXTERNAL_INCLUDES)
 endif
 
 WIN_LFLAGS=-m32 -g -fno-common -Wl,--nxcompat,--stack,0x800000,--subsystem,windows -mwindows -static-libgcc -static -lm -Lexternal/fmt/build
-WIN_LLIBS=tomcrypt mbedtls mbedcrypto mbedx509 jpeg speex mss32 binkw32 ws2_32 wsock32 wininet iphlpapi gdi32 kernel32 winmm d3d9 d3dx9 ddraw dsound crypt32 fmt stdc++
+WIN_LLIBS=tomcrypt mbedtls mbedcrypto mbedx509 jpeg speex binkw32 ws2_32 wsock32 wininet iphlpapi gdi32 kernel32 winmm d3d9 d3dx9 ddraw dsound crypt32 fmt stdc++
 LINUX_LFLAGS=-m32 -g -static-libgcc -rdynamic -Wl,-rpath=./ -Lexternal/fmt/build
 LINUX_LLIBS=tomcrypt mbedtls mbedcrypto mbedx509 dl pthread m fmt stdc++
 BSD_LLIBS=tomcrypt mbedtls mbedcrypto mbedx509 pthread m execinfo fmt stdc++
@@ -148,10 +148,11 @@ CLEAN=-rm $(OBJ_DIR)/*.o
 
 endif
 
-ifeq ($(snd_driver), xaudio)
-SND_DRIVER=xaudio2
+ifeq ($(snd_driver), null)
+SND_DRIVER=null
 else
 SND_DRIVER=ail
+WIN_LLIBS+= mss32
 endif
 
 #####################

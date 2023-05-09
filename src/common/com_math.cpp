@@ -23,3 +23,16 @@ int VectorCompare( const vec3_t v1, const vec3_t v2 ) {
 
 	return 1;
 }
+
+double Abs(const float *v)
+{
+  return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+}
+
+float Vec3Distance(const float *v1, const float *v2)
+{
+	float dir[3];
+
+	VectorSubtract(v2, v1, dir);
+	return Abs(dir);
+}

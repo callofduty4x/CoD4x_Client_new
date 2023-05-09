@@ -557,6 +557,10 @@ qboolean Assert_MyHandler(const char* exp, const char *filename, int line, const
 
 #define assert ASSERT
 #define assertx XASSERT
+#define assertlimit LIMITASSERT
+#define assertrange RANGEASSERT
+#define assertrangeu RANGEASSERTUNSIGNED
+#define assertarray ARRAYBOUNDSASSERT
 #define release_assert RELEASE_ASSERT
 #define release_assertx RELEASE_XASSERT
 #define ASSERT_HANDLER(x, f, l, fu, ...) (Assert_MyHandler(x, f, l, fu, __VA_ARGS__))
@@ -569,6 +573,11 @@ qboolean Assert_MyHandler(const char* exp, const char *filename, int line, const
 #else
 #define XASSERT(x, ...) (!(x) && ASSERT_HANDLER(#x, __FILE__, __LINE__, __func__, __VA_ARGS__) && (ASSERT_HALT(), 1))
 #define ASSERT(x) XASSERT(x, NULL)
+#define RANGEASSERT(x, limit_low, limit_highNoHit) XASSERT((signed int)x >= (signed int)limit_low && (signed int)x < (signed int)limit_highNoHit, #x " doesn't index " #limit_low " and " #limit_highNoHit "\n\t%i not in (%i, %i)", (signed int)x, (signed int)limit_low, (signed int)limit_highNoHit)
+#define RANGEASSERTUNSIGNED(x, limit_low, limit_highNoHit) XASSERT((unsigned int)x >= (unsigned int)limit_low && (unsigned int)x < (unsigned int)limit_highNoHit, #x " doesn't index " #limit_low " and " #limit_highNoHit "\n\t%i not in (%i, %i)", (unsigned int)x, (unsigned int)limit_low, (unsigned int)limit_highNoHit)
+#define LIMITASSERT(x, limit_highNoHit) XASSERT((unsigned)x >= 0 && (unsigned)x < limit_highNoHit, #x " doesn't index 0 and " #limit_highNoHit "\n\t%i not in [0, %i)", x, limit_highNoHit)
+#define ARRAYBOUNDSASSERT(x, array) LIMITASSERT(x, ARRAY_COUNT(array))
+
 #define RELEASE_XASSERT XASSERT
 #define RELEASE_ASSERT ASSERT
 #endif
@@ -585,7 +594,7 @@ typedef enum
   SASYS_UI = 0x0,
   SASYS_CGAME = 0x1,
   SASYS_GAME = 0x2,
-  SASYS_COUNT = 0x3,
+  SASYS_COUNT = 0x3
 }snd_alias_system_t;
 
 #define UNREACHABLE_CODE 0

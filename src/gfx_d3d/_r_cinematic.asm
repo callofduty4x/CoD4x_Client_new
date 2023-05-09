@@ -51,7 +51,7 @@
 	extern _Z20R_Cinematic_BinkOpenPKcjPci
 	extern Bink_Test
 	extern BinkOpenMiles@4
-	extern milesGlob
+	extern _Z19SND_GetDriverHandlev
 	extern iBinkSetSoundSystem
 
 ;Exports of r_cinematic:
@@ -1012,7 +1012,7 @@ _Z23R_Cinematic_UpdateFramev_160:
 	mov dword [esp+0x4], _Z21R_Cinematic_Bink_FreePv
 	mov dword [esp], _Z22R_Cinematic_Bink_Allocj
 	call iBinkSetMemory
-	mov eax, [milesGlob]
+	call _Z19SND_GetDriverHandlev
 	mov [esp+4], eax
 	mov eax, BinkOpenMiles@4
 	mov [esp], eax

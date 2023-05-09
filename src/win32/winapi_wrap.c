@@ -25,8 +25,8 @@
 #include <d3dx9.h>
 #define _ACCLAIM_IGAADSYSTEM
 
-#include "../sound/mss.h"
-#include "../gfx_d3d/bink.h"
+//#include "../sound/mss.h"
+#include <gfx_d3d/bink.h>
 
 
 LPVOID __cdecl iVirtualAlloc(LPVOID address, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect)
@@ -218,7 +218,7 @@ UINT iMapVirtualKeyA(UINT uCode, UINT uMapType)
 #undef DXDEC
 #define RADEXPFUNC
 #define DXDEC
-
+/*
 DXDEC void iAILCALL iAIL_set_file_callbacks(AIL_file_open_callback opencb, AIL_file_close_callback closecb, AIL_file_seek_callback seekcb, AIL_file_read_callback readcb)
 {
     AIL_set_file_callbacks(opencb, closecb, seekcb, readcb);
@@ -397,7 +397,7 @@ DXDEC void iAILCALL iAIL_set_sample_playback_rate(HSAMPLE S, S32 playback_rate)
 DXDEC S32 iAILCALL iAIL_WAV_info(void const* WAV_image, AILSOUNDINFO* info)
 {
     return AIL_WAV_info(WAV_image, info);
-}
+}*/
 RADEXPFUNC HBINK iRADEXPLINK iBinkOpen(const char PTR4* name,U32 flags)
 {
     return BinkOpen(name,flags);

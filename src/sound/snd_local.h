@@ -1,176 +1,295 @@
-#include "../q_shared.h"
-#define _ACCLAIM_IGAADSYSTEM
+#include <q_shared.h>
 
-#include "mss.h"
+struct snd_alias_t;
+struct SndCurve;
 
+extern dvar_s* snd_enableReverb;
 
-struct MilesGlob_t
+struct snd_volume_info_t
 {
-  HDIGDRIVER dig;
-  HSAMPLE hStreams[64];
-  char unknown[1992];
+  float volume;
+  float goalvolume;
+  float goalrate;
 };
 
-extern MilesGlob_t milesGlob;
-
-#pragma pack(push, 1)
-struct sndChannel_t
+struct __align(4) snd_channelvolgroup
 {
-  char soundSourceName[64];
-  int field_40;
-  int16_t field_44;
-  char field_46;
-  char field_47;
-  int field_48;
-  int field_4C;
+  snd_volume_info_t channelvol[64];
+  bool active;
+};
+
+struct __align(4) snd_enveffect
+{
+  int roomtype;
+  float drylevel;
+  float drygoal;
+  float dryrate;
+  float wetlevel;
+  float wetgoal;
+  float wetrate;
+  bool active;
+};
+
+struct orientation_t
+{
+  float origin[3];
+  float axis[3][3];
+};
+
+struct __align(4) snd_listener
+{
+  orientation_t orient;
+  int clientNum;
+  bool active;
+};
+
+struct snd_amplifier
+{
+  snd_listener *listener;
+  int minRadius;
+  int maxRadius;
+  float falloffExp;
+  float minVol;
+  float maxVol;
+};
+
+struct snd_entchannel_info_t
+{
+  char name[64];
+  int priority;
+  bool is3d;
+  bool isRestricted;
+  bool isPausable;
+  int maxVoices;
+  int voiceCount;
+};
+
+enum SndFileLoadingState
+{
+  SFLS_UNLOADED = 0x0,
+  SFLS_LOADING = 0x1,
+  SFLS_LOADED = 0x2,
+};
+
+struct SndFileSpecificChannelInfo
+{
+  SndFileLoadingState loadingState;
+  int srcChannelCount;
+  int baserate;
+  int endtime;
 };
 
 
-struct sndEnvironment_t
+union SndEntHandle
 {
-  int field_0;
-  float field_4;
-  float field_8;
-  float field_C;
-  float field_10;
-  float field_14;
-  float field_18;
+  struct
+  {
+    unsigned int entIndex;
+  }field;
+  int handle;
 };
 
-struct sndChannelsAttr_t
+enum SndLengthId
 {
-  vec3_t vect[64];
-  int field_300;
-  char field_304[2300];
-  int field_C00;
+  SndLengthNotify_Script,
+  SndLengthNotify_Subtitle,
+  SndLengthNotifyCount
+};
+
+struct sndLengthNotifyInfo
+{
+  SndLengthId id[4];
+  void *data[4];
+  int count;
 };
 
 
-struct sndAxis_t
+
+struct snd_channel_info_t
 {
-  int field_0;
-  int field_4;
-  int field_8;
-  int field_C;
-  int field_10;
-  int field_14;
-  int field_18;
-  int field_1C;
-  int field_20;
+  SndFileSpecificChannelInfo soundFileInfo;
+  SndEntHandle sndEnt;
+  int entchannel;
+  int startDelay;
+  int startTime;
+  int looptime;
+  int totalMsec;
+  int playbackId;
+  sndLengthNotifyInfo lengthNotifyInfo;
+  float basevolume;
+  float pitch;
+  snd_alias_t *alias0;
+  snd_alias_t *alias1;
+  int saveIndex0;
+  int saveIndex1;
+  float lerp;
+  float org[3];
+  float offset[3];
+  bool paused;
+  bool master;
+  bool timescale;
+  snd_alias_system_t system;
 };
 
-struct sndObj_t
+struct snd_background_info_t
 {
-  vec3_t org;
-  sndAxis_t field_C;
-  int field_30;
-  int field_34;
+  float goalvolume;
+  float goalrate;
 };
 
-#pragma pack(push, 1)
-struct snd_streamChannels
+struct snd_local_t
 {
-  int active_maybe;
-  int field_4;
-  int sampleRateDiv;
-  int field_C;
-  int field_10;
-  int streamChannelMapIndex;
-  int field_18;
-  char field_1C[48];
-  int field_4C;
-  int channelVolume;
-  int field_54;
-  int field_58;
-  int field_5C;
-  int field_60;
-  int field_64;
-  int field_68;
-  int field_6C;
-  int field_70;
-  int field_74;
-  int field_78;
-  int field_7C;
-  int field_80;
-  int field_84;
-  int field_88;
+  bool Initialized2d;
+  bool Initialized3d;
+  bool paused;
+  int playbackIdCounter;
+  unsigned int playback_rate;
+  int playback_channels;
+  float timescale;
+  int pausetime;
+  int cpu;
+  
+  struct __align(4)
+  {
+    char buffer[16384];
+    int size;
+    bool compress;
+  }restore;
+
+  float volume;
+  snd_volume_info_t mastervol;
+  snd_channelvolgroup channelVolGroups[4];
+  snd_channelvolgroup *channelvol;
+  snd_background_info_t background[5];
+  int ambient_track;
+  float slaveLerp;
+  snd_enveffect envEffects[3];
+  snd_enveffect *effect;
+  bool defaultPauseSettings[64];
+  bool pauseSettings[64];
+  snd_listener listeners[2];
+  int time;
+  int looptime;
+  snd_amplifier amplifier;
+  snd_entchannel_info_t entchaninfo[64]; //4dec
+  int entchannel_count;
+  snd_channel_info_t chaninfo[53];
+  int max_2D_channels;
+  int max_3D_channels;
+  int max_stream_channels;
 };
-#pragma pack(pop)
 
-
-struct sndSystem_t
+enum SND_EQTYPE
 {
-  bool8 initialized;
-  bool8 field_1;
-  bool8 field_2;
-  bool8 field_3;
-  int field_4;
-  int field_8;
-  int field_C;
-  int field_10;
-  int field_14;
-  int soundCpuUsage;
-  int field_1C;
-  char field_20[16384];
-  int field_4020;
-  float field_4024;
-  float field_4028;
-  float field_402C;
-  float field_4030;
-  sndChannelsAttr_t channelVects;
-  int field_4C38;
-  int field_4C3C;
-  int field_4C40;
-  sndChannelsAttr_t *channelVectPtr;
-  int field_4C48;
-  char field_4C4C[36];
-  int field_4C70;
-  float field_4C74;
-  sndEnvironment_t sndEnv;
-  char field_4C94;
-  char field_4C95;
-  char field_4C96;
-  char field_4C97;
-  int field_4C98;
-  char field_4C9C[24];
-  int field_4CB4;
-  char field_4CB8[28];
-  int field_4CD4;
-  sndEnvironment_t *sndEnvPtr;
-  byte field_4CDC[64];
-  byte field_4D1C[64];
-  sndObj_t clSndLocalClientObj[1];
-  sndObj_t defaultSndObj;
-  int soundTimer;
-  int initTime2;
-  int curSndObj;
-  int field_4DD8;
-  int field_4DDC;
-  int field_4DE0;
-  int field_4DE4;
-  int field_4DE8;
-  sndChannel_t sndChannels[64];
-  int entChannelCount;
-  int field_61F0;
-  int field_61F4;
-  int field_61F8;
-  int field_61FC;
-  int field_6200[1384];
-  int field_77A0;
-  int field_77A4;
-  int field_77A8;
-  int field_77AC;
-  int field_77B0;
-  int field_77B4;
-  int field_77B8;
-  int field_77BC;
-  int field_77C0;
-  int field_77C4;
-  int field_77C8;
-  int field_77CC;
-  snd_streamChannels streamChannels[12];
+  SND_EQTYPE_FIRST = 0x0,
+  SND_EQTYPE_LOWPASS = 0x0,
+  SND_EQTYPE_HIGHPASS = 0x1,
+  SND_EQTYPE_LOWSHELF = 0x2,
+  SND_EQTYPE_HIGHSHELF = 0x3,
+  SND_EQTYPE_BELL = 0x4,
+  SND_EQTYPE_LAST = 0x4,
+  SND_EQTYPE_COUNT = 0x5,
+  SND_EQTYPE_INVALID = 0x5
 };
-#pragma pack(pop)
+
+struct SndStartAliasInfo
+{
+  snd_alias_t *alias0;
+  snd_alias_t *alias1;
+  float lerp;
+  SndEntHandle sndEnt;
+  float org[3];
+  float volume;
+  float pitch;
+  int timeshift;
+  float fraction;
+  int startDelay;
+  bool master;
+  bool timescale;
+  snd_alias_system_t system;
+};
+
+struct LoadedSound;
 
 
-extern sndSystem_t g_snd;
+struct StreamFileNameRaw
+{
+  const char *dir;
+  const char *name;
+};
+
+
+union StreamFileInfo
+{
+  StreamFileNameRaw raw;
+};
+
+
+struct StreamFileName
+{
+  StreamFileInfo info;
+};
+
+struct StreamedSound
+{
+  StreamFileName filename;
+};
+
+union SoundFileRef
+{
+  LoadedSound *loadSnd;
+  StreamedSound streamSnd;
+};
+
+struct SoundFile
+{
+  char type;
+  char exists;
+  SoundFileRef u;
+};
+
+struct snd_save_stream_t
+{
+  float fraction;
+  int rate;
+  float basevolume;
+  float volume;
+  float pan;
+  float org[3];
+};
+
+struct snd_save_2D_sample_t
+{
+  float fraction;
+  float pitch;
+  float volume;
+  float pan;
+};
+
+struct snd_save_3D_sample_t
+{
+  float fraction;
+  float pitch;
+  float volume;
+  float org[3];
+};
+
+extern snd_local_t g_snd;
+
+int       SND_GetListenerIndexNearestToOrigin(const vec_t *origin);
+void      SND_ResetChannelInfo(int index);
+void      SND_RemoveVoice(int entchannel);
+void      SND_StopChannelAndPlayChainAlias(int chanId);
+float     SND_GetLerpedSlavePercentage(float baseSlavePercentage);
+void      SND_GetCurrent3DPosition(SndEntHandle sndEnt, const float *offset, float *pos_out);
+float     SND_Attenuate(SndCurve *volumeFalloffCurve, float radius, float mindist, float maxdist);
+bool      SND_HasFreeVoice(int entchannel);
+int       SND_FindFree2DChannel(SndStartAliasInfo *startAliasInfo, int entchannel);
+int       SND_FindFree3DChannel(SndStartAliasInfo *startAliasInfo, int entchannel);
+int       SND_SetPlaybackIdNotPlayed(int index);
+void      SND_SetChannelStartInfo(int index, SndStartAliasInfo *SndStartAliasInfo);
+void      SND_SetSoundFileChannelInfo(int index, int srcChannelCount, int baserate, int total_msec, int start_msec, SndFileLoadingState loadingState);
+int       SND_AcquirePlaybackId(int index, int totalMsec);
+void      SND_AddVoice(int entchannel);
+bool      SND_IsAliasChannel3D(int entchannel);
+bool      SND_UpdateBackgroundVolume(int track, int frametime);

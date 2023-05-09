@@ -1702,7 +1702,6 @@ typedef struct _AILSOUNDINFO {
   U32 rate;
   S32 bits;
   S32 channels;
-  U32 channel_mask;
   U32 samples;
   U32 block_size;
   void const* initial_ptr;
@@ -4011,7 +4010,7 @@ DXDEC  void         AILCALL AIL_set_sample_volume_levels(HSAMPLE S,
                                                          F32     right_level);
 
 DXDEC  void         AILCALL AIL_set_sample_channel_levels (HSAMPLE  S,
-                                                           F32 FAR *level_array,
+                                                           F32  *level_array,
                                                            S32      n_levels);
 
 DXDEC  void         AILCALL AIL_set_sample_reverb_levels(HSAMPLE S,
@@ -4045,8 +4044,8 @@ DXDEC  void         AILCALL AIL_sample_volume_pan     (HSAMPLE S, F32* volume, F
 
 DXDEC  S32          AILCALL AIL_sample_channel_count  (HSAMPLE S, U32 *mask);
 
-DXDEC  F32 FAR *    AILCALL AIL_sample_channel_levels (HSAMPLE  S,
-                                                       S32 FAR *n_levels);
+DXDEC  F32  *       AILCALL AIL_sample_channel_levels (HSAMPLE  S,
+                                                       S32 *n_levels);
 
 DXDEC  void         AILCALL AIL_sample_volume_levels  (HSAMPLE  S,
                                                        F32 *left_level,

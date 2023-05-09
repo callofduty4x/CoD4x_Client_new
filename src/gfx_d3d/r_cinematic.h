@@ -83,3 +83,5 @@ struct __align(4) CinematicGlob
 };
 
 
+void      R_Cinematic_StopPlayback();
+void      R_Cinematic_SyncNow();

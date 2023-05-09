@@ -196,7 +196,8 @@ vec_t Distance( const vec3_t p1, const vec3_t p2 ) ;
 void AnglesToAxis( const vec3_t angles, vec3_t axis[3] );
 void  SnapAngles(float *vAngles);
 
-double __cdecl Vec3DistanceSq(const float *p1, const float *p2);
+double Vec3DistanceSq(const float *p1, const float *p2);
+float Vec3Distance(const float *v1, const float *v2);
 float vec2_maxabs    (vec2_t v);
 
 
@@ -204,6 +205,7 @@ float Q_fabs(float f);
 vec_t Q_rint( vec_t in );
 
 void MatrixTransposeTransformVector43(const vec3_t in1, const float in2[4][3], vec3_t out);
+void MatrixTransposeTransformVector(const float *in1, const float (*in2)[3], float *out);
 void MatrixTransformVector(const vec3_t in1, const float in2[3][3], vec3_t out);
 void Vec3Lerp(const float *start, const float *end, const float fraction, float *endpos);
 double Vec2DistanceSq(const float *v0, const float *v1);
@@ -217,6 +219,7 @@ void RotatePoint( vec3_t point, const vec3_t matrix[3] );
 int VecNCompareCustomEpsilon(const float *v0, const float *v1, float epsilon, int coordCount);
 void Vec3RotateTranspose(const float *in, const float (*matrix)[3], float *out);
 void MatrixIdentity44(float (*)[4]);
+float randomf();
 
 #include <xmmintrin.h>
 

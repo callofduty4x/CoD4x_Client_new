@@ -93,6 +93,7 @@ CGAME_DIR=$(SRC_DIR)/cgame
 RAGDOLL_DIR=$(SRC_DIR)/ragdoll
 PHYSICS_DIR=$(SRC_DIR)/physics
 SND_DIR=$(SRC_DIR)/sound
+SND_DRIVERDIR=$(SRC_DIR)/sound/drivers
 FX_DIR=$(SRC_DIR)/effectscore
 DYNENT_DIR=$(SRC_DIR)/dynentity
 AIMASSIST_DIR=$(SRC_DIR)/aim_assist
@@ -147,6 +148,12 @@ CLEAN=-rm $(OBJ_DIR)/*.o
 
 endif
 
+ifeq ($(snd_driver), xaudio)
+SND_DRIVER=xaudio2
+else
+SND_DRIVER=ail
+endif
+
 #####################
 # Source files lists.
 TARGET=$(addprefix $(BIN_DIR)/,$(TARGETNAME)$(BIN_EXT))
@@ -169,7 +176,7 @@ UI_SOURCES=$(wildcard $(UI_DIR)/*.asm $(UI_DIR)/*.cpp)
 CGAME_SOURCES=$(wildcard $(CGAME_DIR)/*.asm $(CGAME_DIR)/*.cpp)
 RAGDOLL_SOURCES=$(wildcard $(RAGDOLL_DIR)/*.asm $(RAGDOLL_DIR)/*.cpp)
 PHYSICS_SOURCES=$(wildcard $(PHYSICS_DIR)/*.asm $(PHYSICS_DIR)/*.cpp)
-SND_SOURCES=$(wildcard $(SND_DIR)/*.asm $(SND_DIR)/*.c $(SND_DIR)/*.cpp)
+SND_SOURCES=$(wildcard $(SND_DIR)/*.asm $(SND_DIR)/*.cpp $(SND_DRIVERDIR)/$(SND_DRIVER)/*.cpp $(SND_DRIVERDIR)/$(SND_DRIVER)/*.asm)
 FX_SOURCES=$(wildcard $(FX_DIR)/*.asm $(FX_DIR)/*.c)
 DYNENT_SOURCES=$(wildcard $(DYNENT_DIR)/*.asm $(DYNENT_DIR)/*.c)
 AIMASSIST_SOURCES=$(wildcard $(AIMASSIST_DIR)/*.asm $(AIMASSIST_DIR)/*.c) 

@@ -37,6 +37,7 @@ extern dvar_s* com_timescale;
 extern dvar_s* dev_timescale;
 extern dvar_s* com_fixedtime;
 extern dvar_s* com_statmon;
+extern dvar_s* com_maxFrameTime;
 
 extern qboolean com_fullyInitialized;
 float com_codeTimeScale;
@@ -462,6 +463,7 @@ int Com_ModifyMsec(int msec)
   {
     msec = 1;
   }
+  /*
   if ( msec > 500 && msec < 500000 )
   {
     Com_PrintWarning(CON_CHANNEL_SYSTEM, "Hitch warning: %i msec frame time\n", msec);
@@ -470,6 +472,32 @@ int Com_ModifyMsec(int msec)
   {
     msec = 5000;
   }
+*/
+  int clampTime;
+#ifdef DEDICATED_SERVER
+  if ( com_dedicated->current.integer )
+  {
+    if ( msec > 500 )
+    {
+        Com_PrintWarning(CON_CHANNEL_SYSTEM, "Hitch warning: %i msec frame time\n", msec);
+    }
+    clampTime = 5000;
+  }
+  else
+#endif
+  {
+    if ( com_sv_running->current.enabled )
+    {
+      clampTime = com_maxFrameTime->current.integer;
+    }else{
+      clampTime = 5000;
+    }
+  }
+  if ( msec > clampTime )
+  {
+    msec = clampTime;
+  }
+
   if ( useTimescale && originalMsec )
   {
     com_timescaleValue = (float)msec / (float)originalMsec;
@@ -482,15 +510,18 @@ int Com_ModifyMsec(int msec)
 }
 
 
+void Com_Frame_Try_Block_Function();
 
 void Com_Frame()
 {
   TRY(Exception_type::SystemException)
   {
+
     int msec;
     int maxFPS;
 
     DB_Update();
+
     //Start of official try block function
     assert(Cmd_AssertNestingIsReset());
 
@@ -505,16 +536,16 @@ void Com_Frame()
     {
       Com_EventLoop();
       com_frameTime = Sys_Milliseconds();
-      if ( com_frameTime - com_lastFrameTime < 0 )
+      if ( com_frameTime < com_lastFrameTime )
       {
         com_lastFrameTime = com_frameTime;
       }
       msec = com_frameTime - com_lastFrameTime;
-      if ( msec >= 1 )
+      if ( msec > 0 )
       {
         break;
       }
-      NET_Sleep(1);
+      Sys_Sleep(1);
     }
     com_lastFrameTime = com_frameTime;
   /*
@@ -540,34 +571,33 @@ void Com_Frame()
     SV_Frame(msec);
     
     Com_SetDedicatedMode( );
+#ifndef DEDICATED_SERVER
 
-    if ( com_dedicated->current.integer == 0)
+    R_SetEndTime( com_lastFrameTime );
+    PIXBeginNamedEvent(-1, "pre frame");
+    CL_RunOncePerClientFrame( 0, msec );
+
+    Com_EventLoop( );
+    Cbuf_Execute(0, CL_ControllerIndexFromClientNum(0));
+    PIXBeginNamedEvent(-1, "CL_Frame");
+    CL_Frame(0, msec);
+
+    /* reset cvar_modifiedFlags */
+    dvar_modifiedFlags &= ~CVAR_USERINFO;
+
+    if ( !UI_IsFullscreen(0) && !CL_GetLocalClientUIGlobals(0)->state )
     {
-      R_SetEndTime( com_lastFrameTime );
-      PIXBeginNamedEvent(-1, "pre frame");
-      CL_RunOncePerClientFrame( 0, msec );
-
-      Com_EventLoop( );
-      Cbuf_Execute(0, CL_ControllerIndexFromClientNum(0));
-      PIXBeginNamedEvent(-1, "CL_Frame");
-      CL_Frame(0, msec);
-
-      /* reset cvar_modifiedFlags */
-      dvar_modifiedFlags &= ~CVAR_USERINFO;
-
-      if ( !UI_IsFullscreen(0) && !CL_GetLocalClientUIGlobals(0)->state )
-      {
-        UI_SetActiveMenu(0, UI_GetMenuScreen());
-      }
-
-      SCR_UpdateScreen( );
-
-      Ragdoll_Update( msec );
-      SCR_UpdateRumble();
-      Com_Statmon( );
-
-      R_WaitEndTime( );
+      UI_SetActiveMenu(0, UI_GetMenuScreen());
     }
+
+    SCR_UpdateScreen( );
+
+    Ragdoll_Update( msec );
+    SCR_UpdateRumble();
+    Com_Statmon( );
+
+    R_WaitEndTime( );
+#endif
     /*
     if ( GetCurrentThreadId() == g_DXDeviceThread.owner && !g_DXDeviceThread.aquired )
     {

@@ -20,6 +20,14 @@ threadid_t Sys_GetCurrentThreadId( void )
 }
 
 
+/*
+====================
+Sys_Sleep
+
+sleeps msec or until net socket is ready
+====================
+*/
+
 void Sys_Sleep(int msec)
 {
   Sleep(msec);

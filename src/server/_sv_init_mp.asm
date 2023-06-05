@@ -91,7 +91,7 @@
 	extern _Z14DB_SyncXAssetsv
 	extern _Z18DB_UpdateDebugZonev
 	extern _Z16G_GetSavePersistv
-	extern _Z9NET_Sleepi
+	extern _Z9Sys_Sleepi
 	extern memcpy
 	extern _Z13SV_GentityNumi
 	extern _Z20Com_LoadSoundAliasesPKcS0_18snd_alias_system_t
@@ -939,7 +939,7 @@ _Z14SV_SpawnServerPKc_380:
 	jg _Z14SV_SpawnServerPKc_390
 _Z14SV_SpawnServerPKc_370:
 	mov dword [esp], 0xfa
-	call _Z9NET_Sleepi
+	call _Z9Sys_Sleepi
 	jmp _Z14SV_SpawnServerPKc_400
 _Z14SV_SpawnServerPKc_200:
 	mov dword [ebp-0xd0], 0x1

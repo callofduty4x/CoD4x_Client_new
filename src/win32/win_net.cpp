@@ -857,16 +857,6 @@ void NET_Shutdown( void ) {
 }
 
 
-/*
-====================
-NET_Sleep
-
-sleeps msec or until net socket is ready
-====================
-*/
-void NET_Sleep( int msec ) {
-}
-
 
 /*
 ====================

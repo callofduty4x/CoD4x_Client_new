@@ -223,13 +223,13 @@ bool QR_Cinematic_BinkOpenPath(const char *filepath, unsigned int playbackFlags,
       R_Cinematic_SeizeIO();
       while ( cinematicGlob.fileIoState && R_Cinematic_GetPercentageFull() < 10 )
       {
-          NET_Sleep(1);
+          Sys_Sleep(1);
       }
       cinematicGlob.isPreloaded = 1;
       BinkPause(cinematicGlob.bink, 0);
       while ( BinkWait(cinematicGlob.bink) )
       {
-          NET_Sleep(1);
+          Sys_Sleep(1);
       }
   }
 

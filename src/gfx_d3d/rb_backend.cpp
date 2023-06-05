@@ -297,7 +297,7 @@ void RB_SwapBuffers()
       while ( Sys_QueryRenderEvent() )
       {
         semaphore = R_ReleaseDXDeviceOwnership();
-        NET_Sleep(1);
+        Sys_Sleep(1);
         if ( semaphore )
         {
           R_AcquireDXDeviceOwnership(0);
@@ -339,7 +339,7 @@ void RB_SwapBuffers()
           R_ReleaseForShutdownOrReset();
           assets_released = 1;
         }
-        NET_Sleep(5);
+        Sys_Sleep(5);
       }
       else if ( hr == D3DERR_DEVICENOTRESET )
       {

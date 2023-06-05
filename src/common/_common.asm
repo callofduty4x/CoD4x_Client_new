@@ -269,10 +269,382 @@
 	global sys_smp_allowed
 	global ui_errorMessage
 	global ui_errorTitle
+	global _Z28Com_Frame_Try_Block_Functionv
 
+	extern _Z12SetAnimChecki
+	extern _Z20Win_UpdateThreadLockv
+	extern com_codeTimeScale
+	extern _Z8SV_Framei
+	extern _Z23SV_AddDedicatedCommandsv
+	extern com_timescaleValue
+	extern _Z12R_SetEndTimei
+	extern _Z24CL_RunOncePerClientFrameii
+	extern _Z8CL_Frameii
+	extern clientUIActives
+	extern _Z15UI_IsFullscreeni
+	extern _Z16SCR_UpdateScreenv
+	extern _Z16SCR_UpdateRumblev
+	extern _Z13R_WaitEndTimev
+	extern _Z14Ragdoll_Updatei
+
+SECTION .bss
+	_ZZ11Com_StatmonvE15timeClientFrame: resb 0x4
+	com_lastFrameTime: resb 0x4
+	com_lastFrameIndex: resb 0x4
+
+SECTION .rdata
+_cstring_pre_frame:		db "pre frame",0
+_cstring_cl_frame:		db "CL_Frame",0
 
 SECTION .text
 
+;Com_Frame_Try_Block_Function()
+_Z28Com_Frame_Try_Block_Functionv:
+	push ebp
+	mov ebp, esp
+	push edi
+	push esi
+	push ebx
+	sub esp, 0x7c
+	mov edi, [com_fullyInitialized]
+	test edi, edi
+	jz _Z28Com_Frame_Try_Block_Functionv_10
+	mov edx, dvar_modifiedFlags
+	mov eax, [edx]
+	test al, 0x1
+	jnz _Z28Com_Frame_Try_Block_Functionv_20
+_Z28Com_Frame_Try_Block_Functionv_10:
+	mov eax, [com_animCheck]
+	movzx eax, byte [eax+0xc]
+	mov [esp], eax
+	call _Z12SetAnimChecki
+	mov eax, [com_maxfps]
+	mov edx, [eax+0xc]
+	test edx, edx
+	jle _Z28Com_Frame_Try_Block_Functionv_30
+	mov eax, com_dedicated
+	mov eax, [eax]
+	mov esi, [eax+0xc]
+	test esi, esi
+	jz _Z28Com_Frame_Try_Block_Functionv_40
+_Z28Com_Frame_Try_Block_Functionv_30:
+	mov esi, 0x1
+_Z28Com_Frame_Try_Block_Functionv_340:
+	call _Z20Win_UpdateThreadLockv
+	add dword [com_lastFrameIndex], 0x1
+	mov eax, com_dedicated
+	mov eax, [eax]
+	mov ebx, [eax+0xc]
+	test ebx, ebx
+	jnz _Z28Com_Frame_Try_Block_Functionv_50
+	mov dword [esp+0x4], _cstring_progress_time_sp
+	mov dword [esp], 0xffffffff
+	call _Z18PIXBeginNamedEventiPKcz
+	jmp _Z28Com_Frame_Try_Block_Functionv_60
+_Z28Com_Frame_Try_Block_Functionv_80:
+	mov ebx, eax
+	sub ebx, edx
+	test ebx, ebx
+	jg _Z28Com_Frame_Try_Block_Functionv_70
+_Z28Com_Frame_Try_Block_Functionv_90:
+	mov dword [esp], 0x1
+	call _Z9Sys_Sleepi
+_Z28Com_Frame_Try_Block_Functionv_60:
+	call _Z13Com_EventLoopv
+	call _Z16Sys_Millisecondsv
+	mov [com_frameTime], eax
+	mov edx, [com_lastFrameTime]
+	cmp eax, edx
+	jns _Z28Com_Frame_Try_Block_Functionv_80
+	mov edx, eax
+	mov [com_lastFrameTime], eax
+	mov ebx, eax
+	sub ebx, edx
+	test ebx, ebx
+	jle _Z28Com_Frame_Try_Block_Functionv_90
+_Z28Com_Frame_Try_Block_Functionv_70:
+	cmp esi, ebx
+	cmovg ebx, esi
+	lea eax, [ebx+edx]
+	mov [com_lastFrameTime], eax
+	test ebx, ebx
+	mov eax, 0x1
+	cmovz ebx, eax
+	jmp _Z28Com_Frame_Try_Block_Functionv_100
+_Z28Com_Frame_Try_Block_Functionv_120:
+	mov edx, eax
+	mov [com_lastFrameTime], eax
+	mov ebx, eax
+	sub ebx, edx
+	cmp esi, ebx
+	jle _Z28Com_Frame_Try_Block_Functionv_110
+_Z28Com_Frame_Try_Block_Functionv_130:
+	mov dword [esp], 0x1
+	call _Z9Sys_Sleepi
+_Z28Com_Frame_Try_Block_Functionv_50:
+	call _Z13Com_EventLoopv
+	call _Z16Sys_Millisecondsv
+	mov [com_frameTime], eax
+	mov edx, [com_lastFrameTime]
+	cmp eax, edx
+	js _Z28Com_Frame_Try_Block_Functionv_120
+	mov ebx, eax
+	sub ebx, edx
+	cmp esi, ebx
+	jg _Z28Com_Frame_Try_Block_Functionv_130
+_Z28Com_Frame_Try_Block_Functionv_110:
+	mov [com_lastFrameTime], eax
+_Z28Com_Frame_Try_Block_Functionv_100:
+	mov dword [esp], 0x0
+	call _Z31CL_ControllerIndexFromClientNumi
+	mov [esp+0x4], eax
+	mov dword [esp], 0x0
+	call _Z12Cbuf_Executeii
+	mov eax, [com_fixedtime]
+	mov esi, [eax+0xc]
+	test esi, esi
+	jnz _Z28Com_Frame_Try_Block_Functionv_140
+	mov eax, [com_timescale]
+	movss xmm1, dword [eax+0xc]
+	movss xmm0, dword [_float_1_00000000]
+	ucomiss xmm1, xmm0
+	jnz _Z28Com_Frame_Try_Block_Functionv_150
+	jp _Z28Com_Frame_Try_Block_Functionv_150
+	ucomiss xmm0, [com_codeTimeScale]
+	jnz _Z28Com_Frame_Try_Block_Functionv_150
+	jp _Z28Com_Frame_Try_Block_Functionv_150
+	mov eax, [dev_timescale]
+	ucomiss xmm0, [eax+0xc]
+	jnz _Z28Com_Frame_Try_Block_Functionv_160
+	jp _Z28Com_Frame_Try_Block_Functionv_160
+	mov esi, ebx
+	xor edi, edi
+	jmp _Z28Com_Frame_Try_Block_Functionv_170
+_Z28Com_Frame_Try_Block_Functionv_150:
+	mov eax, [dev_timescale]
+_Z28Com_Frame_Try_Block_Functionv_160:
+	cvtsi2ss xmm0, ebx
+	mulss xmm1, xmm0
+	mulss xmm1, [com_codeTimeScale]
+	mulss xmm1, [eax+0xc]
+	addss xmm1, [_float_0_50000000]
+	movss [esp], xmm1
+	call floorf
+	fstp dword [ebp-0x5c]
+	cvttss2si esi, [ebp-0x5c]
+_Z28Com_Frame_Try_Block_Functionv_140:
+	mov edi, 0x1
+_Z28Com_Frame_Try_Block_Functionv_170:
+	test esi, esi
+	mov eax, 0x1
+	cmovle esi, eax
+	mov eax, com_dedicated
+	mov eax, [eax]
+	mov ecx, [eax+0xc]
+	test ecx, ecx
+	jz _Z28Com_Frame_Try_Block_Functionv_180
+	lea eax, [esi-0x1f5]
+	cmp eax, 0x79f2a
+	jbe _Z28Com_Frame_Try_Block_Functionv_190
+_Z28Com_Frame_Try_Block_Functionv_320:
+	mov eax, 0x1388
+_Z28Com_Frame_Try_Block_Functionv_330:
+	cmp esi, eax
+	cmovle eax, esi
+	mov edx, edi
+	test dl, dl
+	jz _Z28Com_Frame_Try_Block_Functionv_200
+	test ebx, ebx
+	jnz _Z28Com_Frame_Try_Block_Functionv_210
+_Z28Com_Frame_Try_Block_Functionv_200:
+	movss xmm1, dword [_float_1_00000000]
+_Z28Com_Frame_Try_Block_Functionv_350:
+	movss [com_timescaleValue], xmm1
+	mov [esp], eax
+	call _Z8SV_Framei
+	mov esi, eax
+	mov ebx, com_dedicated
+	mov edx, [ebx]
+	test byte [edx+0x8], 0x40
+	jnz _Z28Com_Frame_Try_Block_Functionv_220
+	mov eax, [edx+0x1c]
+	cmp eax, [edx+0xc]
+	jz _Z28Com_Frame_Try_Block_Functionv_230
+	mov dword [esp+0x10], _cstring_true_if_this_is_
+	mov dword [esp+0xc], 0x20
+	mov dword [esp+0x8], 0x0
+	mov dword [esp+0x4], g_dedicatedEnumNames
+	mov dword [esp], _cstring_dedicated
+	call _Z17Dvar_RegisterEnumPKcPS0_itS0_
+	mov [ebx], eax
+	mov edx, [eax+0xc]
+	test edx, edx
+	jnz _Z28Com_Frame_Try_Block_Functionv_240
+_Z28Com_Frame_Try_Block_Functionv_360:
+	mov [esp], eax
+	call _Z18Dvar_ClearModifiedPK6dvar_s
+	mov dword [esp], 0x0
+	call _Z11CL_Shutdowni
+	call _Z14CL_ShutdownRefv
+	call _Z16CL_InitDedicatedv
+	call _Z23SV_AddDedicatedCommandsv
+_Z28Com_Frame_Try_Block_Functionv_230:
+	mov eax, [ebx]
+	mov eax, [eax+0xc]
+	test eax, eax
+	jz _Z28Com_Frame_Try_Block_Functionv_250
+_Z28Com_Frame_Try_Block_Functionv_260:
+	add esp, 0x7c
+	pop ebx
+	pop esi
+	pop edi
+	pop ebp
+	ret
+_Z28Com_Frame_Try_Block_Functionv_220:
+	mov eax, edx
+	mov eax, [eax+0xc]
+	test eax, eax
+	jnz _Z28Com_Frame_Try_Block_Functionv_260
+_Z28Com_Frame_Try_Block_Functionv_250:
+	mov eax, [com_lastFrameTime]
+	mov [esp], eax
+	call _Z12R_SetEndTimei
+	mov dword [esp+0x4], _cstring_pre_frame
+	mov dword [esp], 0xffffffff
+	call _Z18PIXBeginNamedEventiPKcz
+	mov [esp+0x4], esi
+	mov dword [esp], 0x0
+	call _Z24CL_RunOncePerClientFrameii
+	call _Z13Com_EventLoopv
+	mov dword [esp], 0x0
+	call _Z31CL_ControllerIndexFromClientNumi
+	mov [esp+0x4], eax
+	mov dword [esp], 0x0
+	call _Z12Cbuf_Executeii
+	mov dword [esp+0x4], _cstring_cl_frame
+	mov dword [esp], 0xffffffff
+	call _Z18PIXBeginNamedEventiPKcz
+	mov [esp+0x4], esi
+	mov dword [esp], 0x0
+	call _Z8CL_Frameii
+	mov eax, dvar_modifiedFlags
+	and dword [eax], 0xfffffffd
+	mov eax, clientUIActives
+	mov ebx, [eax+0xc]
+	mov dword [esp], 0x0
+	call _Z15UI_IsFullscreeni
+	test eax, eax
+	jnz _Z28Com_Frame_Try_Block_Functionv_270
+	test ebx, ebx
+	jz _Z28Com_Frame_Try_Block_Functionv_280
+_Z28Com_Frame_Try_Block_Functionv_270:
+	call _Z16SCR_UpdateScreenv
+	mov [esp], esi
+	call _Z14Ragdoll_Updatei
+	call _Z16SCR_UpdateRumblev
+	mov eax, [com_statmon]
+	cmp byte [eax+0xc], 0x0
+	jz _Z28Com_Frame_Try_Block_Functionv_290
+	mov ebx, com_fileAccessed
+	mov eax, [ebx]
+	test eax, eax
+	jnz _Z28Com_Frame_Try_Block_Functionv_300
+_Z28Com_Frame_Try_Block_Functionv_370:
+	mov ebx, [_ZZ11Com_StatmonvE15timeClientFrame]
+	call _Z16Sys_Millisecondsv
+	mov edx, eax
+	mov [_ZZ11Com_StatmonvE15timeClientFrame], eax
+	mov eax, [com_statmon]
+	cmp byte [eax+0xc], 0x0
+	jz _Z28Com_Frame_Try_Block_Functionv_290
+	sub edx, ebx
+	cmp edx, 0x21
+	jle _Z28Com_Frame_Try_Block_Functionv_290
+	test ebx, ebx
+	jnz _Z28Com_Frame_Try_Block_Functionv_310
+_Z28Com_Frame_Try_Block_Functionv_290:
+	call _Z13R_WaitEndTimev
+_Z28Com_Frame_Try_Block_Functionv_380:
+	add esp, 0x7c
+	pop ebx
+	pop esi
+	pop edi
+	pop ebp
+	ret
+_Z28Com_Frame_Try_Block_Functionv_180:
+	mov eax, [com_sv_running]
+	cmp byte [eax+0xc], 0x0
+	jz _Z28Com_Frame_Try_Block_Functionv_320
+	mov eax, [com_maxFrameTime]
+	mov eax, [eax+0xc]
+	jmp _Z28Com_Frame_Try_Block_Functionv_330
+_Z28Com_Frame_Try_Block_Functionv_40:
+	mov ecx, 0x3e8
+	mov eax, ecx
+	mov ebx, edx
+	cdq
+	idiv ebx
+	mov esi, eax
+	test eax, eax
+	jnz _Z28Com_Frame_Try_Block_Functionv_340
+	jmp _Z28Com_Frame_Try_Block_Functionv_30
+_Z28Com_Frame_Try_Block_Functionv_210:
+	cvtsi2ss xmm1, eax
+	cvtsi2ss xmm0, ebx
+	divss xmm1, xmm0
+	jmp _Z28Com_Frame_Try_Block_Functionv_350
+_Z28Com_Frame_Try_Block_Functionv_190:
+	mov [esp+0x8], esi
+	mov dword [esp+0x4], _cstring_hitch_warning_i_
+	mov dword [esp], 0x10
+	call _Z16Com_PrintWarningiPKcz
+	mov eax, 0x1388
+	jmp _Z28Com_Frame_Try_Block_Functionv_330
+_Z28Com_Frame_Try_Block_Functionv_20:
+	and eax, 0xfffffffe
+	mov [edx], eax
+	call _Z20Com_HasPlayerProfilev
+	test al, al
+	jz _Z28Com_Frame_Try_Block_Functionv_10
+	mov dword [esp+0x8], _cstring_config_mpcfg
+	mov dword [esp+0x4], 0x40
+	lea ebx, [ebp-0x58]
+	mov [esp], ebx
+	call _Z26Com_BuildPlayerProfilePathPciPKcz
+	mov edx, ebx
+	xor eax, eax
+	;call _Z21Com_WriteConfigToFileiPKc
+	jmp _Z28Com_Frame_Try_Block_Functionv_10
+_Z28Com_Frame_Try_Block_Functionv_240:
+	mov dword [esp+0x10], _cstring_true_if_this_is_
+	mov dword [esp+0xc], 0x40
+	mov dword [esp+0x8], 0x0
+	mov dword [esp+0x4], g_dedicatedEnumNames
+	mov dword [esp], _cstring_dedicated
+	call _Z17Dvar_RegisterEnumPKcPS0_itS0_
+	mov eax, [ebx]
+	jmp _Z28Com_Frame_Try_Block_Functionv_360
+_Z28Com_Frame_Try_Block_Functionv_300:
+	mov dword [esp+0x8], _cstring_code_warning_fil
+	mov dword [esp+0x4], 0xbb8
+	mov dword [esp], 0x1
+	call _Z15StatMon_WarningiiPKc
+	mov dword [ebx], 0x0
+	jmp _Z28Com_Frame_Try_Block_Functionv_370
+_Z28Com_Frame_Try_Block_Functionv_280:
+	call _Z16UI_GetMenuScreenv
+	mov [esp+0x4], eax
+	mov dword [esp], 0x0
+	call _Z16UI_SetActiveMenuii
+	jmp _Z28Com_Frame_Try_Block_Functionv_270
+_Z28Com_Frame_Try_Block_Functionv_310:
+	mov dword [esp+0x8], _cstring_code_warning_fps
+	mov dword [esp+0x4], 0xbb8
+	mov dword [esp], 0x0
+	call _Z15StatMon_WarningiiPKc
+	call _Z13R_WaitEndTimev
+	jmp _Z28Com_Frame_Try_Block_Functionv_380
+	nop
 
 ;Com_OpenLogFile()
 _Z15Com_OpenLogFilev:

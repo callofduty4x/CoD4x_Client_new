@@ -24,13 +24,19 @@ struct __align(8) SysInfo
 
 extern SysInfo sys_info;
 
-void 		Sys_DestroySplashWindow();
-void 		Sys_DestroyConsole( void ) ;
-void	    Sys_ShowConsole( int level, qboolean quitOnClose );
+void 		    Sys_DestroySplashWindow();
+void 		    Sys_DestroyConsole( void ) ;
+void	      Sys_ShowConsole( int level, qboolean quitOnClose );
 void        Sys_Print( const char *msg );
 void        Sys_GetInfo(SysInfo *info);
 void        Sys_ArchiveInfo(int checksum);
 unsigned int Sys_Milliseconds( void );
+bool        Sys_RandomBytes( byte *string, int len );
+void        Sys_Init();
+void        Win_UpdateThreadLock();
+const char* Sys_DefaultInstallPath();
+
+
 
 
 

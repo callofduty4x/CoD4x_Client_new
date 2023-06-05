@@ -97,3 +97,8 @@ void EmitPreAssignmentPos( )
     Scr_AddAssignmentPos(gScrCompilePub.opcodePos);
   }*/
 }
+
+void Scr_ResetAbortDebugger()
+{
+  //scrDebuggerGlob.abort = 0;
+}

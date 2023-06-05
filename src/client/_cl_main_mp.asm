@@ -113,7 +113,7 @@
 	extern _Z14CL_WritePacketi
 	extern _Z24Cmd_ExecuteSingleCommandiiPKc
 	extern _Z19FS_DisablePureCheckh
-	extern nextmap
+	extern com_nextmap
 	extern _Z11UI_CloseAlli
 	extern _Z15NET_StringToAdrPKcP8netadr_t
 	extern _Z17SND_FadeAllSoundsfi
@@ -3000,7 +3000,7 @@ _Z13CL_MapLoadingPKc_10:
 	jg _Z13CL_MapLoadingPKc_30
 _Z13CL_MapLoadingPKc_40:
 	mov dword [esp+0x4], _cstring_null
-	mov eax, nextmap
+	mov eax, com_nextmap
 	mov eax, [eax]
 	mov [esp], eax
 	call _Z14Dvar_SetStringPK6dvar_sPKc

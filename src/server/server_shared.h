@@ -13,5 +13,8 @@ int SV_DObjGetBoneIndex(const gentity_s *ent, unsigned int boneName);
 qboolean SV_IsLocalClient(int clientNum);
 void SV_GetUserinfo(int index, char *buffer, int bufferSize);
 gentity_s *SV_GentityNum( int num );
+void SV_Init();
+void SV_Frame(int msec);
+void SV_AddDedicatedCommands();
 
 #endif

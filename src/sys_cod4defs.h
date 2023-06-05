@@ -40,8 +40,8 @@
 
 #define PRODUCT_VERSION "1.0"
 
-#define GAME_STRING "CoD4 X"
-
+//#define GAME_STRING "CoD4 X"
+#define GAME_STRING "CoD4 MP"
 #include "version/version.h"
 
 
@@ -53,11 +53,13 @@
 #define DEMO_PROTOCOL_VERSION		1
 #define STEAM_APPID				"42750"
 #define STEAM_GAMEID				"7940"
-#define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION " " SYS_COMMONVERSION
+//#define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION " " SYS_COMMONVERSION
+#define Q3_VERSION "1.7"
+
 
 #define MAX_CLIENTS 64
-//#define MAX_CONFIGSTRINGS 2*2442
-#define MAX_CONFIGSTRINGS 4883
+#define MAX_CONFIGSTRINGS 2442
+
 // Configstrings limits.
 #define MAX_LOCATIONSELECTORS  3
 #define MAX_STATUSICONS        8

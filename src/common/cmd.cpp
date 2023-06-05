@@ -105,3 +105,7 @@ void Cmd_ForEachConsoleAccessName(void (*callback)(const char *))
   }
 }
 
+bool Cmd_AssertNestingIsReset()
+{
+  return Cmd_Args()->nesting == -1;
+}

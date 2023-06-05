@@ -6,6 +6,10 @@
 extern dvar_s* sv_maxclients;
 extern dvar_s* sv_privateClients;
 
+#define	MAX_ENT_CLUSTERS	16
+#define MAX_BPS_WINDOW 20
+
+
 enum clientConnectState_t
 {
   CS_FREE = 0x0,
@@ -13,6 +17,13 @@ enum clientConnectState_t
   CS_CONNECTED = 0x2,
   CS_PRIMED = 0x3,
   CS_ACTIVE = 0x4
+};
+
+enum serverState_t
+{
+  SS_DEAD = 0x0,
+  SS_LOADING = 0x1,
+  SS_GAME = 0x2
 };
 
 struct svscmd_info_t
@@ -220,6 +231,63 @@ struct __align(128) serverStatic_t
 };
 
 extern serverStatic_t svs;
+
+
+typedef struct svEntity_s {
+	uint16_t worldSector;
+	uint16_t nextEntityInWorldSector;
+	archivedEntity_s		baseline;		// 0x04  for delta compression of initial sighting
+	int			numClusters;		// if -1, use headnode instead
+	int			clusternums[MAX_ENT_CLUSTERS];
+	int			lastCluster;		// if all the clusters don't fit in clusternums
+	int			linkcontents;
+	float		linkmin[2];
+	float		linkmax[2];
+}svEntity_t; //size: 0x178
+
+typedef struct {
+	serverState_t		state;
+	int			timeResidual;		// <= 1000 / sv_frame->value
+	bool    inFrame;
+	qboolean		restarting;		// if true, send configstring changes during SS_LOADING
+	int			start_frameTime;		//restartedServerId;	serverId before a map_restart
+	int			checksumFeed;		// 0x14 the feed key that we use to compute the pure checksum strings
+
+	struct cmodel_s		*models[MAX_MODELS];
+
+	uint16_t			emptyConfigString;
+	uint16_t			configstrings[MAX_CONFIGSTRINGS];
+
+	svEntity_t		svEntities[MAX_GENTITIES]; //0x1b30 size: 0x5e000
+
+	// the game virtual machine will update these on init and changes
+	gentity_s		*gentities;	//0x5fb30
+	int			gentitySize;	//0x5fb34
+	int			num_entities;		// current number, <= MAX_GENTITIES
+
+	playerState_t		*gameClients;		//0x5fb3c
+	int			gameClientSize;		//0x5fb40 will be > sizeof(playerState_t) due to game private data
+/*
+	int				restartTime;
+	int				time;*/
+
+	int			skelTimeStamp;
+	int			skelMemPos;
+	int			bpsWindow[MAX_BPS_WINDOW];
+	int			bpsWindowSteps;
+	int			bpsTotalBytes;
+	int			bpsMaxBytes;
+	int			ubpsWindow[MAX_BPS_WINDOW];
+	int			ubpsTotalBytes;
+	int			ubpsMaxBytes;
+	float		ucompAve;
+	int			ucompNum;
+	char		gametype[MAX_QPATH];
+	bool		killserver;
+	const char* killreason;
+} server_t;//Size: 0x5fc50
+
+extern server_t sv;
 
 #define MAX_STATPACKETS 7
 

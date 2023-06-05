@@ -121,6 +121,9 @@ extern cvar_t* vid_ypos;
 void R_EndRemoteScreenUpdate(void (*pumpfunc)());
 void R_BeginRemoteScreenUpdate();
 bool R_CheckLostDevice();
+void R_InitOnce();
+void R_SetEndTime(int msec);
+void R_WaitEndTime();
 
 /************************
 Fonts, texts

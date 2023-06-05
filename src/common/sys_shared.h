@@ -1,4 +1,5 @@
-#include "../win32/win_shared.h"
+#include <win32/win_shared.h>
+#include <win32/win_input.h>
 
 bool IN_IsTalkKeyHeld();
 void __noreturn Sys_DirectXFatalError();

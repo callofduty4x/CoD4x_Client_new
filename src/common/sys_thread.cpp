@@ -1,7 +1,6 @@
 #include "../q_shared.h"
 #include "qcommon.h"
 #include "sys_thread.h"
-#include <setjmp.h>
 
 #define MAX_KEYS 3
 
@@ -72,7 +71,6 @@ void Sys_SetValue(int key, void* value)
 
 //Thread local buffers
 extern struct va_info_t va_info[NUMTHREADS];
-extern jmp_buf g_com_error[NUMTHREADS];
 extern TraceThreadInfo g_traceThreadInfo[NUMTHREADS];
 
 void Com_InitThreadData(int threadContext)
@@ -80,7 +78,6 @@ void Com_InitThreadData(int threadContext)
   Sys_SetThreadLocalStorage(sys_valuestoreage[threadContext]);
 
   Sys_SetValue(1, &va_info[threadContext]);
-  Sys_SetValue(2, &g_com_error[threadContext]);
   Sys_SetValue(3, &g_traceThreadInfo[threadContext]);
 /*
   if ( threadContext == 1 )

@@ -64,26 +64,9 @@ typedef struct dvar_s {
 	byte type;
 	byte modified;
 	CvarValue current;
-	union{
-		float latchedFloatval;
-		int latchedInteger;
-		const char* latchedString;
-		byte latchedBoolean;
-		vec2_t latchedVec2;
-		vec3_t latchedVec3;
-		vec4_t latchedVec4;
-		ucolor_t latchedColor;
-	};
-	union{
-		float resetFloatval;
-		int resetInteger;
-		const char* resetString;
-		byte resetBoolean;
-		vec2_t resetVec2;
-		vec3_t resetVec3;
-		vec4_t resetVec4;
-		ucolor_t resetColor;
-	};
+	CvarValue latched;
+	CvarValue reset;
+
 	union{
 		int imin;
 		float fmin;
@@ -99,7 +82,7 @@ typedef struct dvar_s {
 } cvar_t;
 
 #pragma pack(pop)
-extern int cvar_modifiedFlags;
+extern int dvar_modifiedFlags;
 
 
 enum DvarSetSource

@@ -1,6 +1,8 @@
-#include "../common/sys_thread.h"
-#include "../gfx_d3d/r_shared.h"
+#include <common/qcommon.h>
+#include <common/sys_thread.h>
+#include <gfx_d3d/r_shared.h>
 #include "db_local.h"
+#include <common/ctrycatch.h>
 
 struct XAssetEntry
 {
@@ -21,6 +23,7 @@ union XAssetEntryPoolEntry
 extern uint16_t db_hashTable[32768];
 extern union XAssetEntryPoolEntry g_assetEntryPool[32768];
 const char* DB_GetXAssetName(XAsset const*);
+void DB_TryLoadXFile();
 
 
 void DB_SyncXAssets()
@@ -56,3 +59,22 @@ void DB_PrintEntries_f()
   }
 }
 
+void __noreturn DB_Thread(unsigned int threadContext)
+{
+  assert(threadContext == THREAD_CONTEXT_DATABASE);
+
+  //R_ReleaseDXDeviceOwnership();
+  while ( 1 )
+  {
+    Sys_WaitStartDatabase();
+    TRY(Exception_type::SystemException)
+    {
+      DB_TryLoadXFile();
+    }
+    CATCH
+    {
+      Com_ErrorAbort();
+    }
+    ENDTRY
+  }
+}

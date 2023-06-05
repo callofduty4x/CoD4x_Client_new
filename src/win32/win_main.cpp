@@ -1035,11 +1035,32 @@ void Win_RegisterClass(){
 	}
 }
 
+/*
+================
+Sys_RandomBytes
+================
+*/
+bool Sys_RandomBytes( byte *string, int len )
+{
+	HCRYPTPROV  prov;
 
+	if( !CryptAcquireContext( &prov, NULL, NULL,
+		PROV_RSA_FULL, CRYPT_VERIFYCONTEXT ) )  {
+
+		return false;
+	}
+
+	if( !CryptGenRandom( prov, len, (BYTE *)string ) )  {
+		CryptReleaseContext( prov, 0 );
+		return false;
+	}
+	CryptReleaseContext( prov, 0 );
+	return true;
+}
 
 void D3DXCompileShaderInit()
 {
-
+//#pragma msg "Missing D3DXCompileShaderInit()"
 }
 
 

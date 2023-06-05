@@ -50,7 +50,7 @@
 	extern _Z15CL_StartLoadingPKcS0_
 	extern _Z13SL_GetString_PKcji
 	extern _Z15SV_InitSnapshotv
-	extern nextmap
+	extern com_nextmap
 	extern _Z14Dvar_SetStringPK6dvar_sPKc
 	extern cl_paused
 	extern _Z11Dvar_SetIntPK6dvar_si
@@ -600,7 +600,7 @@ _Z14SV_SpawnServerPKc_140:
 	call _Z15SV_InitSnapshotv
 	xor dword [ebx+0x463808], 0x4
 	mov dword [esp+0x4], _cstring_map_restart
-	mov eax, nextmap
+	mov eax, com_nextmap
 	mov eax, [eax]
 	mov [esp], eax
 	call _Z14Dvar_SetStringPK6dvar_sPKc
@@ -2189,13 +2189,6 @@ _Z7SV_Initv:
 	call _Z17Dvar_RegisterBoolPKchtS0_
 	mov edx, sv_debugReliableCmds
 	mov [edx], eax
-	mov dword [esp+0xc], _cstring_next_map_to_play
-	mov dword [esp+0x8], 0x0
-	mov dword [esp+0x4], _cstring_null
-	mov dword [esp], _cstring_nextmap
-	call _Z19Dvar_RegisterStringPKcS0_tS0_
-	mov edx, nextmap
-	mov [edx], eax
 	mov dword [esp+0xc], _cstring_enable_http_down
 	mov dword [esp+0x8], 0x1
 	mov dword [esp+0x4], 0x0
@@ -2389,7 +2382,6 @@ _cstring_sv_debugrate:		db "sv_debugRate",0
 _cstring_enable_debugging:		db "Enable debugging information for ",27h,"reliable",27h," commands",0
 _cstring_sv_debugreliable:		db "sv_debugReliableCmds",0
 _cstring_next_map_to_play:		db "Next map to play",0
-_cstring_nextmap:		db "nextmap",0
 _cstring_enable_http_down:		db "Enable http downloads",0
 _cstring_sv_wwwdownload:		db "sv_wwwDownload",0
 _cstring_the_base_url_for:		db "The base url for files downloaded via http",0

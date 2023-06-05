@@ -1,0 +1,1 @@
+void LiveStorage_Init();

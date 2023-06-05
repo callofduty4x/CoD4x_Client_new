@@ -12,7 +12,7 @@
 	extern _Z38R_Cinematic_DrawStretchPic_Letterboxedi
 	extern _Z29R_Cinematic_StartNextPlaybackv
 	extern _Z24R_Cinematic_StopPlaybackv
-	extern nextmap
+	extern com_nextmap
 	extern _Z2vaPKcz
 	extern _Z12Cbuf_AddTextiPKc
 	extern _Z14Dvar_SetStringPK6dvar_sPKc
@@ -132,7 +132,7 @@ _Z17SCR_StopCinematici_30:
 	shl dword [ebp+0x8], 0x4
 	mov edx, [ebp+0x8]
 	mov dword [edx+eax+0xc], 0x0
-	mov ebx, nextmap
+	mov ebx, com_nextmap
 	mov eax, [ebx]
 	mov eax, [eax+0xc]
 	cmp byte [eax], 0x0

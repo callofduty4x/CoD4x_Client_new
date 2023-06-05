@@ -97,5 +97,6 @@ void DB_BeginRecoverLostDevice();
 void DB_EndRecoverLostDevice();
 XAssetHeader DB_FindXAssetHeader(XAssetType assettype, char const* assetname);
 XAssetHeader DB_FindXAssetHeader(XAssetType type, const char *name, bool errorIfMissing, int waitTime);
-
-
+void DB_SetInitializing(bool);
+void DB_InitThread();
+void DB_Update();

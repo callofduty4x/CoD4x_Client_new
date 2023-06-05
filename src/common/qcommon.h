@@ -6,9 +6,13 @@ extern dvar_s* com_sv_running;
 extern dvar_s* com_developer;
 extern dvar_s* useFastFile;
 extern dvar_s* com_wideScreen;
+extern dvar_s* com_logfile;
+extern dvar_s* com_developer_script;
 
+extern int com_frameTime;
 extern qboolean com_errorEntered;
-
+extern int com_fileAccessed;
+extern qboolean com_fixedConsolePosition;
 struct cmd_function_s
 {
 	struct cmd_function_s   *next;
@@ -16,9 +20,14 @@ struct cmd_function_s
 	const char				*autoCompleteDir;
 	const char				*autoCompleteExt;
 	void 					(*function)();
+	bool consoleAccess;
 };
 
-void Cmd_AddCommandInternal(const char *cmdName, void (*function)(), cmd_function_s *allocedCmd);
+typedef void (*xcommand_t)(void);
+
+
+void		Cmd_AddCommandInternal(const char *cmdName, xcommand_t function, cmd_function_s *allocedCmd);
+#define Cmd_AddCommand(name, fun) static cmd_function_s fun##_VAR;Cmd_AddCommandInternal(name, fun, &fun##_VAR)
 
 enum sysEventType_t: int {
 	// SE_NONE must be zero
@@ -43,6 +52,7 @@ then searches for a command or variable that matches the first token.
 */
 
 void	Cmd_Init (void);
+void	Cbuf_Init();
 
 
 void	Cmd_RemoveCommand( const char *cmd_name );
@@ -70,6 +80,7 @@ void		Cmd_ExecuteString( const char *text );
 void 		Cmd_ForEach(void (*callback)(const char *));
 void		Cmd_ForEachConsoleAccessName(void (*callback)(const char *));
 const char **Cmd_GetAutoCompleteFileList(const char *cmdName, int *fileCount, int allocTrackType);
+bool		Cmd_AssertNestingIsReset(); //Returns if cmd tokenizer is reset
 
 char*		Com_AllocEvent(int len);
 void		Com_SyncThreads();
@@ -83,9 +94,12 @@ void		Com_SetConfigureDvars(int dvarCount, const char (*dvarNames)[32], const ch
 int			Com_GpuStringCompare(const char *wild, const char *s);
 void 		Com_InitParse();
 void		Com_Init(char* cmdline);
+void		Com_StartupVariable( const char *match );
 void 		Com_Frame();
 bool		Com_FilterPath(const char *filter, const char *name, int casesensitive);
-
+void		Com_InitDvars();
+void		Com_SetErrorMessage(const char *errorMessage);
+void 		Com_RandomBytes( byte *string, int len );
 
 
 enum FsListBehavior_e
@@ -103,7 +117,7 @@ typedef enum {
 extern const dvar_s* fs_restrict;
 extern const dvar_s* fs_basepath;
 extern const dvar_s* fs_homepath;
-
+void		FS_InitFilesystem();
 void		FS_Shutdown( int closemfp );
 void		FS_ShutDownIwdPureCheckReferences();
 void		FS_ShutdownServerReferencedIwds();
@@ -133,9 +147,10 @@ extern "C"
 
 void	    Sys_Error( const char *error, ...);
 void		Sys_Sleep(int msec);
+void __noreturn Com_ErrorAbort();
 
-
-void Cbuf_AddText( int localclient, const char *text );
+void		Cbuf_AddText( int localclient, const char *text );
+void		Cbuf_ExecuteBuffer(int localClientNum, int controllerIndex, const char *buffer);
 // Adds command text at the end of the buffer, does NOT add a final \n
 
 void 		Com_StripExtension(const char *in, char *out);
@@ -150,3 +165,8 @@ int			Hunk_UserAlloc(HunkUser *user, int size, int alignment);
 const char *Hunk_CopyString(HunkUser *user, const char *in);
 void		RefreshQuitOnErrorCondition();
 
+void		CCS_InitConstantConfigStrings();
+void		Con_InitChannels();
+void		Com_InitDebugSystems();
+
+void StatMon_Warning(int type, int duration, const char *materialName);

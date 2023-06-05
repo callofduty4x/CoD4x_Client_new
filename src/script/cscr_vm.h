@@ -159,5 +159,5 @@ void __regparm3 VM_Notify(unsigned int, unsigned int, VariableValue* val);
 void VM_Resume(unsigned int id);
 unsigned int Scr_GetObject(unsigned int paramnum);
 void Scr_ClearErrorMessage( );
-
+void Scr_ResetTimeout( );
 #endif

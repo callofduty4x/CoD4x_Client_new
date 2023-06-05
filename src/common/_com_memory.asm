@@ -40,8 +40,7 @@
 	global _Z13Hunk_AddAsset12XAssetHeaderPv
 	global _Z13Com_Meminfo_fv
 	global _Z14Hunk_ClearDatav
-	global _ZZ18Com_InitHunkMemoryE17Com_Meminfo_f_VAR
-	global Com_InitHunkMemory
+	global _Z18Com_InitHunkMemoryv
 	global Com_TouchMemory
 	global CopyStringInternal
 	global FreeStringInternal
@@ -280,7 +279,7 @@ _Z14Hunk_ClearDatav_110:
 
 
 ;Com_InitHunkMemory
-Com_InitHunkMemory:
+_Z18Com_InitHunkMemoryv:
 	push ebp
 	mov ebp, esp
 	sub esp, 0x18

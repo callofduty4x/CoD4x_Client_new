@@ -148,10 +148,10 @@ struct clientStatic_t
 	serverInfo_t	localServers[MAX_OTHER_SERVERS];
 
 
-	int currentPingServer; //Index of the current server which gets send a ping request
-	int countPingServers; //Count how many servers got pinged
-	int totalSeenServers;
-	int globalServerRequestTime;
+	int lastServerPinged; //Index of the current server which gets send a ping request
+	int pingedServerCount; //Count how many servers got pinged
+	int totalServersParsed;
+	int globalServerRequestTime; //waitglobalserverresponse?
 	int numglobalservers;
 	serverInfo_t globalServers[MAX_GLOBAL_SERVERS];
 	serverInfo_t mplayerServers[MAX_GLOBAL_SERVERS];
@@ -177,7 +177,7 @@ struct clientStatic_t
 
 	// DHM - Nerve :: Auto-update Info
 	char 		emptydata[5*64];
-	netadr_t 	updateServer;
+	netadr_t 	autoupdateServer;
 
 	vidConfig_t vidConfig;
 	struct clientDebug_t debug;
@@ -191,11 +191,11 @@ struct clientStatic_t
 	int downloadSize;
 	char downloadList[MAX_INFO_STRING];
 	qboolean downloadRestart;
-	int field_30491C;
-	int disconnectForWWWdl;
-	int field_304924;
-	int cl_wwwDlDisconnected;
-	char wwwDownloadName[MAX_QPATH];
+	int gameDirChanged;
+	int wwwDlDisconnected;
+	int wwwDlInProgress;
+	int downloadFlags;
+	char originalDownloadName[MAX_QPATH];
 	vec3_t debugRenderPos;
 };
 
@@ -215,5 +215,16 @@ void        CL_ShutdownRef();
 int         Key_ClearStates(int a1);
 
 clientUIActive_t *CL_GetLocalClientUIGlobals(const int localClientNum);
-bool CL_AllLocalClientsDisconnected();
-void SCR_UpdateScreen();
+bool        CL_AllLocalClientsDisconnected();
+void        CL_InitRenderer();
+void        CL_StartHunkUsers();
+int         CL_ControllerIndexFromClientNum(int localClientNum);
+void        CL_InitKeyCommands();
+void        CL_Init(int localClientNum);
+void        CL_InitOnceForAllClients();
+void        CL_InitDedicated();
+void        CL_RunOncePerClientFrame(int localClientNum, int msec);
+void        CL_Frame(int localClientNum, int msec);
+void        SCR_UpdateRumble();
+void        SCR_UpdateScreen();
+

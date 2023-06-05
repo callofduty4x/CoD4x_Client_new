@@ -1,0 +1,1 @@
+void ScrPlace_Init();

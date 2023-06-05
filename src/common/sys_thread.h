@@ -94,4 +94,5 @@ void Sys_SetThreadPriorityBelowNormal(void* handle);
 void Sys_SetThreadPriorityNormal(void* handle);
 void Sys_SuspendThread(void* handle);
 void Sys_WaitDatabaseThread();
+void Sys_WaitStartDatabase();
 

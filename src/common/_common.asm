@@ -32,26 +32,14 @@
 	extern _Z11SV_ShutdownPKc
 	extern _Z10I_strncpyzPcPKci
 	extern _Z15Com_ParseOnLinePPKc
-	extern _Z7SL_Initv
-	extern _Z9Swap_Initv
 	extern _Z9Cbuf_Initv
-	extern _Z8Cmd_Initv
-	extern _Z29CCS_InitConstantConfigStringsv
-	extern _Z18CL_InitKeyCommandsv
-	extern _Z17FS_InitFilesystemv
-	extern _Z16Con_InitChannelsv
-	extern _Z16LiveStorage_Initv
-	extern _Z22Com_InitPlayerProfilesi
 	extern _Z31CL_ControllerIndexFromClientNumi
 	extern _Z12Cbuf_Executeii
 	extern dvar_modifiedFlags
-	extern Com_InitHunkMemory
 	extern _Z20Hunk_InitDebugMemoryv
 	extern _Z22Cmd_AddCommandInternalPKcPFvvEP14cmd_function_s
 	extern _Z2vaPKcz
 	extern _Z14Dvar_SetStringPK6dvar_sPKc
-	extern _Z8Sys_Initv
-	extern _Z12Netchan_Initi
 	extern _Z17Scr_InitVariablesv
 	extern _Z8Scr_Initv
 	extern _Z12Scr_Settingsiii
@@ -60,26 +48,16 @@
 	extern _Z7SV_Initv
 	extern _Z8NET_Initv
 	extern _Z18Dvar_ClearModifiedPK6dvar_s
-	extern _Z13PMem_EndAllocPKcj
-	extern _Z18DB_SetInitializingh
 	extern _Z12Com_DvarDumpiPKc
 	extern _Z13ScrPlace_Initv
-	extern _Z24CL_InitOnceForAllClientsv
-	extern _Z7CL_Initi
-	extern _Z14SND_InitDriverv
-	extern _Z10R_InitOncev
 	extern _Z15CL_InitRendererv
 	extern cls
-	extern _Z8SND_Initv
-	extern _Z13DB_InitThreadv
 	extern _Z9PMem_Initv
-	extern _Z15PMem_BeginAllocPKcj
 	extern _Z16CL_InitDedicatedv
 	extern _Z22SEH_UpdateLanguageInfov
 	extern _Z12Cbuf_AddTextiPKc
 	extern _Z12Dvar_SetBoolPK6dvar_sb
 	extern _Z12Sys_GetValuei
-	extern _setjmp
 	extern _Z9UI_SetMapPKcS0_
 	extern _Z17CL_StartHunkUsersv
 	extern _Z16UI_GetMenuScreenv
@@ -185,28 +163,14 @@
 	extern loc_language
 	extern _Z25BG_ShutdownWeaponDefFilesv
 	extern snprintf
-	extern _Z12SetAnimChecki
-	extern _Z20Win_UpdateThreadLockv
 	extern _Z18PIXBeginNamedEventiPKcz
 	extern _Z9Sys_Sleepi
 	extern floorf
-	extern _Z8SV_Framei
-	extern _Z23SV_AddDedicatedCommandsv
-	extern _Z12R_SetEndTimei
-	extern _Z24CL_RunOncePerClientFrameii
-	extern _Z8CL_Frameii
-	extern clientUIActives
-	extern _Z15UI_IsFullscreeni
-	extern _Z16SCR_UpdateScreenv
-	extern _Z14Ragdoll_Updatei
-	extern _Z16SCR_UpdateRumblev
 	extern com_fileAccessed
-	extern _Z13R_WaitEndTimev
 	extern _Z20Com_HasPlayerProfilev
 	extern _Z26Com_BuildPlayerProfilePathPciPKcz
 	extern _Z15StatMon_WarningiiPKc
 	extern _Z11Com_sprintfPciPKcz
-	extern _Z18Cbuf_ExecuteBufferiiPKc
 	extern _Z18DB_ShutdownXAssetsv
 	extern _Z12Scr_Shutdownv
 	extern _Z24Hunk_ShutdownDebugMemoryv
@@ -217,45 +181,27 @@
 	extern _Z18Com_SetRecommendedii
 	extern sys_lockThreads
 	extern HunkAvailMemDebug
-	extern _Z20Com_InitDebugSystemsv
-	
+	extern _Z12Com_SafeModev
+	extern com_recommendedSet
+	extern _Z9Com_Error11errorParm_tPKcz
+
 ;Exports of common:
 	global weaponInfoSource
 	global errorcode
 	global com_errorMessage
-	global com_lastFrameTime
-	global com_lastFrameIndex
 	global com_fullyInitialized
-	global com_codeTimeScale
 	global s_lockThreadNames
-	global com_numConsoleLines
-	global com_consoleLines
 	global serverCommonMsgBuf
 	global clientCommonMsgBuf
-	global com_safemode
 	global noticeErrors
 	global rd_flush
 	global rd_buffersize
 	global rd_buffer
 	global _ZZ15Com_OpenLogFilevE16opening_qconsole
 	global _Z15Com_OpenLogFilev
-	global _Z11Com_Crash_fv
-	global _Z12Com_Assert_fv
 	global _Z13Com_InitDvarsv
 	global _Z21Com_WriteConfigToFileiPKc
-	global _ZZ11Com_StatmonvE15timeClientFrame
-	global _Z12Com_Freeze_fv
 	global _Z20Com_ShutdownInternalPKc
-	global _Z11Com_Error_fv
-	global _ZZ27Com_Init_Try_Block_FunctionPcE23Com_WriteDefaults_f_VAR
-	global _ZZ27Com_Init_Try_Block_FunctionPcE21Com_WriteConfig_f_VAR
-	global _ZZ27Com_Init_Try_Block_FunctionPcE14Com_Quit_f_VAR
-	global _ZZ27Com_Init_Try_Block_FunctionPcE16Com_Assert_f_VAR
-	global _ZZ27Com_Init_Try_Block_FunctionPcE16Com_Freeze_f_VAR
-	global _ZZ27Com_Init_Try_Block_FunctionPcE15Com_Crash_f_VAR
-	global _ZZ27Com_Init_Try_Block_FunctionPcE15Com_Error_f_VAR
-	global _Z27Com_Init_Try_Block_FunctionPc
-	global _Z18Com_StartHunkUsersv
 	global _ZZ16Com_ErrorCleanupvE10errorCount
 	global _ZZ16Com_ErrorCleanupvE13lastErrorTime
 	global _Z16Com_ErrorCleanupv
@@ -264,9 +210,7 @@
 	global _Z11Com_DPrintfiPKcz
 	global _Z11Com_Restartv
 	global _Z11Field_ClearP7field_t
-	global _Z12Com_SafeModev
 	global _Z12Com_ShutdownPKc
-	global _Z12PIXSetMarkeriPKcz
 	global _Z13Com_EventLoopv
 	global _Z14Com_AllocEventi
 	global _Z14Com_ErrorAbortv
@@ -277,7 +221,6 @@
 	global _Z16Com_PrintWarningiPKcz
 	global _Z17Com_BeginRedirectPcjPFvS_E
 	global _Z17Com_ForceSafeModev
-	global _Z17Com_WriteConfig_fv
 	global _Z19Com_SetErrorMessagePKc
 	global _Z19Com_StartupVariablePKc
 	global _Z19Com_WriteDefaults_fv
@@ -292,18 +235,14 @@
 	global _Z26Com_LocalizedFloatToStringfPcjj
 	global _Z28Com_Frame_Try_Block_Functionv
 	global _Z28Com_SetLocalizedErrorMessagePKcS0_
-	global _Z8Com_InitPc
-	global _Z9Com_Error11errorParm_tPKcz
 	global _Z9Com_Framev
 	global com_errorEntered
 	global useFastFile
 	global cl_paused
 	global com_expectedHunkUsage
 	global com_sv_running
-	global nextmap
 	global com_developer
 	global com_statmon
-	global com_timescaleValue
 	global sv_paused
 	global com_frameTime
 	global com_missingAssetOpenFailed
@@ -317,7 +256,6 @@
 	global com_filter_output
 	global com_fixedConsolePosition
 	global com_fixedtime
-	global com_frameNumber
 	global com_hiDef
 	global com_introPlayed
 	global com_logfile
@@ -325,15 +263,12 @@
 	global com_masterServerName
 	global com_maxFrameTime
 	global com_maxfps
-	global com_recommendedSet
 	global com_timescale
 	global com_wideScreen
 	global dev_timescale
-	global shortversion
 	global sys_smp_allowed
 	global ui_errorMessage
 	global ui_errorTitle
-	global version
 
 
 SECTION .text
@@ -397,14 +332,6 @@ _Z11Com_Crash_fv:
 	ret
 	nop
 
-
-;Com_Assert_f()
-_Z12Com_Assert_fv:
-	push ebp
-	mov ebp, esp
-	pop ebp
-	ret
-	nop
 
 
 
@@ -625,6 +552,8 @@ _Z21Com_WriteConfigToFileiPKc:
 	push esi
 	push ebx
 	sub esp, 0x1c
+	mov eax, [ebp+8]
+	mov edx, [ebp+12]
 	mov edi, eax
 	mov esi, edx
 	mov dword [esp+0x4], _cstring_players
@@ -668,48 +597,6 @@ _Z21Com_WriteConfigToFileiPKc_10:
 	nop
 	add [eax], al
 
-
-;Com_Freeze_f()
-_Z12Com_Freeze_fv:
-	push ebp
-	mov ebp, esp
-	push ebx
-	sub esp, 0x24
-	mov eax, cmd_args
-	mov edx, [eax]
-	cmp dword [eax+edx*4+0x44], 0x2
-	jz _Z12Com_Freeze_fv_10
-	mov dword [esp+0x4], _cstring_freeze_seconds
-	mov dword [esp], 0x0
-	call _Z10Com_PrintfiPKcz
-	add esp, 0x24
-	pop ebx
-	pop ebp
-	ret
-_Z12Com_Freeze_fv_10:
-	mov eax, [eax+edx*4+0x64]
-	mov eax, [eax+0x4]
-	mov [esp], eax
-	call atof
-	fstp qword [ebp-0x18]
-	call _Z16Sys_Millisecondsv
-	mov ebx, eax
-	cvtsd2ss xmm0, [ebp-0x18]
-	cvtss2sd xmm0, xmm0
-	movsd [ebp-0x10], xmm0
-_Z12Com_Freeze_fv_20:
-	call _Z16Sys_Millisecondsv
-	sub eax, ebx
-	cvtsi2sd xmm0, eax
-	mulsd xmm0, [_double_0_00100000]
-	ucomisd xmm0, [ebp-0x10]
-	jbe _Z12Com_Freeze_fv_20
-	add esp, 0x24
-	pop ebx
-	pop ebp
-	ret
-
-
 ;Com_ShutdownInternal(char const*)
 _Z20Com_ShutdownInternalPKc:
 	push ebp
@@ -731,382 +618,6 @@ _Z20Com_ShutdownInternalPKc:
 	jmp _Z11Com_Restartv
 	nop
 
-
-;Com_Error_f()
-_Z11Com_Error_fv:
-	push ebp
-	mov ebp, esp
-	sub esp, 0x18
-	mov edx, cmd_args
-	mov eax, [edx]
-	cmp dword [edx+eax*4+0x44], 0x1
-	jle _Z11Com_Error_fv_10
-	mov dword [esp+0x4], _cstring_testing_drop_err
-	mov dword [esp], 0x2
-	call _Z9Com_Error11errorParm_tPKcz
-	leave
-	ret
-_Z11Com_Error_fv_10:
-	mov dword [esp+0x4], _cstring_testing_fatal_er
-	mov dword [esp], 0x1
-	call _Z9Com_Error11errorParm_tPKcz
-	leave
-	ret
-	nop
-
-
-;Com_Init_Try_Block_Function(char*)
-_Z27Com_Init_Try_Block_FunctionPc:
-	push ebp
-	mov ebp, esp
-	push esi
-	push ebx
-	sub esp, 0x20
-	mov ebx, [ebp+0x8]
-	mov dword [esp+0x14], _cstring_feb_12_2009
-	mov dword [esp+0x10], _cstring_macosxsi386
-	mov dword [esp+0xc], _cstring_17
-	mov dword [esp+0x8], _cstring_cod4_mp
-	mov dword [esp+0x4], _cstring_s_s_build_s_s
-	mov dword [esp], 0x10
-	call _Z10Com_PrintfiPKcz
-	mov [com_consoleLines], ebx
-	mov dword [com_numConsoleLines], 0x1
-	movzx eax, byte [ebx]
-	test al, al
-	jz _Z27Com_Init_Try_Block_FunctionPc_10
-	mov ecx, 0x1
-	jmp _Z27Com_Init_Try_Block_FunctionPc_20
-_Z27Com_Init_Try_Block_FunctionPc_50:
-	cmp al, 0xa
-	jz _Z27Com_Init_Try_Block_FunctionPc_30
-	lea edx, [ebx+0x1]
-	movzx eax, byte [edx]
-	test al, al
-	jz _Z27Com_Init_Try_Block_FunctionPc_40
-_Z27Com_Init_Try_Block_FunctionPc_70:
-	mov ebx, edx
-_Z27Com_Init_Try_Block_FunctionPc_20:
-	cmp al, 0x2b
-	jnz _Z27Com_Init_Try_Block_FunctionPc_50
-_Z27Com_Init_Try_Block_FunctionPc_30:
-	cmp ecx, 0x20
-	jz _Z27Com_Init_Try_Block_FunctionPc_60
-	lea edx, [ebx+0x1]
-	mov [ecx*4+com_consoleLines], edx
-	add ecx, 0x1
-	mov byte [ebx], 0x0
-	movzx eax, byte [edx]
-	test al, al
-	jnz _Z27Com_Init_Try_Block_FunctionPc_70
-_Z27Com_Init_Try_Block_FunctionPc_40:
-	mov [com_numConsoleLines], ecx
-_Z27Com_Init_Try_Block_FunctionPc_10:
-	call _Z7SL_Initv
-	call _Z9Swap_Initv
-	call _Z9Cbuf_Initv
-	call _Z8Cmd_Initv
-	mov dword [esp], 0x0
-	call _Z19Com_StartupVariablePKc
-	call _Z13Com_InitDvarsv
-	call _Z29CCS_InitConstantConfigStringsv
-	mov eax, [useFastFile]
-	cmp byte [eax+0xc], 0x0
-	jnz _Z27Com_Init_Try_Block_FunctionPc_80
-	xor esi, esi
-_Z27Com_Init_Try_Block_FunctionPc_240:
-	cmp byte [eax+0xc], 0x0
-	jnz _Z27Com_Init_Try_Block_FunctionPc_90
-_Z27Com_Init_Try_Block_FunctionPc_230:
-	call _Z18CL_InitKeyCommandsv
-	call _Z17FS_InitFilesystemv
-	call _Z16Con_InitChannelsv
-	call _Z16LiveStorage_Initv
-	mov dword [esp], 0x0
-	call _Z22Com_InitPlayerProfilesi
-	mov dword [esp], 0x0
-	call _Z31CL_ControllerIndexFromClientNumi
-	mov [esp+0x4], eax
-	mov dword [esp], 0x0
-	call _Z12Cbuf_Executeii
-	mov ebx, dvar_modifiedFlags
-	test byte [ebx], 0x20
-	jnz _Z27Com_Init_Try_Block_FunctionPc_100
-_Z27Com_Init_Try_Block_FunctionPc_280:
-	mov dword [esp+0xc], _cstring_use_recommended_
-	mov dword [esp+0x8], 0x1
-	mov dword [esp+0x4], 0x0
-	mov dword [esp], _cstring_com_recommendeds
-	call _Z17Dvar_RegisterBoolPKchtS0_
-	mov [com_recommendedSet], eax
-	mov dword [esp], 0x0
-	call _Z23Com_CheckSetRecommendedi
-	mov dword [esp], 0x0
-	call _Z19Com_StartupVariablePKc
-	mov eax, [useFastFile]
-	cmp byte [eax+0xc], 0x0
-	jz _Z27Com_Init_Try_Block_FunctionPc_110
-_Z27Com_Init_Try_Block_FunctionPc_270:
-	mov eax, com_dedicated
-	mov eax, [eax]
-	mov eax, [eax+0xc]
-	test eax, eax
-	jnz _Z27Com_Init_Try_Block_FunctionPc_120
-_Z27Com_Init_Try_Block_FunctionPc_260:
-	call Com_InitHunkMemory
-	call _Z20Hunk_InitDebugMemoryv
-	and dword [ebx], 0xfffffffe
-	mov dword [com_codeTimeScale], 0x3f800000
-	mov eax, [com_developer]
-	mov eax, [eax+0xc]
-	test eax, eax
-	jnz _Z27Com_Init_Try_Block_FunctionPc_130
-_Z27Com_Init_Try_Block_FunctionPc_250:
-	mov dword [esp+0x8], _ZZ27Com_Init_Try_Block_FunctionPcE14Com_Quit_f_VAR
-	mov dword [esp+0x4], _Z10Com_Quit_fv
-	mov dword [esp], _cstring_quit
-	call _Z22Cmd_AddCommandInternalPKcPFvvEP14cmd_function_s
-	mov dword [esp+0x8], _ZZ27Com_Init_Try_Block_FunctionPcE21Com_WriteConfig_f_VAR
-	mov dword [esp+0x4], _Z17Com_WriteConfig_fv
-	mov dword [esp], _cstring_writeconfig
-	call _Z22Cmd_AddCommandInternalPKcPFvvEP14cmd_function_s
-	mov dword [esp+0x8], _ZZ27Com_Init_Try_Block_FunctionPcE23Com_WriteDefaults_f_VAR
-	mov dword [esp+0x4], _Z19Com_WriteDefaults_fv
-	mov dword [esp], _cstring_writedefaults
-	call _Z22Cmd_AddCommandInternalPKcPFvvEP14cmd_function_s
-	call getBuildNumber
-	mov dword [esp+0x10], _cstring_macosxsi386
-	mov [esp+0xc], eax
-	mov dword [esp+0x8], _cstring_17
-	mov dword [esp+0x4], _cstring_cod4_mp
-	mov dword [esp], _cstring_s_s_build_s_s1
-	call _Z2vaPKcz
-	mov ebx, eax
-	mov dword [esp+0xc], _cstring_game_version
-	mov dword [esp+0x8], 0x40
-	mov dword [esp+0x4], _cstring_null
-	mov dword [esp], _cstring_version
-	call _Z19Dvar_RegisterStringPKcS0_tS0_
-	mov [version], eax
-	mov [esp+0x4], ebx
-	mov [esp], eax
-	call _Z14Dvar_SetStringPK6dvar_sPKc
-	mov dword [esp+0xc], _cstring_short_game_versi
-	mov dword [esp+0x8], 0x44
-	mov dword [esp+0x4], _cstring_17
-	mov dword [esp], _cstring_shortversion
-	call _Z19Dvar_RegisterStringPKcS0_tS0_
-	mov [shortversion], eax
-	call _Z8Sys_Initv
-	rdtsc
-	mov [esp], eax
-	call _Z12Netchan_Initi
-	call _Z17Scr_InitVariablesv
-	call _Z8Scr_Initv
-	mov eax, [com_developer]
-	mov edx, [eax+0xc]
-	test edx, edx
-	jnz _Z27Com_Init_Try_Block_FunctionPc_140
-	mov eax, [com_logfile]
-	mov ebx, [eax+0xc]
-	test ebx, ebx
-	jz _Z27Com_Init_Try_Block_FunctionPc_150
-_Z27Com_Init_Try_Block_FunctionPc_140:
-	mov ecx, 0x1
-_Z27Com_Init_Try_Block_FunctionPc_210:
-	mov [esp+0x8], edx
-	mov eax, [com_developer_script]
-	movzx eax, byte [eax+0xc]
-	mov [esp+0x4], eax
-	mov [esp], ecx
-	call _Z12Scr_Settingsiii
-	call _Z9XAnimInitv
-	call _Z8DObjInitv
-	call _Z7SV_Initv
-	call _Z8NET_Initv
-	mov ebx, com_dedicated
-	mov eax, [ebx]
-	mov [esp], eax
-	call _Z18Dvar_ClearModifiedPK6dvar_s
-	mov eax, [ebx]
-	mov ecx, [eax+0xc]
-	test ecx, ecx
-	jz _Z27Com_Init_Try_Block_FunctionPc_160
-	call _Z16Sys_Millisecondsv
-	mov [com_frameTime], eax
-	mov dword [esp], 0x0
-	call _Z19Com_StartupVariablePKc
-	mov eax, [ebx]
-	mov edx, [eax+0xc]
-	test edx, edx
-	jz _Z27Com_Init_Try_Block_FunctionPc_170
-_Z27Com_Init_Try_Block_FunctionPc_220:
-	mov ecx, [eax+0xc]
-	test ecx, ecx
-	jnz _Z27Com_Init_Try_Block_FunctionPc_180
-	mov eax, [com_introPlayed]
-	cmp byte [eax+0xc], 0x0
-	jz _Z27Com_Init_Try_Block_FunctionPc_190
-_Z27Com_Init_Try_Block_FunctionPc_180:
-	mov eax, [useFastFile]
-	cmp byte [eax+0xc], 0x0
-	jz _Z27Com_Init_Try_Block_FunctionPc_200
-	mov dword [esp+0x4], 0x1
-	mov dword [esp], _cstring_init
-	call _Z13PMem_EndAllocPKcj
-	mov dword [esp], 0x0
-	call _Z18DB_SetInitializingh
-	call _Z16Sys_Millisecondsv
-	sub eax, esi
-	mov [esp+0x8], eax
-	mov dword [esp+0x4], _cstring_end_init_d_ms
-	mov dword [esp], 0x10
-	call _Z10Com_PrintfiPKcz
-_Z27Com_Init_Try_Block_FunctionPc_200:
-	mov dword [com_fullyInitialized], 0x1
-	mov dword [esp+0x4], _cstring__common_initiali
-	mov dword [esp], 0x10
-	call _Z10Com_PrintfiPKcz
-	mov dword [esp+0x4], 0x0
-	mov dword [esp], 0x6
-	call _Z12Com_DvarDumpiPKc
-	add esp, 0x20
-	pop ebx
-	pop esi
-	pop ebp
-	ret
-_Z27Com_Init_Try_Block_FunctionPc_150:
-	xor ecx, ecx
-	jmp _Z27Com_Init_Try_Block_FunctionPc_210
-_Z27Com_Init_Try_Block_FunctionPc_160:
-	call _Z13ScrPlace_Initv
-	call _Z24CL_InitOnceForAllClientsv
-	mov dword [esp], 0x0
-	call _Z7CL_Initi
-	call _Z16Sys_Millisecondsv
-	mov [com_frameTime], eax
-	mov dword [esp], 0x0
-	call _Z19Com_StartupVariablePKc
-	mov eax, [ebx]
-	mov edx, [eax+0xc]
-	test edx, edx
-	jnz _Z27Com_Init_Try_Block_FunctionPc_220
-_Z27Com_Init_Try_Block_FunctionPc_170:
-	call _Z14SND_InitDriverv
-	call _Z10R_InitOncev
-	call _Z15CL_InitRendererv
-	call _Z20Com_InitDebugSystemsv
-	mov eax, cls
-	mov dword [eax+0x10c], 0x1
-	call _Z8SND_Initv
-	mov eax, [ebx]
-	jmp _Z27Com_Init_Try_Block_FunctionPc_220
-_Z27Com_Init_Try_Block_FunctionPc_90:
-	call _Z13DB_InitThreadv
-	jmp _Z27Com_Init_Try_Block_FunctionPc_230
-_Z27Com_Init_Try_Block_FunctionPc_80:
-	call _Z9PMem_Initv
-	mov dword [esp], 0x1
-	call _Z18DB_SetInitializingh
-	mov dword [esp+0x4], _cstring_begin_init
-	mov dword [esp], 0x7
-	call _Z10Com_PrintfiPKcz
-	call _Z16Sys_Millisecondsv
-	mov esi, eax
-	mov dword [esp+0x4], 0x1
-	mov dword [esp], _cstring_init
-	call _Z15PMem_BeginAllocPKcj
-	mov eax, [useFastFile]
-	jmp _Z27Com_Init_Try_Block_FunctionPc_240
-_Z27Com_Init_Try_Block_FunctionPc_130:
-	mov dword [esp+0x8], _ZZ27Com_Init_Try_Block_FunctionPcE15Com_Error_f_VAR
-	mov dword [esp+0x4], _Z11Com_Error_fv
-	mov dword [esp], _cstring_error
-	call _Z22Cmd_AddCommandInternalPKcPFvvEP14cmd_function_s
-	mov dword [esp+0x8], _ZZ27Com_Init_Try_Block_FunctionPcE15Com_Crash_f_VAR
-	mov dword [esp+0x4], _Z11Com_Crash_fv
-	mov dword [esp], _cstring_crash
-	call _Z22Cmd_AddCommandInternalPKcPFvvEP14cmd_function_s
-	mov dword [esp+0x8], _ZZ27Com_Init_Try_Block_FunctionPcE16Com_Freeze_f_VAR
-	mov dword [esp+0x4], _Z12Com_Freeze_fv
-	mov dword [esp], _cstring_freeze
-	call _Z22Cmd_AddCommandInternalPKcPFvvEP14cmd_function_s
-	mov dword [esp+0x8], _ZZ27Com_Init_Try_Block_FunctionPcE16Com_Assert_f_VAR
-	mov dword [esp+0x4], _Z12Com_Assert_fv
-	mov dword [esp], _cstring_assert
-	call _Z22Cmd_AddCommandInternalPKcPFvvEP14cmd_function_s
-	jmp _Z27Com_Init_Try_Block_FunctionPc_250
-_Z27Com_Init_Try_Block_FunctionPc_120:
-	call _Z16CL_InitDedicatedv
-	jmp _Z27Com_Init_Try_Block_FunctionPc_260
-_Z27Com_Init_Try_Block_FunctionPc_110:
-	call _Z22SEH_UpdateLanguageInfov
-	jmp _Z27Com_Init_Try_Block_FunctionPc_270
-_Z27Com_Init_Try_Block_FunctionPc_100:
-	call _Z13Com_InitDvarsv
-	jmp _Z27Com_Init_Try_Block_FunctionPc_280
-_Z27Com_Init_Try_Block_FunctionPc_190:
-	mov dword [esp+0x4], _cstring_cinematic_iw_log
-	mov dword [esp], 0x0
-	call _Z12Cbuf_AddTextiPKc
-	mov dword [esp+0x4], _cstring_cinematic_atvi_s
-	mov eax, [nextmap]
-	mov [esp], eax
-	call _Z14Dvar_SetStringPK6dvar_sPKc
-	mov dword [esp+0x4], 0x1
-	mov eax, [com_introPlayed]
-	mov [esp], eax
-	call _Z12Dvar_SetBoolPK6dvar_sb
-	jmp _Z27Com_Init_Try_Block_FunctionPc_180
-_Z27Com_Init_Try_Block_FunctionPc_60:
-	mov dword [com_numConsoleLines], 0x20
-	jmp _Z27Com_Init_Try_Block_FunctionPc_10
-
-
-;Com_StartHunkUsers()
-_Z18Com_StartHunkUsersv:
-	push ebp
-	mov ebp, esp
-	sub esp, 0x28
-	mov dword [esp], 0x2
-	call _Z12Sys_GetValuei
-	mov [esp], eax
-	call _setjmp
-	test eax, eax
-	jnz _Z18Com_StartHunkUsersv_10
-	mov eax, [useFastFile]
-	cmp byte [eax+0xc], 0x0
-	jnz _Z18Com_StartHunkUsersv_20
-_Z18Com_StartHunkUsersv_30:
-	mov dword [esp+0x4], _cstring_null
-	mov dword [esp], _cstring_null
-	call _Z9UI_SetMapPKcS0_
-	call _Z17CL_StartHunkUsersv
-	call _Z16UI_GetMenuScreenv
-	mov [esp+0x4], eax
-	mov dword [esp], 0x0
-	call _Z16UI_SetActiveMenuii
-	call _Z8IN_Framev
-	call _Z13Com_EventLoopv
-	leave
-	ret
-_Z18Com_StartHunkUsersv_20:
-	mov dword [ebp-0x14], _cstring_ui_mp
-	mov dword [ebp-0x10], 0x8
-	mov dword [ebp-0xc], 0x68
-	mov dword [esp+0x8], 0x0
-	mov dword [esp+0x4], 0x1
-	lea eax, [ebp-0x14]
-	mov [esp], eax
-	call _Z14DB_LoadXAssetsP9XZoneInfoji
-	jmp _Z18Com_StartHunkUsersv_30
-_Z18Com_StartHunkUsersv_10:
-	mov dword [esp+0x4], com_errorMessage
-	mov dword [esp], _cstring_error_during_ini
-	call _Z9Sys_ErrorPKcz
-	leave
-	ret
-	nop
 
 
 ;Com_ErrorCleanup()
@@ -1580,88 +1091,6 @@ _Z11Field_ClearP7field_t:
 	nop
 
 
-;Com_SafeMode()
-_Z12Com_SafeModev:
-	push ebp
-	mov ebp, esp
-	push edi
-	push esi
-	push ebx
-	sub esp, 0x2c
-	mov ecx, [com_numConsoleLines]
-	test ecx, ecx
-	jg _Z12Com_SafeModev_10
-_Z12Com_SafeModev_60:
-	mov eax, [com_safemode]
-_Z12Com_SafeModev_120:
-	add esp, 0x2c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-_Z12Com_SafeModev_10:
-	mov dword [ebp-0x1c], 0x0
-	mov edi, com_consoleLines
-	mov esi, cmd_args
-	jmp _Z12Com_SafeModev_20
-_Z12Com_SafeModev_80:
-	mov edx, cmd_args
-	mov eax, [edx]
-	mov ebx, [edx+eax*4+0x44]
-	test ebx, ebx
-	jle _Z12Com_SafeModev_30
-	mov eax, [edx+eax*4+0x64]
-	mov eax, [eax]
-_Z12Com_SafeModev_110:
-	mov dword [esp+0x4], _cstring_dvar_restart
-	mov [esp], eax
-	call _Z9I_stricmpPKcS0_
-	test eax, eax
-	jz _Z12Com_SafeModev_40
-	xor ebx, ebx
-_Z12Com_SafeModev_90:
-	call _Z22Cmd_EndTokenizedStringv
-	test bl, bl
-	jnz _Z12Com_SafeModev_50
-	add dword [ebp-0x1c], 0x1
-	add edi, 0x4
-	mov eax, [ebp-0x1c]
-	cmp eax, [com_numConsoleLines]
-	jge _Z12Com_SafeModev_60
-_Z12Com_SafeModev_20:
-	mov eax, [edi]
-	mov [esp], eax
-	call _Z18Cmd_TokenizeStringPKc
-	mov eax, [esi]
-	mov edx, [esi+eax*4+0x44]
-	test edx, edx
-	jle _Z12Com_SafeModev_70
-	mov eax, [esi+eax*4+0x64]
-	mov eax, [eax]
-_Z12Com_SafeModev_100:
-	mov dword [esp+0x4], _cstring_safe
-	mov [esp], eax
-	call _Z9I_stricmpPKcS0_
-	test eax, eax
-	jnz _Z12Com_SafeModev_80
-_Z12Com_SafeModev_40:
-	mov ebx, 0x1
-	jmp _Z12Com_SafeModev_90
-_Z12Com_SafeModev_70:
-	mov eax, _cstring_null
-	jmp _Z12Com_SafeModev_100
-_Z12Com_SafeModev_30:
-	mov eax, _cstring_null
-	jmp _Z12Com_SafeModev_110
-_Z12Com_SafeModev_50:
-	mov edx, [ebp-0x1c]
-	mov eax, [edx*4+com_consoleLines]
-	mov byte [eax], 0x0
-	mov eax, 0x1
-	jmp _Z12Com_SafeModev_120
-	nop
-
 
 ;Com_Shutdown(char const*)
 _Z12Com_ShutdownPKc:
@@ -1701,14 +1130,6 @@ _Z12Com_ShutdownPKc_20:
 	jmp _Z12Com_ShutdownPKc_30
 	nop
 
-
-;PIXSetMarker(int, char const*, ...)
-_Z12PIXSetMarkeriPKcz:
-	push ebp
-	mov ebp, esp
-	pop ebp
-	ret
-	nop
 
 
 ;Com_EventLoop()
@@ -2207,58 +1628,6 @@ _Z17Com_BeginRedirectPcjPFvS_E_10:
 	ret
 
 
-;Com_ForceSafeMode()
-_Z17Com_ForceSafeModev:
-	push ebp
-	mov ebp, esp
-	mov dword [com_safemode], 0x1
-	pop ebp
-	ret
-	nop
-
-
-;Com_WriteConfig_f()
-_Z17Com_WriteConfig_fv:
-	push ebp
-	mov ebp, esp
-	push ebx
-	sub esp, 0x54
-	mov eax, cmd_args
-	mov edx, [eax]
-	cmp dword [eax+edx*4+0x44], 0x2
-	jz _Z17Com_WriteConfig_fv_10
-	mov dword [esp+0x4], _cstring_usage_writeconfi
-	mov dword [esp], 0x0
-	call _Z10Com_PrintfiPKcz
-	add esp, 0x54
-	pop ebx
-	pop ebp
-	ret
-_Z17Com_WriteConfig_fv_10:
-	mov dword [esp+0x8], 0x40
-	mov eax, [eax+edx*4+0x64]
-	mov eax, [eax+0x4]
-	mov [esp+0x4], eax
-	lea ebx, [ebp-0x48]
-	mov [esp], ebx
-	call _Z10I_strncpyzPcPKci
-	mov dword [esp+0x8], _cstring_cfg
-	mov dword [esp+0x4], 0x40
-	mov [esp], ebx
-	call _Z20Com_DefaultExtensionPciPKc
-	mov [esp+0x8], ebx
-	mov dword [esp+0x4], _cstring_writing_s
-	mov dword [esp], 0x0
-	call _Z10Com_PrintfiPKcz
-	mov edx, ebx
-	xor eax, eax
-	call _Z21Com_WriteConfigToFileiPKc
-	add esp, 0x54
-	pop ebx
-	pop ebp
-	ret
-
-
 
 ;Com_SetErrorMessage(char const*)
 _Z19Com_SetErrorMessagePKc:
@@ -2307,106 +1676,6 @@ _Z19Com_SetErrorMessagePKc_10:
 	mov ebx, _cstring_menu_notice
 	jmp _Z19Com_SetErrorMessagePKc_50
 
-
-;Com_StartupVariable(char const*)
-_Z19Com_StartupVariablePKc:
-	push ebp
-	mov ebp, esp
-	push edi
-	push esi
-	push ebx
-	sub esp, 0x1c
-	mov ebx, [com_numConsoleLines]
-	test ebx, ebx
-	jg _Z19Com_StartupVariablePKc_10
-_Z19Com_StartupVariablePKc_30:
-	add esp, 0x1c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-_Z19Com_StartupVariablePKc_10:
-	xor edi, edi
-	mov esi, com_consoleLines
-	jmp _Z19Com_StartupVariablePKc_20
-_Z19Com_StartupVariablePKc_60:
-	call _Z22Cmd_EndTokenizedStringv
-	add edi, 0x1
-	add esi, 0x4
-	cmp edi, [com_numConsoleLines]
-	jge _Z19Com_StartupVariablePKc_30
-_Z19Com_StartupVariablePKc_20:
-	mov eax, [esi]
-	mov [esp], eax
-	call _Z18Cmd_TokenizeStringPKc
-	mov ecx, [ebp+0x8]
-	test ecx, ecx
-	jz _Z19Com_StartupVariablePKc_40
-	mov ebx, cmd_args
-	mov eax, [ebx]
-	cmp dword [ebx+eax*4+0x44], 0x1
-	jle _Z19Com_StartupVariablePKc_50
-	mov eax, [ebx+eax*4+0x64]
-	mov eax, [eax+0x4]
-_Z19Com_StartupVariablePKc_120:
-	mov edx, [ebp+0x8]
-	mov [esp+0x4], edx
-	mov [esp], eax
-	call strcmp
-	test eax, eax
-	jnz _Z19Com_StartupVariablePKc_60
-	mov eax, [ebx]
-	mov edx, [ebx+eax*4+0x44]
-	test edx, edx
-	jle _Z19Com_StartupVariablePKc_70
-_Z19Com_StartupVariablePKc_100:
-	mov eax, [ebx+eax*4+0x64]
-	mov eax, [eax]
-	mov dword [esp+0x4], _cstring_set
-	mov [esp], eax
-	call _Z9I_stricmpPKcS0_
-	test eax, eax
-	jz _Z19Com_StartupVariablePKc_80
-_Z19Com_StartupVariablePKc_110:
-	mov edx, cmd_args
-	mov eax, [edx]
-	mov ebx, [edx+eax*4+0x44]
-	test ebx, ebx
-	jle _Z19Com_StartupVariablePKc_90
-	mov eax, [edx+eax*4+0x64]
-	mov eax, [eax]
-_Z19Com_StartupVariablePKc_130:
-	mov dword [esp+0x4], _cstring_seta
-	mov [esp], eax
-	call _Z9I_stricmpPKcS0_
-	test eax, eax
-	jnz _Z19Com_StartupVariablePKc_60
-	call _Z11Dvar_SetA_fv
-	jmp _Z19Com_StartupVariablePKc_60
-_Z19Com_StartupVariablePKc_40:
-	mov ebx, cmd_args
-	mov eax, [ebx]
-	mov edx, [ebx+eax*4+0x44]
-	test edx, edx
-	jg _Z19Com_StartupVariablePKc_100
-_Z19Com_StartupVariablePKc_70:
-	mov eax, _cstring_null
-	mov dword [esp+0x4], _cstring_set
-	mov [esp], eax
-	call _Z9I_stricmpPKcS0_
-	test eax, eax
-	jnz _Z19Com_StartupVariablePKc_110
-_Z19Com_StartupVariablePKc_80:
-	call _Z10Dvar_Set_fv
-	jmp _Z19Com_StartupVariablePKc_60
-_Z19Com_StartupVariablePKc_50:
-	mov eax, _cstring_null
-	jmp _Z19Com_StartupVariablePKc_120
-_Z19Com_StartupVariablePKc_90:
-	mov eax, _cstring_null
-	jmp _Z19Com_StartupVariablePKc_130
-	nop
 
 
 ;Com_WriteDefaults_f()
@@ -2681,7 +1950,7 @@ _Z22Com_ExecStartupConfigsiPKc_10:
 	mov dword [esp], 0x0
 	call _Z18Dvar_SetInAutoExech
 	call _Z12Com_SafeModev
-	test eax, eax
+	test al, al
 	jz _Z22Com_ExecStartupConfigsiPKc_20
 	mov dword [esp+0x4], _cstring_exec_safemode_mp
 	mov [esp], ebx
@@ -2926,354 +2195,6 @@ _Z26Com_LocalizedFloatToStringfPcjj_30:
 	nop
 
 
-;Com_Frame_Try_Block_Function()
-_Z28Com_Frame_Try_Block_Functionv:
-	push ebp
-	mov ebp, esp
-	push edi
-	push esi
-	push ebx
-	sub esp, 0x7c
-	mov edi, [com_fullyInitialized]
-	test edi, edi
-	jz _Z28Com_Frame_Try_Block_Functionv_10
-	mov edx, dvar_modifiedFlags
-	mov eax, [edx]
-	test al, 0x1
-	jnz _Z28Com_Frame_Try_Block_Functionv_20
-_Z28Com_Frame_Try_Block_Functionv_10:
-	mov eax, [com_animCheck]
-	movzx eax, byte [eax+0xc]
-	mov [esp], eax
-	call _Z12SetAnimChecki
-	mov eax, [com_maxfps]
-	mov edx, [eax+0xc]
-	test edx, edx
-	jle _Z28Com_Frame_Try_Block_Functionv_30
-	mov eax, com_dedicated
-	mov eax, [eax]
-	mov esi, [eax+0xc]
-	test esi, esi
-	jz _Z28Com_Frame_Try_Block_Functionv_40
-_Z28Com_Frame_Try_Block_Functionv_30:
-	mov esi, 0x1
-_Z28Com_Frame_Try_Block_Functionv_340:
-	call _Z20Win_UpdateThreadLockv
-	add dword [com_lastFrameIndex], 0x1
-	mov eax, com_dedicated
-	mov eax, [eax]
-	mov ebx, [eax+0xc]
-	test ebx, ebx
-	jnz _Z28Com_Frame_Try_Block_Functionv_50
-	mov dword [esp+0x4], _cstring_progress_time_sp
-	mov dword [esp], 0xffffffff
-	call _Z18PIXBeginNamedEventiPKcz
-	jmp _Z28Com_Frame_Try_Block_Functionv_60
-_Z28Com_Frame_Try_Block_Functionv_80:
-	mov ebx, eax
-	sub ebx, edx
-	test ebx, ebx
-	jg _Z28Com_Frame_Try_Block_Functionv_70
-_Z28Com_Frame_Try_Block_Functionv_90:
-	mov dword [esp], 0x1
-	call _Z9Sys_Sleepi
-_Z28Com_Frame_Try_Block_Functionv_60:
-	call _Z13Com_EventLoopv
-	call _Z16Sys_Millisecondsv
-	mov [com_frameTime], eax
-	mov edx, [com_lastFrameTime]
-	cmp eax, edx
-	jns _Z28Com_Frame_Try_Block_Functionv_80
-	mov edx, eax
-	mov [com_lastFrameTime], eax
-	mov ebx, eax
-	sub ebx, edx
-	test ebx, ebx
-	jle _Z28Com_Frame_Try_Block_Functionv_90
-_Z28Com_Frame_Try_Block_Functionv_70:
-	cmp esi, ebx
-	cmovg ebx, esi
-	lea eax, [ebx+edx]
-	mov [com_lastFrameTime], eax
-	test ebx, ebx
-	mov eax, 0x1
-	cmovz ebx, eax
-	jmp _Z28Com_Frame_Try_Block_Functionv_100
-_Z28Com_Frame_Try_Block_Functionv_120:
-	mov edx, eax
-	mov [com_lastFrameTime], eax
-	mov ebx, eax
-	sub ebx, edx
-	cmp esi, ebx
-	jle _Z28Com_Frame_Try_Block_Functionv_110
-_Z28Com_Frame_Try_Block_Functionv_130:
-	mov dword [esp], 0x1
-	call _Z9Sys_Sleepi
-_Z28Com_Frame_Try_Block_Functionv_50:
-	call _Z13Com_EventLoopv
-	call _Z16Sys_Millisecondsv
-	mov [com_frameTime], eax
-	mov edx, [com_lastFrameTime]
-	cmp eax, edx
-	js _Z28Com_Frame_Try_Block_Functionv_120
-	mov ebx, eax
-	sub ebx, edx
-	cmp esi, ebx
-	jg _Z28Com_Frame_Try_Block_Functionv_130
-_Z28Com_Frame_Try_Block_Functionv_110:
-	mov [com_lastFrameTime], eax
-_Z28Com_Frame_Try_Block_Functionv_100:
-	mov dword [esp], 0x0
-	call _Z31CL_ControllerIndexFromClientNumi
-	mov [esp+0x4], eax
-	mov dword [esp], 0x0
-	call _Z12Cbuf_Executeii
-	mov eax, [com_fixedtime]
-	mov esi, [eax+0xc]
-	test esi, esi
-	jnz _Z28Com_Frame_Try_Block_Functionv_140
-	mov eax, [com_timescale]
-	movss xmm1, dword [eax+0xc]
-	movss xmm0, dword [_float_1_00000000]
-	ucomiss xmm1, xmm0
-	jnz _Z28Com_Frame_Try_Block_Functionv_150
-	jp _Z28Com_Frame_Try_Block_Functionv_150
-	ucomiss xmm0, [com_codeTimeScale]
-	jnz _Z28Com_Frame_Try_Block_Functionv_150
-	jp _Z28Com_Frame_Try_Block_Functionv_150
-	mov eax, [dev_timescale]
-	ucomiss xmm0, [eax+0xc]
-	jnz _Z28Com_Frame_Try_Block_Functionv_160
-	jp _Z28Com_Frame_Try_Block_Functionv_160
-	mov esi, ebx
-	xor edi, edi
-	jmp _Z28Com_Frame_Try_Block_Functionv_170
-_Z28Com_Frame_Try_Block_Functionv_150:
-	mov eax, [dev_timescale]
-_Z28Com_Frame_Try_Block_Functionv_160:
-	cvtsi2ss xmm0, ebx
-	mulss xmm1, xmm0
-	mulss xmm1, [com_codeTimeScale]
-	mulss xmm1, [eax+0xc]
-	addss xmm1, [_float_0_50000000]
-	movss [esp], xmm1
-	call floorf
-	fstp dword [ebp-0x5c]
-	cvttss2si esi, [ebp-0x5c]
-_Z28Com_Frame_Try_Block_Functionv_140:
-	mov edi, 0x1
-_Z28Com_Frame_Try_Block_Functionv_170:
-	test esi, esi
-	mov eax, 0x1
-	cmovle esi, eax
-	mov eax, com_dedicated
-	mov eax, [eax]
-	mov ecx, [eax+0xc]
-	test ecx, ecx
-	jz _Z28Com_Frame_Try_Block_Functionv_180
-	lea eax, [esi-0x1f5]
-	cmp eax, 0x79f2a
-	jbe _Z28Com_Frame_Try_Block_Functionv_190
-_Z28Com_Frame_Try_Block_Functionv_320:
-	mov eax, 0x1388
-_Z28Com_Frame_Try_Block_Functionv_330:
-	cmp esi, eax
-	cmovle eax, esi
-	mov edx, edi
-	test dl, dl
-	jz _Z28Com_Frame_Try_Block_Functionv_200
-	test ebx, ebx
-	jnz _Z28Com_Frame_Try_Block_Functionv_210
-_Z28Com_Frame_Try_Block_Functionv_200:
-	movss xmm1, dword [_float_1_00000000]
-_Z28Com_Frame_Try_Block_Functionv_350:
-	movss [com_timescaleValue], xmm1
-	mov [esp], eax
-	call _Z8SV_Framei
-	mov esi, eax
-	mov ebx, com_dedicated
-	mov edx, [ebx]
-	test byte [edx+0x8], 0x40
-	jnz _Z28Com_Frame_Try_Block_Functionv_220
-	mov eax, [edx+0x1c]
-	cmp eax, [edx+0xc]
-	jz _Z28Com_Frame_Try_Block_Functionv_230
-	mov dword [esp+0x10], _cstring_true_if_this_is_
-	mov dword [esp+0xc], 0x20
-	mov dword [esp+0x8], 0x0
-	mov dword [esp+0x4], g_dedicatedEnumNames
-	mov dword [esp], _cstring_dedicated
-	call _Z17Dvar_RegisterEnumPKcPS0_itS0_
-	mov [ebx], eax
-	mov edx, [eax+0xc]
-	test edx, edx
-	jnz _Z28Com_Frame_Try_Block_Functionv_240
-_Z28Com_Frame_Try_Block_Functionv_360:
-	mov [esp], eax
-	call _Z18Dvar_ClearModifiedPK6dvar_s
-	mov dword [esp], 0x0
-	call _Z11CL_Shutdowni
-	call _Z14CL_ShutdownRefv
-	call _Z16CL_InitDedicatedv
-	call _Z23SV_AddDedicatedCommandsv
-_Z28Com_Frame_Try_Block_Functionv_230:
-	mov eax, [ebx]
-	mov eax, [eax+0xc]
-	test eax, eax
-	jz _Z28Com_Frame_Try_Block_Functionv_250
-_Z28Com_Frame_Try_Block_Functionv_260:
-	add esp, 0x7c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-_Z28Com_Frame_Try_Block_Functionv_220:
-	mov eax, edx
-	mov eax, [eax+0xc]
-	test eax, eax
-	jnz _Z28Com_Frame_Try_Block_Functionv_260
-_Z28Com_Frame_Try_Block_Functionv_250:
-	mov eax, [com_lastFrameTime]
-	mov [esp], eax
-	call _Z12R_SetEndTimei
-	mov dword [esp+0x4], _cstring_pre_frame
-	mov dword [esp], 0xffffffff
-	call _Z18PIXBeginNamedEventiPKcz
-	mov [esp+0x4], esi
-	mov dword [esp], 0x0
-	call _Z24CL_RunOncePerClientFrameii
-	call _Z13Com_EventLoopv
-	mov dword [esp], 0x0
-	call _Z31CL_ControllerIndexFromClientNumi
-	mov [esp+0x4], eax
-	mov dword [esp], 0x0
-	call _Z12Cbuf_Executeii
-	mov dword [esp+0x4], _cstring_cl_frame
-	mov dword [esp], 0xffffffff
-	call _Z18PIXBeginNamedEventiPKcz
-	mov [esp+0x4], esi
-	mov dword [esp], 0x0
-	call _Z8CL_Frameii
-	mov eax, dvar_modifiedFlags
-	and dword [eax], 0xfffffffd
-	mov eax, clientUIActives
-	mov ebx, [eax+0xc]
-	mov dword [esp], 0x0
-	call _Z15UI_IsFullscreeni
-	test eax, eax
-	jnz _Z28Com_Frame_Try_Block_Functionv_270
-	test ebx, ebx
-	jz _Z28Com_Frame_Try_Block_Functionv_280
-_Z28Com_Frame_Try_Block_Functionv_270:
-	call _Z16SCR_UpdateScreenv
-	mov [esp], esi
-	call _Z14Ragdoll_Updatei
-	call _Z16SCR_UpdateRumblev
-	mov eax, [com_statmon]
-	cmp byte [eax+0xc], 0x0
-	jz _Z28Com_Frame_Try_Block_Functionv_290
-	mov ebx, com_fileAccessed
-	mov eax, [ebx]
-	test eax, eax
-	jnz _Z28Com_Frame_Try_Block_Functionv_300
-_Z28Com_Frame_Try_Block_Functionv_370:
-	mov ebx, [_ZZ11Com_StatmonvE15timeClientFrame]
-	call _Z16Sys_Millisecondsv
-	mov edx, eax
-	mov [_ZZ11Com_StatmonvE15timeClientFrame], eax
-	mov eax, [com_statmon]
-	cmp byte [eax+0xc], 0x0
-	jz _Z28Com_Frame_Try_Block_Functionv_290
-	sub edx, ebx
-	cmp edx, 0x21
-	jle _Z28Com_Frame_Try_Block_Functionv_290
-	test ebx, ebx
-	jnz _Z28Com_Frame_Try_Block_Functionv_310
-_Z28Com_Frame_Try_Block_Functionv_290:
-	call _Z13R_WaitEndTimev
-_Z28Com_Frame_Try_Block_Functionv_380:
-	add esp, 0x7c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-_Z28Com_Frame_Try_Block_Functionv_180:
-	mov eax, [com_sv_running]
-	cmp byte [eax+0xc], 0x0
-	jz _Z28Com_Frame_Try_Block_Functionv_320
-	mov eax, [com_maxFrameTime]
-	mov eax, [eax+0xc]
-	jmp _Z28Com_Frame_Try_Block_Functionv_330
-_Z28Com_Frame_Try_Block_Functionv_40:
-	mov ecx, 0x3e8
-	mov eax, ecx
-	mov ebx, edx
-	cdq
-	idiv ebx
-	mov esi, eax
-	test eax, eax
-	jnz _Z28Com_Frame_Try_Block_Functionv_340
-	jmp _Z28Com_Frame_Try_Block_Functionv_30
-_Z28Com_Frame_Try_Block_Functionv_210:
-	cvtsi2ss xmm1, eax
-	cvtsi2ss xmm0, ebx
-	divss xmm1, xmm0
-	jmp _Z28Com_Frame_Try_Block_Functionv_350
-_Z28Com_Frame_Try_Block_Functionv_190:
-	mov [esp+0x8], esi
-	mov dword [esp+0x4], _cstring_hitch_warning_i_
-	mov dword [esp], 0x10
-	call _Z16Com_PrintWarningiPKcz
-	mov eax, 0x1388
-	jmp _Z28Com_Frame_Try_Block_Functionv_330
-_Z28Com_Frame_Try_Block_Functionv_20:
-	and eax, 0xfffffffe
-	mov [edx], eax
-	call _Z20Com_HasPlayerProfilev
-	test al, al
-	jz _Z28Com_Frame_Try_Block_Functionv_10
-	mov dword [esp+0x8], _cstring_config_mpcfg
-	mov dword [esp+0x4], 0x40
-	lea ebx, [ebp-0x58]
-	mov [esp], ebx
-	call _Z26Com_BuildPlayerProfilePathPciPKcz
-	mov edx, ebx
-	xor eax, eax
-	call _Z21Com_WriteConfigToFileiPKc
-	jmp _Z28Com_Frame_Try_Block_Functionv_10
-_Z28Com_Frame_Try_Block_Functionv_240:
-	mov dword [esp+0x10], _cstring_true_if_this_is_
-	mov dword [esp+0xc], 0x40
-	mov dword [esp+0x8], 0x0
-	mov dword [esp+0x4], g_dedicatedEnumNames
-	mov dword [esp], _cstring_dedicated
-	call _Z17Dvar_RegisterEnumPKcPS0_itS0_
-	mov eax, [ebx]
-	jmp _Z28Com_Frame_Try_Block_Functionv_360
-_Z28Com_Frame_Try_Block_Functionv_300:
-	mov dword [esp+0x8], _cstring_code_warning_fil
-	mov dword [esp+0x4], 0xbb8
-	mov dword [esp], 0x1
-	call _Z15StatMon_WarningiiPKc
-	mov dword [ebx], 0x0
-	jmp _Z28Com_Frame_Try_Block_Functionv_370
-_Z28Com_Frame_Try_Block_Functionv_280:
-	call _Z16UI_GetMenuScreenv
-	mov [esp+0x4], eax
-	mov dword [esp], 0x0
-	call _Z16UI_SetActiveMenuii
-	jmp _Z28Com_Frame_Try_Block_Functionv_270
-_Z28Com_Frame_Try_Block_Functionv_310:
-	mov dword [esp+0x8], _cstring_code_warning_fps
-	mov dword [esp+0x4], 0xbb8
-	mov dword [esp], 0x0
-	call _Z15StatMon_WarningiiPKc
-	call _Z13R_WaitEndTimev
-	jmp _Z28Com_Frame_Try_Block_Functionv_380
-	nop
-
 
 ;Com_SetLocalizedErrorMessage(char const*, char const*)
 _Z28Com_SetLocalizedErrorMessagePKcS0_:
@@ -3326,354 +2247,7 @@ _Z28Com_SetLocalizedErrorMessagePKcS0__10:
 	jmp _Z28Com_SetLocalizedErrorMessagePKcS0__20
 
 
-;Com_Init(char*)
-_Z8Com_InitPc:
-	push ebp
-	mov ebp, esp
-	push edi
-	push esi
-	push ebx
-	sub esp, 0x42c
-	mov dword [esp], 0x2
-	call _Z12Sys_GetValuei
-	mov [esp], eax
-	call _setjmp
-	test eax, eax
-	jnz _Z8Com_InitPc_10
-	mov eax, [ebp+0x8]
-	mov [esp], eax
-	call _Z27Com_Init_Try_Block_FunctionPc
-_Z8Com_InitPc_70:
-	mov dword [esp], 0x2
-	call _Z12Sys_GetValuei
-	mov [esp], eax
-	call _setjmp
-	test eax, eax
-	jnz _Z8Com_InitPc_20
-	mov eax, [com_numConsoleLines]
-	test eax, eax
-	jg _Z8Com_InitPc_30
-_Z8Com_InitPc_20:
-	mov ebx, [com_errorEntered]
-	test ebx, ebx
-	jnz _Z8Com_InitPc_40
-_Z8Com_InitPc_120:
-	mov eax, [com_sv_running]
-	cmp byte [eax+0xc], 0x0
-	jnz _Z8Com_InitPc_50
-	mov eax, com_dedicated
-	mov eax, [eax]
-	mov ecx, [eax+0xc]
-	test ecx, ecx
-	jz _Z8Com_InitPc_60
-_Z8Com_InitPc_50:
-	add esp, 0x42c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-_Z8Com_InitPc_10:
-	mov dword [esp+0x4], com_errorMessage
-	mov dword [esp], _cstring_error_during_ini
-	call _Z2vaPKcz
-	mov [esp], eax
-	call _Z9Sys_ErrorPKcz
-	jmp _Z8Com_InitPc_70
-_Z8Com_InitPc_60:
-	mov dword [esp], 0x2
-	call _Z12Sys_GetValuei
-	mov [esp], eax
-	call _setjmp
-	test eax, eax
-	jnz _Z8Com_InitPc_80
-	mov eax, cls
-	mov edx, [eax+0x108]
-	test edx, edx
-	jz _Z8Com_InitPc_90
-	call _Z17CL_StartHunkUsersv
-_Z8Com_InitPc_130:
-	add esp, 0x42c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-_Z8Com_InitPc_30:
-	xor edi, edi
-	mov esi, com_consoleLines
-	jmp _Z8Com_InitPc_100
-_Z8Com_InitPc_110:
-	add edi, 0x1
-	add esi, 0x4
-	cmp edi, [com_numConsoleLines]
-	jge _Z8Com_InitPc_20
-_Z8Com_InitPc_100:
-	mov eax, [esi]
-	cmp byte [eax], 0x0
-	jz _Z8Com_InitPc_110
-	mov [esp+0xc], eax
-	mov dword [esp+0x8], _cstring_s1
-	mov dword [esp+0x4], 0x401
-	lea ebx, [ebp-0x419]
-	mov [esp], ebx
-	call _Z11Com_sprintfPciPKcz
-	mov dword [esp], 0x0
-	call _Z31CL_ControllerIndexFromClientNumi
-	mov [esp+0x8], ebx
-	mov [esp+0x4], eax
-	mov dword [esp], 0x0
-	call _Z18Cbuf_ExecuteBufferiiPKc
-	jmp _Z8Com_InitPc_110
-_Z8Com_InitPc_40:
-	call _Z16Com_ErrorCleanupv
-	jmp _Z8Com_InitPc_120
-_Z8Com_InitPc_90:
-	call _Z15CL_InitRendererv
-	call _Z17CL_StartHunkUsersv
-	jmp _Z8Com_InitPc_130
-_Z8Com_InitPc_80:
-	mov dword [esp+0x4], com_errorMessage
-	mov dword [esp], _cstring_error_during_ini
-	call _Z2vaPKcz
-	mov [esp], eax
-	call _Z9Sys_ErrorPKcz
-	jmp _Z8Com_InitPc_50
-	add [eax], al
 
-
-
-;Com_Error(errorParm_t, char const*, ...)
-_Z9Com_Error11errorParm_tPKcz:
-	push ebp
-	mov ebp, esp
-	push ebx
-	sub esp, 0x24
-	mov ebx, [ebp+0x8]
-	mov dword [esp], 0x2
-	call _Z24Sys_EnterCriticalSection15CriticalSection
-	mov eax, [com_errorEntered]
-	test eax, eax
-	jnz _Z9Com_Error11errorParm_tPKcz_10
-_Z9Com_Error11errorParm_tPKcz_110:
-	mov dword [com_errorEntered], 0x1
-	lea eax, [ebp+0x10]
-	mov [ebp-0xc], eax
-	mov [esp+0xc], eax
-	mov eax, [ebp+0xc]
-	mov [esp+0x8], eax
-	mov dword [esp+0x4], 0x1000
-	mov dword [esp], com_errorMessage
-	call vsnprintf
-	mov byte [com_errorMessage+0xfff], 0x0
-	cmp ebx, 0x5
-	jz _Z9Com_Error11errorParm_tPKcz_20
-	cmp ebx, 0x7
-	jz _Z9Com_Error11errorParm_tPKcz_20
-	cmp ebx, 0x6
-	jz _Z9Com_Error11errorParm_tPKcz_30
-	cmp ebx, 0x8
-	jz _Z9Com_Error11errorParm_tPKcz_40
-	mov dword [com_fixedConsolePosition], 0x0
-_Z9Com_Error11errorParm_tPKcz_100:
-	mov [errorcode], ebx
-	mov dword [esp], 0x2
-	call _Z24Sys_LeaveCriticalSection15CriticalSection
-	mov dword [esp], 0x2
-	call _Z12Sys_GetValuei
-	mov dword [esp+0x4], 0xffffffff
-	mov [esp], eax
-	call longjmp
-_Z9Com_Error11errorParm_tPKcz_20:
-	mov ecx, [com_fixedConsolePosition]
-	test ecx, ecx
-	jz _Z9Com_Error11errorParm_tPKcz_50
-_Z9Com_Error11errorParm_tPKcz_150:
-	mov eax, cls
-	mov edx, [eax+0x110]
-	test edx, edx
-	jz _Z9Com_Error11errorParm_tPKcz_60
-	cmp dword [errorcode], 0x3
-	jz _Z9Com_Error11errorParm_tPKcz_70
-	mov eax, [noticeErrors]
-	cmp byte [eax], 0x0
-	jnz _Z9Com_Error11errorParm_tPKcz_80
-_Z9Com_Error11errorParm_tPKcz_140:
-	mov ebx, _cstring_menu_error
-_Z9Com_Error11errorParm_tPKcz_120:
-	mov dword [esp+0x8], 0x1
-	mov dword [esp+0x4], _cstring_error_message
-	mov dword [esp], com_errorMessage
-	call _Z23SEH_LocalizeTextMessagePKcS0_15msgLocErrType_t
-	test eax, eax
-	mov edx, com_errorMessage
-	cmovz eax, edx
-	mov [esp+0x4], ebx
-	mov [esp], eax
-	call _Z28Com_SetLocalizedErrorMessagePKcS0_
-	call _Z16Sys_IsMainThreadv
-	test al, al
-	jnz _Z9Com_Error11errorParm_tPKcz_90
-_Z9Com_Error11errorParm_tPKcz_160:
-	mov eax, cls
-	mov eax, [eax+0x110]
-	test eax, eax
-	jz _Z9Com_Error11errorParm_tPKcz_60
-_Z9Com_Error11errorParm_tPKcz_180:
-	mov dword [com_errorEntered], 0x0
-	mov dword [esp], 0x2
-	call _Z24Sys_LeaveCriticalSection15CriticalSection
-	add esp, 0x24
-	pop ebx
-	pop ebp
-	ret
-_Z9Com_Error11errorParm_tPKcz_60:
-	mov ebx, 0x2
-	jmp _Z9Com_Error11errorParm_tPKcz_100
-_Z9Com_Error11errorParm_tPKcz_10:
-	mov dword [esp+0x4], com_errorMessage
-	mov dword [esp], _cstring_recursive_error_
-	call _Z9Sys_ErrorPKcz
-	jmp _Z9Com_Error11errorParm_tPKcz_110
-_Z9Com_Error11errorParm_tPKcz_30:
-	mov dword [com_fixedConsolePosition], 0x1
-	call _Z21CL_ConsoleFixPositionv
-	mov bl, 0x2
-	jmp _Z9Com_Error11errorParm_tPKcz_100
-_Z9Com_Error11errorParm_tPKcz_70:
-	mov ebx, _cstring_menu_notice
-	jmp _Z9Com_Error11errorParm_tPKcz_120
-_Z9Com_Error11errorParm_tPKcz_80:
-	mov ebx, noticeErrors
-_Z9Com_Error11errorParm_tPKcz_130:
-	mov dword [esp+0x4], com_errorMessage
-	mov [esp], eax
-	call _Z9I_stricmpPKcS0_
-	test eax, eax
-	jz _Z9Com_Error11errorParm_tPKcz_70
-	mov eax, [ebx+0x4]
-	add ebx, 0x4
-	cmp byte [eax], 0x0
-	jnz _Z9Com_Error11errorParm_tPKcz_130
-	jmp _Z9Com_Error11errorParm_tPKcz_140
-_Z9Com_Error11errorParm_tPKcz_50:
-	mov dword [com_fixedConsolePosition], 0x1
-	call _Z21CL_ConsoleFixPositionv
-	jmp _Z9Com_Error11errorParm_tPKcz_150
-_Z9Com_Error11errorParm_tPKcz_90:
-	mov dword [esp+0x4], 0x1
-	mov dword [esp], 0x0
-	call _Z16UI_SetActiveMenuii
-	jmp _Z9Com_Error11errorParm_tPKcz_160
-_Z9Com_Error11errorParm_tPKcz_40:
-	mov dword [com_fixedConsolePosition], 0x1
-	call _Z21CL_ConsoleFixPositionv
-	mov eax, cls
-	mov eax, [eax+0x110]
-	test eax, eax
-	jnz _Z9Com_Error11errorParm_tPKcz_170
-_Z9Com_Error11errorParm_tPKcz_190:
-	mov eax, com_dedicated
-	mov eax, [eax]
-	mov eax, [eax+0xc]
-	test eax, eax
-	jz _Z9Com_Error11errorParm_tPKcz_100
-	mov dword [esp], _cstring_2
-	call _Z9Sys_PrintPKc
-	mov dword [esp], com_errorMessage
-	call _Z9Sys_PrintPKc
-	mov dword [esp], _cstring_2
-	call _Z9Sys_PrintPKc
-	jmp _Z9Com_Error11errorParm_tPKcz_180
-_Z9Com_Error11errorParm_tPKcz_170:
-	call _Z16Sys_IsMainThreadv
-	test al, al
-	jz _Z9Com_Error11errorParm_tPKcz_190
-	cmp dword [errorcode], 0x3
-	jz _Z9Com_Error11errorParm_tPKcz_200
-	mov eax, [noticeErrors]
-	cmp byte [eax], 0x0
-	jnz _Z9Com_Error11errorParm_tPKcz_210
-_Z9Com_Error11errorParm_tPKcz_230:
-	mov ebx, _cstring_menu_error
-_Z9Com_Error11errorParm_tPKcz_240:
-	mov dword [esp+0x8], 0x1
-	mov dword [esp+0x4], _cstring_error_message
-	mov dword [esp], com_errorMessage
-	call _Z23SEH_LocalizeTextMessagePKcS0_15msgLocErrType_t
-	test eax, eax
-	mov edx, com_errorMessage
-	cmovz eax, edx
-	mov [esp+0x4], ebx
-	mov [esp], eax
-	call _Z28Com_SetLocalizedErrorMessagePKcS0_
-	mov dword [esp+0x4], 0x5
-	mov dword [esp], 0x0
-	call _Z16UI_SetActiveMenuii
-	jmp _Z9Com_Error11errorParm_tPKcz_180
-_Z9Com_Error11errorParm_tPKcz_210:
-	mov ebx, noticeErrors
-_Z9Com_Error11errorParm_tPKcz_220:
-	mov dword [esp+0x4], com_errorMessage
-	mov [esp], eax
-	call _Z9I_stricmpPKcS0_
-	test eax, eax
-	jz _Z9Com_Error11errorParm_tPKcz_200
-	mov eax, [ebx+0x4]
-	add ebx, 0x4
-	cmp byte [eax], 0x0
-	jnz _Z9Com_Error11errorParm_tPKcz_220
-	jmp _Z9Com_Error11errorParm_tPKcz_230
-_Z9Com_Error11errorParm_tPKcz_200:
-	mov ebx, _cstring_menu_notice
-	jmp _Z9Com_Error11errorParm_tPKcz_240
-	nop
-
-
-;Com_Frame()
-_Z9Com_Framev:
-	push ebp
-	mov ebp, esp
-	sub esp, 0x18
-	mov dword [esp+0x4], _cstring_com_frame
-	mov dword [esp], 0xffffffff
-	call _Z12PIXSetMarkeriPKcz
-	mov dword [esp], 0x2
-	call _Z12Sys_GetValuei
-	mov [esp], eax
-	call _setjmp
-	test eax, eax
-	jz _Z9Com_Framev_10
-_Z9Com_Framev_40:
-	mov dword [esp], 0x2
-	call _Z24Sys_EnterCriticalSection15CriticalSection
-	mov eax, [com_errorEntered]
-	test eax, eax
-	jnz _Z9Com_Framev_20
-	mov dword [esp], 0x2
-	call _Z24Sys_LeaveCriticalSection15CriticalSection
-_Z9Com_Framev_30:
-	leave
-	ret
-_Z9Com_Framev_20:
-	call _Z16Com_ErrorCleanupv
-	mov dword [esp], 0x2
-	call _Z24Sys_LeaveCriticalSection15CriticalSection
-	mov eax, com_dedicated
-	mov eax, [eax]
-	mov eax, [eax+0xc]
-	test eax, eax
-	jnz _Z9Com_Framev_30
-	call _Z15CL_InitRendererv
-	call _Z18Com_StartHunkUsersv
-	leave
-	ret
-_Z9Com_Framev_10:
-	call _Z9DB_Updatev
-	call _Z28Com_Frame_Try_Block_Functionv
-	add dword [com_frameNumber], 0x1
-	jmp _Z9Com_Framev_40
-	nop
 
 
 ;Initialized global or static variables of common:
@@ -3692,29 +2266,15 @@ SECTION .rdata
 ;Zero initialized global or static variables of common:
 SECTION .bss
 weaponInfoSource: resb 0x4
-errorcode: resb 0x18
+errorcode: resb 0x4
 com_errorMessage: resb 0x1000
-com_lastFrameTime: resb 0x4
-com_lastFrameIndex: resb 0x4
 com_fullyInitialized: resb 0x4
-com_codeTimeScale: resb 0x4
-com_numConsoleLines: resb 0x10
-com_consoleLines: resb 0xc0
 serverCommonMsgBuf: resb 0x20000
 clientCommonMsgBuf: resb 0x20000
-com_safemode: resb 0x4
 rd_flush: resb 0x4
 rd_buffersize: resb 0x4
 rd_buffer: resb 0x4
 _ZZ15Com_OpenLogFilevE16opening_qconsole: resb 0x4
-_ZZ11Com_StatmonvE15timeClientFrame: resb 0x4
-_ZZ27Com_Init_Try_Block_FunctionPcE23Com_WriteDefaults_f_VAR: resb 0x14
-_ZZ27Com_Init_Try_Block_FunctionPcE21Com_WriteConfig_f_VAR: resb 0x14
-_ZZ27Com_Init_Try_Block_FunctionPcE14Com_Quit_f_VAR: resb 0x14
-_ZZ27Com_Init_Try_Block_FunctionPcE16Com_Assert_f_VAR: resb 0x14
-_ZZ27Com_Init_Try_Block_FunctionPcE16Com_Freeze_f_VAR: resb 0x14
-_ZZ27Com_Init_Try_Block_FunctionPcE15Com_Crash_f_VAR: resb 0x14
-_ZZ27Com_Init_Try_Block_FunctionPcE15Com_Error_f_VAR: resb 0x14
 _ZZ16Com_ErrorCleanupvE10errorCount: resb 0x4
 _ZZ16Com_ErrorCleanupvE13lastErrorTime: resb 0x58
 com_errorEntered: resb 0x4
@@ -3722,10 +2282,8 @@ useFastFile: resb 0x8
 cl_paused: resb 0x4
 com_expectedHunkUsage: resb 0x4
 com_sv_running: resb 0x4
-nextmap: resb 0x4
 com_developer: resb 0x4
 com_statmon: resb 0x4
-com_timescaleValue: resb 0x4
 sv_paused: resb 0x4
 com_frameTime: resb 0x4
 com_animCheck: resb 0x4
@@ -3736,7 +2294,6 @@ com_errorPrintsCount: resb 0x4
 com_filter_output: resb 0x4
 com_fixedConsolePosition: resb 0x4
 com_fixedtime: resb 0x4
-com_frameNumber: resb 0x4
 com_hiDef: resb 0x4
 com_introPlayed: resb 0x4
 com_logfile: resb 0x4
@@ -3744,15 +2301,12 @@ com_masterPort: resb 0x4
 com_masterServerName: resb 0x4
 com_maxFrameTime: resb 0x4
 com_maxfps: resb 0x4
-com_recommendedSet: resb 0x4
 com_timescale: resb 0x4
 com_wideScreen: resb 0x4
 dev_timescale: resb 0x4
-shortversion: resb 0x4
 sys_smp_allowed: resb 0x4
 ui_errorMessage: resb 0x4
 ui_errorTitle: resb 0x4
-version: resb 0x4
 
 
 ;All cstrings:
@@ -3832,16 +2386,11 @@ _cstring_17:		db "1.7",0
 _cstring_cod4_mp:		db "CoD4 MP",0
 _cstring_s_s_build_s_s:		db "%s %s build %s %s",0ah,0
 _cstring_use_recommended_:		db "Use recommended settings",0
-_cstring_com_recommendeds:		db "com_recommendedSet",0
 _cstring_quit:		db "quit",0
 _cstring_writeconfig:		db "writeconfig",0
 _cstring_writedefaults:		db "writedefaults",0
 _cstring_s_s_build_s_s1:		db "%s %s build %s %s",0
-_cstring_game_version:		db "Game version",0
 _cstring_null:		db 0
-_cstring_version:		db "version",0
-_cstring_short_game_versi:		db "Short game version",0
-_cstring_shortversion:		db "shortversion",0
 _cstring_init:		db "$init",0
 _cstring_end_init_d_ms:		db "end $init %d ms",0ah,0
 _cstring__common_initiali:		db "--- Common Initialization Complete ---",0ah,0
@@ -3850,8 +2399,6 @@ _cstring_error:		db "error",0
 _cstring_crash:		db "crash",0
 _cstring_freeze:		db "freeze",0
 _cstring_assert:		db "assert",0
-_cstring_cinematic_iw_log:		db "cinematic IW_logo",0ah,0
-_cstring_cinematic_atvi_s:		db "cinematic atvi; set nextmap ",22h,"cinematic Aspyr; set nextmap cinematic cod_intro",22h,0
 _cstring_ui_mp:		db "ui_mp",0
 _cstring_error_during_ini:		db "Error during initialization:",0ah,"%s",0ah,0
 _cstring_menu_error:		db "MENU_ERROR",0
@@ -3873,7 +2420,6 @@ _cstring_codkey:		db "codkey",0
 _cstring_11:		db "^1",0
 _cstring_1error_:		db "^1Error: ",0
 _cstring_3:		db "^3",0
-_cstring_usage_writeconfi:		db "Usage: writeconfig <filename>",0ah,0
 _cstring_cfg:		db ".cfg",0
 _cstring_writing_s:		db "Writing %s.",0ah,0
 _cstring__autoconfigure:		db "========= autoconfigure",0ah,0
@@ -3904,8 +2450,6 @@ _cstring_exec_s:		db "exec %s",0ah,0
 _cstring_exec_safemode_mp:		db "exec safemode_mp.cfg",0ah,0
 _cstring_f:		db "%.*f",0
 _cstring_progress_time_sp:		db "progress time spin",0
-_cstring_pre_frame:		db "pre frame",0
-_cstring_cl_frame:		db "CL_Frame",0
 _cstring_hitch_warning_i_:		db "Hitch warning: %i msec frame time",0ah,0
 _cstring_config_mpcfg:		db "config_mp.cfg",0
 _cstring_code_warning_fil:		db "code_warning_file",0
@@ -3916,7 +2460,6 @@ _cstring_title_of_the_mos:		db "Title of the most recent error message",0
 _cstring_com_errortitle:		db "com_errorTitle",0
 _cstring_recursive_error_:		db "recursive error after: %s",0
 _cstring_2:		db 0ah,"==========================",0ah,0
-_cstring_com_frame:		db "Com_Frame",0
 _cstring_none:		db "none",0
 _cstring_minimal:		db "minimal",0
 _cstring_all:		db "all",0

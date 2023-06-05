@@ -8,6 +8,7 @@
 #include "cscr_debugger.h"
 #include "cscr_main.h"
 #include "cscr_compiler.h"
+#include "cscr_memorytree.h"
 #include <common/qcommon.h>
 #include <common/sys_shared.h>
 #include <game/server_game_shared.h>
@@ -20,10 +21,12 @@ char error_message[1024];
 cvar_t* logScriptTimes;
 cvar_t* scrVmEnableScripts;
 int gScrExecuteTime;
-
+extern function_stack_t gFs;
 scrVmPub_t gScrVmPub;
+unsigned int VM_Execute();
+extern int gThreadCount;
 
-
+#define MAX_VM_STACK_DEPTH 32
 
 VariableValue GetEntityFieldValue(unsigned int classnum, int entnum, int offset)
 {
@@ -684,4 +687,224 @@ void Scr_Init( )
   gScrCompilePub.builtinMeth = 0;
   gScrCompilePub.builtinFunc = 0;
   gScrVarPub.bInited = 1;
+}
+
+unsigned int VM_Execute(unsigned int localId, const char *pos, unsigned int paramcount)
+{
+  function_stack_t fs_backup;
+  VariableValue *startTop;
+  int type;
+  int thread_count_backup;
+
+  assert(paramcount <= gScrVmPub.inparamcount);
+
+  Scr_ClearOutParams( );
+  startTop = &gScrVmPub.top[-paramcount];
+  paramcount = gScrVmPub.inparamcount - paramcount;
+  if ( gScrVmPub.function_count >= 30 )
+  {
+    Scr_KillThread(localId);
+    gScrVmPub.inparamcount = paramcount + 1;
+    assert(!gScrVmPub.outparamcount);
+    while ( paramcount )
+    {
+      RemoveRefToValue(gScrVmPub.top->type, gScrVmPub.top->u);
+      --gScrVmPub.top;
+      --paramcount;
+    }
+    ++gScrVmPub.top;
+		gScrVmPub.top->type = VAR_UNDEFINED;
+    RuntimeError(pos, 0, "script stack overflow (too many embedded function calls)", 0);
+    return localId;
+  }
+  else
+  {
+    fs_backup = gFs;
+    thread_count_backup = gThreadCount;
+    gFs.localId = localId;
+    gFs.startTop = startTop;
+    
+    
+    if ( gScrVmPub.function_count )
+    {
+      ++gScrVmPub.function_count;
+      ++gScrVmPub.function_frame;
+      gScrVmPub.function_frame->fs.localId = 0;
+    }
+    gScrVmPub.function_frame->fs.pos = pos;
+    ++gScrVmPub.function_count;
+    ++gScrVmPub.function_frame;
+    gScrVmPub.function_frame->fs.localId = localId;
+    type = startTop->type;
+    startTop->type = VAR_PRECODEPOS;
+    gScrVmPub.inparamcount = 0;
+
+    gFs.top = gScrVmPub.top;
+    gFs.pos = pos;
+    gFs.localVarCount = 0;
+    gThreadCount = 0;
+    
+    localId = VM_Execute();
+    gFs = fs_backup;
+    gThreadCount = thread_count_backup;
+    
+    startTop->type = type;
+    gScrVmPub.top = startTop + 1;
+    gScrVmPub.inparamcount = paramcount + 1;
+    assert(!gScrVmPub.outparamcount);
+    ClearVariableValue(gScrVarPub.tempVariable);
+    if ( gScrVmPub.function_count )
+    {
+      --gScrVmPub.function_count;
+      --gScrVmPub.function_frame;
+    }
+    return localId;
+  }
+}
+
+
+int Scr_AddLocalVars(unsigned int localId)
+{
+  int localVarCount;
+  unsigned int fieldIndex;
+
+  localVarCount = 0;
+  for ( fieldIndex = FindLastSibling(localId); fieldIndex; fieldIndex = FindPrevSibling(fieldIndex) )
+  {
+    *++gScrVmPub.localVars = Scr_GetVarId(fieldIndex);
+    ++localVarCount;
+  }
+  return localVarCount;
+}
+
+
+void VM_UnarchiveStack(unsigned int startLocalId, VariableStackBuffer *stackValue)
+{
+  VariableValue *top;
+  char *buf;
+  unsigned int localId;
+  int function_count;
+  int size;
+
+  assert(!gScrVmPub.function_count);
+  assert(stackValue->pos);
+  assert(gFs.startTop == &gScrVmPub.stack[0]);
+
+  _mm_prefetch(stackValue->pos, 1);
+
+  gScrVmPub.function_frame->fs.pos = stackValue->pos;
+  ++gScrVmPub.function_count;
+  ++gScrVmPub.function_frame;
+  size = stackValue->size;
+  buf = stackValue->buf;
+  top = gScrVmPub.stack;
+  while ( size )
+  {
+    --size;
+    top[1].type = *(unsigned char*)buf;
+    ++top;
+    ++buf;
+    if ( top->type == VAR_CODEPOS )
+    {
+      assert(gScrVmPub.function_count < MAX_VM_STACK_DEPTH);
+
+      gScrVmPub.function_frame->fs.pos = *(const char **)buf;
+      ++gScrVmPub.function_count;
+      ++gScrVmPub.function_frame;
+    }
+    else
+    {
+      top->u.stackValue = *(VariableStackBuffer **)buf;
+    }
+    buf += 4;
+  }
+  gFs.pos = stackValue->pos;
+  gFs.top = top;
+  localId = stackValue->localId;
+  gFs.localId = localId;
+  Scr_ClearWaitTime(startLocalId);
+
+  assert(gScrVmPub.function_count < MAX_VM_STACK_DEPTH);
+
+  function_count = gScrVmPub.function_count;
+  while ( 1 )
+  {
+    gScrVmPub.function_frame_start[function_count].fs.localId = localId;
+    --function_count;
+    if ( !function_count )
+    {
+      break;
+    }
+    localId = GetParentLocalId(localId);
+  }
+  while ( ++function_count != gScrVmPub.function_count )
+  {
+    gScrVmPub.function_frame_start[function_count].fs.localVarCount = Scr_AddLocalVars(gScrVmPub.function_frame_start[function_count].fs.localId);
+  }
+  gFs.localVarCount = Scr_AddLocalVars(gFs.localId);
+
+  if ( stackValue->time != (gScrVarPub.time & 0xFF) )
+  {
+    Scr_ResetTimeout( );
+  }
+  --gScrVarPub.numScriptThreads;
+  MT_Free(stackValue, stackValue->bufLen);
+
+  assert(gScrVmPub.stack[0].type == VAR_CODEPOS);
+
+}
+
+
+void VM_Resume(unsigned int timeId)
+{
+  VariableStackBuffer *stackValue;
+  unsigned int stackId;
+  unsigned int startLocalId;
+  unsigned int localId;
+
+  PIXBeginNamedEvent(-1, "VM_Resume");
+  assert(gScrVmPub.top == gScrVmPub.stack);
+  Scr_ResetAbortDebugger( );
+  Scr_ResetTimeout( );
+
+  assert(timeId);
+
+  AddRefToObject(timeId);
+  gFs.startTop = gScrVmPub.stack;
+  gThreadCount = 0;
+  while ( 1 )
+  {
+    assert( gScrVarPub.error_message == nullptr);
+    assert(!gScrVarPub.error_index);
+    assert(!gScrVmPub.outparamcount);
+    assert(!gScrVmPub.inparamcount);
+    assert(!gScrVmPub.function_count);
+    assert(gScrVmPub.localVars == gScrVmGlob.localVarsStack - 1);
+    assert(gFs.startTop == &gScrVmPub.stack[0]);
+    assert(!gThreadCount);
+
+    stackId = FindFirstSibling(timeId);
+    if ( !stackId )
+    {
+      break;
+    }
+    startLocalId = GetVariableKeyObject(stackId);
+    assert(startLocalId);
+    assert(GetValueType( stackId ) == VAR_STACK);
+
+    stackValue = GetVariableValueAddress(stackId)->u.stackValue;
+    RemoveObjectVariable(timeId, startLocalId);
+    VM_UnarchiveStack(startLocalId, stackValue);
+    localId = VM_Execute();
+    RemoveRefToObject(localId);
+    RemoveRefToValue(gScrVmPub.stack[1].type, gScrVmPub.stack[1].u);
+  }
+  RemoveRefToObject(timeId);
+  ClearVariableValue(gScrVarPub.tempVariable);
+  gScrVmPub.top = gScrVmPub.stack;
+  /*
+  if ( GetCurrentThreadId() == g_DXDeviceThread.owner && !g_DXDeviceThread.aquired )
+  {
+    D3DPERF_EndEvent();
+  }*/
 }

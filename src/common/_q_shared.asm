@@ -23,7 +23,6 @@
 
 ;Exports of q_shared:
 	global value1
-	global g_com_error
 	global va_info
 	global _ZZ16Info_ValueForKeyPKcS0_E10valueindex
 	global _Z10ColorIndexh
@@ -2632,7 +2631,6 @@ colorMdCyan: dd 0x0, 0x3f000000, 0x3f000000, 0x3f800000
 ;Zero initialized global or static variables of q_shared:
 SECTION .bss
 value1: resb 0x8000
-g_com_error: resb 0xa0
 va_info: resb 0x1008
 _ZZ16Info_ValueForKeyPKcS0_E10valueindex: resb 0x3c
 g_traceThreadInfo: resb 0x60

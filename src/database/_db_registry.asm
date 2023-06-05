@@ -14,10 +14,8 @@
 	extern strstr
 	extern _Z10I_strncpyzPcPKci
 	extern _Z12Sys_GetValuei
-	extern _setjmp
 	extern _Z14Com_ErrorAbortv
 	extern _Z21Sys_DatabaseCompletedv
-	extern _Z21Sys_WaitStartDatabasev
 	extern iCreateFileA
 	extern _Z16Com_PrintWarningiPKcz
 	extern g_loadingAssets
@@ -113,6 +111,7 @@
 	extern comWorld
 	extern gameWorldMp
 	extern s_world
+	extern _Z9DB_Threadj
 
 ;Exports of db_registry:
 	global g_zones
@@ -243,7 +242,7 @@
 	global g_missingAssetFile
 	global _Z17DB_PrintAssetName12XAssetHeaderPv
 	global _Z25DB_BuildOSPath_FromSourcePKc6FF_DIRiPc
-	global _Z9DB_Threadj
+	global _Z15DB_TryLoadXFilev
 	global _Z21DB_SyncExternalAssetsv
 	global _Z20DB_AllocXAssetHeader10XAssetType
 	global _Z22DB_FreeUnusedResourcesv
@@ -276,7 +275,7 @@
 	global _Z17Mark_MapEntsAssetP7MapEnts
 	global _Z17Mark_RawFileAssetP7RawFile
 	global _Z18DB_IsXAssetDefault10XAssetTypePKc
-	global _Z18DB_SetInitializingh
+	global _Z18DB_SetInitializingb
 	global _Z18DB_ShutdownXAssetsv
 	global _Z18DB_UpdateDebugZonev
 	global _Z18Load_ComWorldAssetPP8ComWorld
@@ -2026,45 +2025,43 @@ _Z25DB_BuildOSPath_FromSourcePKc6FF_DIRiPc_40:
 	add [eax], al
 
 
-;DB_Thread(unsigned int)
-_Z9DB_Threadj:
+;DB_TryLoadXFile(void)
+_Z15DB_TryLoadXFilev:
 	push ebp
 	mov ebp, esp
 	push edi
 	push esi
 	push ebx
 	sub esp, 0x34c
-_Z9DB_Threadj_20:
-	mov dword [esp], 0x2
-	call _Z12Sys_GetValuei
-	mov [esp], eax
-	call _setjmp
-	test eax, eax
-	jz _Z9DB_Threadj_10
-	call _Z14Com_ErrorAbortv
-	jmp _Z9DB_Threadj_20
-_Z9DB_Threadj_30:
+	jmp _Z15DB_TryLoadXFilev_10
+_Z15DB_TryLoadXFilev_30:
 	call _Z21Sys_DatabaseCompletedv
-_Z9DB_Threadj_10:
-	call _Z21Sys_WaitStartDatabasev
+_Z15DB_TryLoadXFilev_20:
+	add esp, 0x34c
+	pop ebx
+	pop esi
+	pop edi
+	pop ebp
+	ret
+_Z15DB_TryLoadXFilev_10:
 	mov eax, [g_zoneInfoCount]
 	test eax, eax
-	jz _Z9DB_Threadj_10
+	jz _Z15DB_TryLoadXFilev_20
 	mov eax, [g_zoneInfoCount]
 	mov [ebp-0x32c], eax
 	mov dword [g_zoneInfoCount], 0x0
 	test eax, eax
-	jz _Z9DB_Threadj_30
+	jz _Z15DB_TryLoadXFilev_30
 	mov dword [ebp-0x330], 0x0
 	mov dword [ebp-0x31c], g_zoneInfo
-	jmp _Z9DB_Threadj_40
-_Z9DB_Threadj_80:
+	jmp _Z15DB_TryLoadXFilev_40
+_Z15DB_TryLoadXFilev_80:
 	mov eax, fs_gameDirVar
 	mov eax, [eax]
 	mov eax, [eax+0xc]
 	cmp byte [eax], 0x0
-	jnz _Z9DB_Threadj_50
-_Z9DB_Threadj_240:
+	jnz _Z15DB_TryLoadXFilev_50
+_Z15DB_TryLoadXFilev_240:
 	call _Z15Win_GetLanguagev
 	mov ebx, eax
 	call _Z22Sys_DefaultInstallPathv
@@ -2086,28 +2083,28 @@ _Z9DB_Threadj_240:
 	call iCreateFileA
 	mov esi, eax
 	cmp eax, 0xffffffff
-	jnz _Z9DB_Threadj_60
+	jnz _Z15DB_TryLoadXFilev_60
 	mov dword [esp+0x4], _cstring__load
 	mov [esp], ebx
 	call strstr
 	test eax, eax
-	jz _Z9DB_Threadj_70
+	jz _Z15DB_TryLoadXFilev_70
 	mov [esp+0x8], ebx
 	mov dword [esp+0x4], _cstring_warning_could_no
 	mov dword [esp], 0xa
 	call _Z16Com_PrintWarningiPKcz
-_Z9DB_Threadj_280:
+_Z15DB_TryLoadXFilev_280:
 	mov edx, g_loadingAssets
 	mov eax, [edx]
 	sub eax, 0x1
 	mov [edx], eax
-_Z9DB_Threadj_170:
+_Z15DB_TryLoadXFilev_170:
 	add dword [ebp-0x330], 0x1
 	add dword [ebp-0x31c], 0x44
 	mov edx, [ebp-0x330]
 	cmp [ebp-0x32c], edx
-	jz _Z9DB_Threadj_30
-_Z9DB_Threadj_40:
+	jz _Z15DB_TryLoadXFilev_30
+_Z15DB_TryLoadXFilev_40:
 	mov edx, [ebp-0x31c]
 	mov edx, [edx+0x40]
 	mov [ebp-0x320], edx
@@ -2119,7 +2116,7 @@ _Z9DB_Threadj_40:
 	mov [esp], edi
 	call _Z9I_stricmpPKcS0_
 	test eax, eax
-	jnz _Z9DB_Threadj_80
+	jnz _Z15DB_TryLoadXFilev_80
 	mov dword [esp+0x18], 0x0
 	mov dword [esp+0x14], 0x60000000
 	mov dword [esp+0x10], 0x3
@@ -2130,25 +2127,25 @@ _Z9DB_Threadj_40:
 	call iCreateFileA
 	mov esi, eax
 	cmp eax, 0xffffffff
-	jz _Z9DB_Threadj_90
-_Z9DB_Threadj_60:
+	jz _Z15DB_TryLoadXFilev_90
+_Z15DB_TryLoadXFilev_60:
 	mov dword [ebp-0x324], 0x0
-_Z9DB_Threadj_250:
+_Z15DB_TryLoadXFilev_250:
 	mov dword [g_zoneIndex], 0x0
 	mov edx, 0x1
 	mov eax, g_zones
-	jmp _Z9DB_Threadj_100
-_Z9DB_Threadj_120:
+	jmp _Z15DB_TryLoadXFilev_100
+_Z15DB_TryLoadXFilev_120:
 	add edx, 0x1
 	add eax, 0xa8
 	cmp edx, 0x21
-	jz _Z9DB_Threadj_110
-_Z9DB_Threadj_100:
+	jz _Z15DB_TryLoadXFilev_110
+_Z15DB_TryLoadXFilev_100:
 	cmp byte [eax+0xa8], 0x0
-	jnz _Z9DB_Threadj_120
+	jnz _Z15DB_TryLoadXFilev_120
 	mov [g_zoneIndex], edx
 	mov eax, edx
-_Z9DB_Threadj_260:
+_Z15DB_TryLoadXFilev_260:
 	lea edx, [eax+eax*4]
 	lea edx, [eax+edx*4]
 	lea edx, [edx*8+g_zones]
@@ -2176,21 +2173,21 @@ _Z9DB_Threadj_260:
 	add dword [g_zoneCount], 0x1
 	mov byte [g_loadingZone], 0x1
 	cmp byte [g_isRecoveringLostDevice], 0x0
-	jnz _Z9DB_Threadj_130
-_Z9DB_Threadj_180:
+	jnz _Z15DB_TryLoadXFilev_130
+_Z15DB_TryLoadXFilev_180:
 	mov byte [g_mayRecoverLostAssets], 0x0
 	cmp dword [ebp-0x320], 0x4
-	jz _Z9DB_Threadj_140
-	jg _Z9DB_Threadj_150
+	jz _Z15DB_TryLoadXFilev_140
+	jg _Z15DB_TryLoadXFilev_150
 	cmp dword [ebp-0x320], 0x1
-	jz _Z9DB_Threadj_140
-_Z9DB_Threadj_190:
+	jz _Z15DB_TryLoadXFilev_140
+_Z15DB_TryLoadXFilev_190:
 	xor eax, eax
 	mov [g_zoneAllocType], eax
 	mov eax, [g_zoneAllocType]
 	sub eax, 0x1
-	jz _Z9DB_Threadj_160
-_Z9DB_Threadj_200:
+	jz _Z15DB_TryLoadXFilev_160
+_Z15DB_TryLoadXFilev_200:
 	mov eax, [g_zoneAllocType]
 	mov [esp+0x4], eax
 	mov [esp], ebx
@@ -2222,57 +2219,57 @@ _Z9DB_Threadj_200:
 	call _Z13PMem_EndAllocPKcj
 	mov byte [g_loadingZone], 0x0
 	mov byte [g_mayRecoverLostAssets], 0x1
-	jmp _Z9DB_Threadj_170
-_Z9DB_Threadj_130:
+	jmp _Z15DB_TryLoadXFilev_170
+_Z15DB_TryLoadXFilev_130:
 	mov dword [esp], 0x19
 	call _Z9Sys_Sleepi
 	cmp byte [g_isRecoveringLostDevice], 0x0
-	jz _Z9DB_Threadj_180
+	jz _Z15DB_TryLoadXFilev_180
 	mov dword [esp], 0x19
 	call _Z9Sys_Sleepi
 	cmp byte [g_isRecoveringLostDevice], 0x0
-	jnz _Z9DB_Threadj_130
-	jmp _Z9DB_Threadj_180
-_Z9DB_Threadj_150:
+	jnz _Z15DB_TryLoadXFilev_130
+	jmp _Z15DB_TryLoadXFilev_180
+_Z15DB_TryLoadXFilev_150:
 	cmp dword [ebp-0x320], 0x20
-	jz _Z9DB_Threadj_140
+	jz _Z15DB_TryLoadXFilev_140
 	cmp dword [ebp-0x320], 0x40
-	jnz _Z9DB_Threadj_190
-_Z9DB_Threadj_140:
+	jnz _Z15DB_TryLoadXFilev_190
+_Z15DB_TryLoadXFilev_140:
 	mov eax, 0x1
 	mov [g_zoneAllocType], eax
 	mov eax, [g_zoneAllocType]
 	sub eax, 0x1
-	jnz _Z9DB_Threadj_200
-_Z9DB_Threadj_160:
+	jnz _Z15DB_TryLoadXFilev_200
+_Z15DB_TryLoadXFilev_160:
 	cmp byte [g_initializing], 0x0
-	jz _Z9DB_Threadj_200
+	jz _Z15DB_TryLoadXFilev_200
 	call _Z16Sys_Millisecondsv
 	mov edi, eax
 	mov dword [esp+0x4], _cstring_waiting_for_init
 	mov dword [esp], 0x0
 	call _Z10Com_PrintfiPKcz
 	cmp byte [g_initializing], 0x0
-	jz _Z9DB_Threadj_210
-_Z9DB_Threadj_220:
+	jz _Z15DB_TryLoadXFilev_210
+_Z15DB_TryLoadXFilev_220:
 	mov dword [esp], 0x1
 	call _Z9Sys_Sleepi
 	cmp byte [g_initializing], 0x0
-	jnz _Z9DB_Threadj_220
-_Z9DB_Threadj_210:
+	jnz _Z15DB_TryLoadXFilev_220
+_Z15DB_TryLoadXFilev_210:
 	call _Z16Sys_Millisecondsv
 	sub eax, edi
 	mov [esp+0x8], eax
 	mov dword [esp+0x4], _cstring_waited_d_ms_for_
 	mov dword [esp], 0x10
 	call _Z10Com_PrintfiPKcz
-	jmp _Z9DB_Threadj_200
-_Z9DB_Threadj_50:
+	jmp _Z15DB_TryLoadXFilev_200
+_Z15DB_TryLoadXFilev_50:
 	mov dword [esp+0x4], _cstring_mod
 	mov [esp], edi
 	call _Z9I_stricmpPKcS0_
 	test eax, eax
-	jnz _Z9DB_Threadj_230
+	jnz _Z15DB_TryLoadXFilev_230
 	lea eax, [ebp-0x218]
 	mov [esp], eax
 	mov ecx, 0x100
@@ -2290,13 +2287,13 @@ _Z9DB_Threadj_50:
 	call iCreateFileA
 	mov esi, eax
 	cmp eax, 0xffffffff
-	jz _Z9DB_Threadj_240
+	jz _Z15DB_TryLoadXFilev_240
 	mov dword [ebp-0x324], 0x1
-	jmp _Z9DB_Threadj_250
-_Z9DB_Threadj_110:
+	jmp _Z15DB_TryLoadXFilev_250
+_Z15DB_TryLoadXFilev_110:
 	mov eax, [g_zoneIndex]
-	jmp _Z9DB_Threadj_260
-_Z9DB_Threadj_230:
+	jmp _Z15DB_TryLoadXFilev_260
+_Z15DB_TryLoadXFilev_230:
 	lea eax, [ebp-0x318]
 	mov [esp], eax
 	mov ecx, 0x100
@@ -2313,13 +2310,13 @@ _Z9DB_Threadj_230:
 	mov [esp], edx
 	call iCreateFileA
 	cmp eax, 0xffffffff
-	jz _Z9DB_Threadj_270
+	jz _Z15DB_TryLoadXFilev_270
 	mov [esp], eax
 	call iCloseHandle
 	mov eax, 0x1
-_Z9DB_Threadj_290:
+_Z15DB_TryLoadXFilev_290:
 	test al, al
-	jnz _Z9DB_Threadj_240
+	jnz _Z15DB_TryLoadXFilev_240
 	lea eax, [ebp-0x218]
 	mov [esp], eax
 	mov ecx, 0x100
@@ -2337,21 +2334,21 @@ _Z9DB_Threadj_290:
 	call iCreateFileA
 	mov esi, eax
 	cmp eax, 0xffffffff
-	jz _Z9DB_Threadj_240
+	jz _Z15DB_TryLoadXFilev_240
 	mov dword [ebp-0x324], 0x2
-	jmp _Z9DB_Threadj_250
-_Z9DB_Threadj_70:
+	jmp _Z15DB_TryLoadXFilev_250
+_Z15DB_TryLoadXFilev_70:
 	call _Z21Sys_DatabaseCompletedv
 	lea eax, [ebp-0x118]
 	mov [esp+0x8], eax
 	mov dword [esp+0x4], _cstring_error_could_not_
 	mov dword [esp], 0x2
 	call _Z9Com_Error11errorParm_tPKcz
-	jmp _Z9DB_Threadj_280
-_Z9DB_Threadj_270:
+	jmp _Z15DB_TryLoadXFilev_280
+_Z15DB_TryLoadXFilev_270:
 	xor eax, eax
-	jmp _Z9DB_Threadj_290
-_Z9DB_Threadj_90:
+	jmp _Z15DB_TryLoadXFilev_290
+_Z15DB_TryLoadXFilev_90:
 	mov dword [esp+0x4], _cstring_loading_mp_patch
 	mov dword [esp], 0x10
 	call _Z10Com_PrintfiPKcz
@@ -2377,13 +2374,13 @@ _Z9DB_Threadj_90:
 	call iCreateFileA
 	mov esi, eax
 	cmp eax, 0xffffffff
-	jnz _Z9DB_Threadj_60
+	jnz _Z15DB_TryLoadXFilev_60
 	lea eax, [ebp-0x118]
 	mov [esp+0x8], eax
 	mov dword [esp+0x4], _cstring_warning_could_no
 	mov dword [esp], 0xa
 	call _Z16Com_PrintWarningiPKcz
-	jmp _Z9DB_Threadj_280
+	jmp _Z15DB_TryLoadXFilev_280
 
 
 ;DB_SyncExternalAssets()
@@ -5109,7 +5106,7 @@ _Z18DB_IsXAssetDefault10XAssetTypePKc_90:
 
 
 ;DB_SetInitializing(unsigned char)
-_Z18DB_SetInitializingh:
+_Z18DB_SetInitializingb:
 	push ebp
 	mov ebp, esp
 	mov eax, [ebp+0x8]

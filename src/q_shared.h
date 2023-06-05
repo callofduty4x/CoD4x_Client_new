@@ -319,7 +319,7 @@ void XML_AppendToBuffer( xml_t *base, const char* s );
 char *Com_SkipCharset( char *s, char *sep );
 char *Com_SkipTokens( char *s, int numTokens, char *sep );
 
-void COM_DefaultExtension( char *path, int maxSize, const char *extension );
+void Com_DefaultExtension( char *path, int maxSize, const char *extension );
 
 qboolean I_IsEqualUnitWSpace(char *cmp1, char *cmp2);
 unsigned char I_CleanChar(unsigned char in);
@@ -419,16 +419,17 @@ typedef union
 
 
 // parameters to the main Error routine
-typedef enum {
+enum errorParm_t{
 	ERR_UNKNOWN,
 	ERR_FATAL,					// exit the entire game with a popup window
 	ERR_DROP,					// print to console and disconnect from game
 	ERR_SERVERDISCONNECT,		// don't kill server
 	ERR_DISCONNECT,				// client disconnected from the server
-	ERR_SCRIPT_DROP,					// script error occured
-  ERR_UNKNOWN2,
-  ERR_LOCALIZATION
-} errorParm_t;
+	ERR_SCRIPT,					// script error occured
+  ERR_SCRIPT_DROP,
+  ERR_LOCALIZATION,
+  ERR_MAPLOADERRORSUMMARY
+};
 
 void QDECL Com_Error( errorParm_t level, const char *error, ...);
 void Com_SetErrorEntered();
@@ -552,6 +553,8 @@ void    Swap_Init( void );
 /*#define crandom()   ( 2.0 * ( random() - 0.5 ) )
 */
 qboolean Assert_MyHandler(const char* exp, const char *filename, int line, const char *function, const char *fmt, ...);
+void Assert_DoStackTrace(char *msg, unsigned int nIgnore, int type, void* context);
+void Assert_ResetAddressInfo();
 
 
 

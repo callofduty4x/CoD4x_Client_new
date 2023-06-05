@@ -141,11 +141,13 @@
 	extern _Z34Scr_ScriptRuntimecheckInfiniteLoopv
 	extern _Z15VM_CalcWaitTimeP13VariableValue
 	extern gScrVmPub
+	extern _Z10VM_ExecutejPKcj
+
 
 
 ;Exports of scr_vm:
 	global gScrVmGlob
-	global thread_count
+	global gThreadCount
 	global gFs
 	global caseCount
 	global opcode
@@ -155,9 +157,7 @@
 	global _Z12VM_TrimStackjP19VariableStackBufferh
 	global _Z18Scr_CancelWaittillj
 	global _Z9VM_NotifyjjP13VariableValue
-	global _Z18VM_ExecuteInternalv
-	global _Z9VM_Resumej
-	global _Z10VM_ExecutejPKcj
+	global _Z10VM_Executev
 	global _Z11Scr_Cleanupv
 	global _Z11Scr_GetAnimjP11XAnimTree_s
 	global _Z11Scr_GetTypej
@@ -1215,8 +1215,8 @@ VM_Notify_300:
 	nop
 
 
-;VM_ExecuteInternal()
-_Z18VM_ExecuteInternalv:
+;VM_Execute()
+_Z10VM_Executev:
 	push ebp
 	mov ebp, esp
 	push edi
@@ -1651,7 +1651,7 @@ VM_ExecuteInternal_1500:
 	mov [eax+0x14], edx
 	mov eax, [gFs+0x10]
 	mov dword [eax+0x4], 0x8
-	add dword [thread_count], 0x1
+	add dword [gThreadCount], 0x1
 	jmp VM_ExecuteInternal_530
 VM_ExecuteInternal_290:
 	mov ebx, gScrVarPub
@@ -1726,11 +1726,11 @@ VM_ExecuteInternal_310:
 	mov eax, [gFs+0x10]
 	mov dword [eax+0xc], 0x0
 VM_ExecuteInternal_1550:
-	mov eax, [thread_count]
+	mov eax, [gThreadCount]
 	test eax, eax
 	jz VM_ExecuteInternal_630
 	sub eax, 0x1
-	mov [thread_count], eax
+	mov [gThreadCount], eax
 	mov eax, [gFs+0x4]
 	mov [esp], eax
 	call _Z17RemoveRefToObjectj
@@ -5219,417 +5219,6 @@ VM_ExecuteInternal_jumptab_2:
 	dd VM_ExecuteInternal_4200
 
 
-;VM_Resume(unsigned int)
-_Z9VM_Resumej:
-	push ebp
-	mov ebp, esp
-	push edi
-	push esi
-	push ebx
-	sub esp, 0x3c
-	mov [ebp-0x34], eax
-	call _Z16Sys_Millisecondsv
-	mov [gScrVmGlob+0x18], eax
-	mov eax, [ebp-0x34]
-	mov [esp], eax
-	call _Z14AddRefToObjectj
-	mov dword [gFs+0x10], gScrVmPub+0x320
-	mov dword [thread_count], 0x0
-	mov edx, [ebp-0x34]
-	mov [esp], edx
-	call _Z16FindFirstSiblingj
-	mov ebx, eax
-	test eax, eax
-	jz VM_Resume_10
-VM_Resume_100:
-	mov [esp], eax
-	call _Z20GetVariableKeyObjectj
-	mov [ebp-0x30], eax
-	mov [esp], ebx
-	call _Z23GetVariableValueAddressj
-	mov eax, [eax]
-	mov [ebp-0x2c], eax
-	mov ecx, [ebp-0x30]
-	mov [esp+0x4], ecx
-	mov eax, [ebp-0x34]
-	mov [esp], eax
-	call _Z20RemoveObjectVariablejj
-	mov ecx, [ebp-0x2c]
-	mov edx, [ecx]
-	mov eax, [gScrVmPub+0xc]
-	mov [eax], edx
-	add dword [gScrVmPub+0x8], 0x1
-	add dword [gScrVmPub+0xc], 0x18
-	movzx eax, word [ecx+0x4]
-	movzx edx, ax
-	mov [ebp-0x28], edx
-	mov ecx, [ebp-0x2c]
-	add ecx, 0xb
-	test ax, ax
-	jnz VM_Resume_20
-	mov edx, gScrVmPub+0x320
-VM_Resume_140:
-	mov ecx, [ebp-0x2c]
-	mov eax, [ecx]
-	mov [gFs], eax
-	mov [gFs+0xc], edx
-	movzx esi, word [ecx+0x8]
-	mov [gFs+0x4], esi
-	mov eax, [ebp-0x30]
-	mov [esp], eax
-	call _Z17Scr_ClearWaitTimej
-	mov eax, [gScrVmPub+0x8]
-	lea edx, [eax+eax*2]
-	mov [edx*8+gScrVmPub+0x24], esi
-	sub eax, 0x1
-	mov [ebp-0x1c], eax
-	jnz VM_Resume_30
-	mov edx, eax
-VM_Resume_190:
-	add edx, 0x1
-	mov [ebp-0x20], edx
-	cmp edx, [gScrVmPub+0x8]
-	jz VM_Resume_40
-	lea eax, [edx+edx*2]
-	lea eax, [eax*8+gScrVmPub+0x20]
-	mov [ebp-0x24], eax
-	mov ecx, eax
-	jmp VM_Resume_50
-VM_Resume_60:
-	xor eax, eax
-	mov ecx, [ebp-0x24]
-	mov [ecx+0x8], eax
-	add dword [ebp-0x20], 0x1
-	add ecx, 0x18
-	mov [ebp-0x24], ecx
-	mov eax, [ebp-0x20]
-	cmp eax, [gScrVmPub+0x8]
-	jz VM_Resume_40
-VM_Resume_50:
-	mov eax, [ecx+0x4]
-	mov [esp], eax
-	call _Z15FindLastSiblingj
-	mov esi, eax
-	test eax, eax
-	jz VM_Resume_60
-	xor edi, edi
-VM_Resume_70:
-	mov ebx, [gScrVmPub]
-	lea eax, [ebx+0x4]
-	mov [gScrVmPub], eax
-	mov [esp], esi
-	call _Z12Scr_GetVarIdj
-	mov [ebx+0x4], eax
-	add edi, 0x1
-	mov [esp], esi
-	call _Z15FindPrevSiblingj
-	mov esi, eax
-	test eax, eax
-	jnz VM_Resume_70
-	mov eax, edi
-	mov ecx, [ebp-0x24]
-	mov [ecx+0x8], eax
-	add dword [ebp-0x20], 0x1
-	add ecx, 0x18
-	mov [ebp-0x24], ecx
-	mov eax, [ebp-0x20]
-	cmp eax, [gScrVmPub+0x8]
-	jnz VM_Resume_50
-VM_Resume_40:
-	mov eax, [gFs+0x4]
-	mov [esp], eax
-	call _Z15FindLastSiblingj
-	mov esi, eax
-	test eax, eax
-	jnz VM_Resume_80
-	xor eax, eax
-VM_Resume_170:
-	mov [gFs+0x8], eax
-	mov eax, gScrVarPub
-	movzx eax, byte [eax+0x14]
-	mov edx, [ebp-0x2c]
-	cmp al, [edx+0xa]
-	jz VM_Resume_90
-	call _Z16Sys_Millisecondsv
-	mov [gScrVmGlob+0x18], eax
-	mov ecx, [ebp-0x2c]
-VM_Resume_150:
-	movzx eax, word [ecx+0x6]
-	mov [esp+0x4], eax
-	mov [esp], ecx
-	call _Z7MT_FreePvi
-	call _Z23Scr_DecNumScriptThreadsv
-	call _Z18VM_ExecuteInternalv
-	mov [esp], eax
-	call _Z17RemoveRefToObjectj
-	mov eax, [gScrVmPub+0x328]
-	mov [esp+0x4], eax
-	mov eax, [gScrVmPub+0x32c]
-	mov [esp], eax
-	call _Z16RemoveRefToValuei13VariableUnion
-	mov edx, [ebp-0x34]
-	mov [esp], edx
-	call _Z16FindFirstSiblingj
-	mov ebx, eax
-	test eax, eax
-	jnz VM_Resume_100
-VM_Resume_10:
-	mov eax, [ebp-0x34]
-	mov [esp], eax
-	call _Z17RemoveRefToObjectj
-	mov eax, gScrVarPub
-	mov eax, [eax+0x30]
-	mov [esp], eax
-	call _Z18ClearVariableValuej
-	mov dword [gScrVmPub+0x10], gScrVmPub+0x320
-	add esp, 0x3c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-VM_Resume_20:
-	mov esi, gScrVmPub+0x32c
-	mov ebx, [ebp-0x2c]
-	add ebx, 0xc
-	xor edi, edi
-	jmp VM_Resume_110
-VM_Resume_130:
-	mov eax, [ecx+0x1]
-	mov [esi-0x4], eax
-	add ecx, 0x5
-	add edi, 0x1
-	add esi, 0x8
-	add ebx, 0x5
-	cmp [ebp-0x28], edi
-	jz VM_Resume_120
-VM_Resume_110:
-	movzx edx, byte [ecx]
-	movzx eax, dl
-	mov [esi], eax
-	cmp dl, 0x7
-	jnz VM_Resume_130
-	mov edx, [ebx]
-	mov eax, [gScrVmPub+0xc]
-	mov [eax], edx
-	add dword [gScrVmPub+0x8], 0x1
-	add dword [gScrVmPub+0xc], 0x18
-	add ecx, 0x5
-	add edi, 0x1
-	add esi, 0x8
-	add ebx, 0x5
-	cmp [ebp-0x28], edi
-	jnz VM_Resume_110
-VM_Resume_120:
-	lea edx, [edi*8+gScrVmPub+0x320]
-	jmp VM_Resume_140
-VM_Resume_90:
-	mov ecx, edx
-	jmp VM_Resume_150
-VM_Resume_80:
-	xor edi, edi
-VM_Resume_160:
-	mov ebx, [gScrVmPub]
-	lea eax, [ebx+0x4]
-	mov [gScrVmPub], eax
-	mov [esp], esi
-	call _Z12Scr_GetVarIdj
-	mov [ebx+0x4], eax
-	add edi, 0x1
-	mov [esp], esi
-	call _Z15FindPrevSiblingj
-	mov esi, eax
-	test eax, eax
-	jnz VM_Resume_160
-	mov eax, edi
-	jmp VM_Resume_170
-VM_Resume_30:
-	lea eax, [eax+eax*2]
-	lea ebx, [eax*8+gScrVmPub+0x20]
-	xor edi, edi
-VM_Resume_180:
-	mov [esp], esi
-	call _Z16GetParentLocalIdj
-	mov esi, eax
-	mov [ebx+0x4], eax
-	add edi, 0x1
-	sub ebx, 0x18
-	cmp [ebp-0x1c], edi
-	jnz VM_Resume_180
-	mov dword [ebp-0x1c], 0x0
-	mov edx, [ebp-0x1c]
-	jmp VM_Resume_190
-	nop
-
-
-;VM_Execute(unsigned int, char const*, unsigned int)
-_Z10VM_ExecutejPKcj:
-	push ebp
-	mov ebp, esp
-	push edi
-	push esi
-	push ebx
-	sub esp, 0x3c
-	mov [ebp-0x34], eax
-	mov [ebp-0x38], edx
-	mov ebx, ecx
-	mov edi, [gScrVmPub+0x1c]
-	test edi, edi
-	jnz VM_Execute_10
-	mov edx, [gScrVmPub+0x10]
-VM_Execute_80:
-	lea eax, [ebx*8]
-	mov esi, edx
-	sub esi, eax
-	mov edi, [gScrVmPub+0x18]
-	sub edi, ebx
-	mov eax, [gScrVmPub+0x8]
-	cmp eax, 0x1d
-	jg VM_Execute_20
-	mov edx, [gFs+0x10]
-	mov [ebp-0x1c], edx
-	mov edx, [gFs+0xc]
-	mov [ebp-0x20], edx
-	mov edx, [gFs+0x8]
-	mov [ebp-0x24], edx
-	mov edx, [gFs+0x4]
-	mov [ebp-0x28], edx
-	mov edx, [gFs]
-	mov [ebp-0x2c], edx
-	mov edx, [thread_count]
-	mov [ebp-0x30], edx
-	mov edx, [ebp-0x34]
-	mov [gFs+0x4], edx
-	mov [gFs+0x10], esi
-	test eax, eax
-	jnz VM_Execute_30
-VM_Execute_50:
-	mov eax, [gScrVmPub+0xc]
-	mov edx, [ebp-0x38]
-	mov [eax], edx
-	add dword [gScrVmPub+0x8], 0x1
-	mov eax, [gScrVmPub+0xc]
-	add eax, 0x18
-	mov [gScrVmPub+0xc], eax
-	mov edx, [ebp-0x34]
-	mov [eax+0x4], edx
-	mov ebx, [esi+0x4]
-	mov dword [esi+0x4], 0x8
-	mov dword [gScrVmPub+0x18], 0x0
-	mov eax, [gScrVmPub+0x10]
-	mov [gFs+0xc], eax
-	mov eax, [ebp-0x38]
-	mov [gFs], eax
-	mov dword [gFs+0x8], 0x0
-	mov dword [thread_count], 0x0
-	call _Z18VM_ExecuteInternalv
-	mov [ebp-0x34], eax
-	mov edx, [ebp-0x1c]
-	mov [gFs+0x10], edx
-	mov eax, [ebp-0x20]
-	mov [gFs+0xc], eax
-	mov edx, [ebp-0x24]
-	mov [gFs+0x8], edx
-	mov eax, [ebp-0x28]
-	mov [gFs+0x4], eax
-	mov edx, [ebp-0x2c]
-	mov [gFs], edx
-	mov eax, [ebp-0x30]
-	mov [thread_count], eax
-	mov [esi+0x4], ebx
-	lea edx, [esi+0x8]
-	mov [gScrVmPub+0x10], edx
-	lea eax, [edi+0x1]
-	mov [gScrVmPub+0x18], eax
-	mov eax, gScrVarPub
-	mov eax, [eax+0x30]
-	mov [esp], eax
-	call _Z18ClearVariableValuej
-	mov eax, [gScrVmPub+0x8]
-	test eax, eax
-	jz VM_Execute_40
-	sub eax, 0x1
-	mov [gScrVmPub+0x8], eax
-	sub dword [gScrVmPub+0xc], 0x18
-VM_Execute_40:
-	mov eax, [ebp-0x34]
-	add esp, 0x3c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-VM_Execute_30:
-	add eax, 0x1
-	mov [gScrVmPub+0x8], eax
-	mov eax, [gScrVmPub+0xc]
-	add eax, 0x18
-	mov [gScrVmPub+0xc], eax
-	mov dword [eax+0x4], 0x0
-	jmp VM_Execute_50
-VM_Execute_20:
-	mov edx, [ebp-0x34]
-	mov [esp], edx
-	call _Z14Scr_KillThreadj
-	lea eax, [edi+0x1]
-	mov [gScrVmPub+0x18], eax
-	test edi, edi
-	jnz VM_Execute_60
-	mov edx, [gScrVmPub+0x10]
-VM_Execute_100:
-	lea eax, [edx+0x8]
-	mov [gScrVmPub+0x10], eax
-	mov dword [eax+0x4], 0x0
-	mov dword [esp+0xc], 0x0
-	mov dword [esp+0x8], _cstring_script_stack_ove
-	mov dword [esp+0x4], 0x0
-	mov eax, [ebp-0x38]
-	mov [esp], eax
-	call _Z12RuntimeErrorPKcjS0_S0_
-	mov eax, [ebp-0x34]
-	add esp, 0x3c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-VM_Execute_10:
-	mov edx, [gScrVmPub+0x10]
-VM_Execute_70:
-	mov eax, [edx]
-	mov [esp+0x4], eax
-	mov eax, [edx+0x4]
-	mov [esp], eax
-	call _Z16RemoveRefToValuei13VariableUnion
-	mov edx, [gScrVmPub+0x10]
-	sub edx, 0x8
-	mov [gScrVmPub+0x10], edx
-	mov eax, [gScrVmPub+0x1c]
-	sub eax, 0x1
-	mov [gScrVmPub+0x1c], eax
-	test eax, eax
-	jnz VM_Execute_70
-	jmp VM_Execute_80
-VM_Execute_60:
-	xor ebx, ebx
-	mov edx, [gScrVmPub+0x10]
-VM_Execute_90:
-	mov eax, [edx]
-	mov [esp+0x4], eax
-	mov eax, [edx+0x4]
-	mov [esp], eax
-	call _Z16RemoveRefToValuei13VariableUnion
-	mov edx, [gScrVmPub+0x10]
-	sub edx, 0x8
-	mov [gScrVmPub+0x10], edx
-	add ebx, 0x1
-	cmp edi, ebx
-	jnz VM_Execute_90
-	jmp VM_Execute_100
-	add [eax], al
-
-
-
 ;Scr_Cleanup()
 _Z11Scr_Cleanupv:
 	push ebp
@@ -6254,6 +5843,9 @@ Scr_ExecThread_10:
 	call _Z11AllocThreadj
 	mov ecx, [ebp+0xc]
 	mov edx, ebx
+	mov [esp+8], ecx
+	mov [esp+4], edx
+	mov [esp], eax
 	call _Z10VM_ExecutejPKcj
 	mov ebx, eax
 	mov edx, [gScrVmPub+0x10]
@@ -6900,8 +6492,7 @@ _Z16Scr_ResetTimeoutv:
 	mov [gScrVmGlob+0x18], eax
 	leave
 	ret
-	add [eax], al
-
+	
 
 ;Scr_AddExecThread(int, unsigned int)
 _Z17Scr_AddExecThreadij:
@@ -6927,6 +6518,9 @@ Scr_AddExecThread_10:
 	call _Z11AllocThreadj
 	mov ecx, [ebp+0xc]
 	mov edx, ebx
+	mov [esp+8], ecx
+	mov [esp+4], edx
+	mov [esp], eax
 	call _Z10VM_ExecutejPKcj
 	mov [esp], eax
 	call _Z17RemoveRefToObjectj
@@ -8197,6 +7791,9 @@ Scr_ExecEntThreadNum_10:
 	call _Z11AllocThreadj
 	mov ecx, [ebp+0x14]
 	mov edx, esi
+	mov [esp+8], ecx
+	mov [esp+4], edx
+	mov [esp], eax
 	call _Z10VM_ExecutejPKcj
 	mov ebx, eax
 	mov edx, [gScrVmPub+0x10]
@@ -8410,7 +8007,7 @@ SECTION .rdata
 ;Zero initialized global or static variables of scr_vm:
 SECTION .bss
 gScrVmGlob: resb 0x201c
-thread_count: resb 0x4
+gThreadCount: resb 0x4
 gFs: resb 0x14
 caseCount: resb 0x4
 opcode: resb 0x8

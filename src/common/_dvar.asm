@@ -8420,7 +8420,7 @@ isLoadingAutoExecGlobalFlag: resb 0x1
 areDvarsSorted: resb 0x1a
 sortedDvars: resb 0x4000
 isSortingDvars: resb 0x40
-dvar_modifiedFlags: resb 0x18
+dvar_modifiedFlags: resb 0x4
 dvarCount: resb 0x4
 
 

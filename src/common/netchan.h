@@ -48,4 +48,4 @@ struct netchan_t
 };
 
 void Netchan_Setup(netsrc_t sock, netchan_t *chan, netadr_t adr, int qport, char *outgoingBuffer, int outgoingBufferSize, char *incomingBuffer, int incomingBufferSize);
-
+void Netchan_Init(int port);

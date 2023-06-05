@@ -50,7 +50,7 @@ CC=gcc
 CPP=g++
 WIN_DEFINES=WINVER=0x501
 LINUX_DEFINES=_GNU_SOURCE
-CFLAGS=-m32 -fno-common -msse2 -mfpmath=sse -Wall -fno-omit-frame-pointer -fmax-errors=15 -Isrc/
+CFLAGS=-m32 -fno-common -msse2 -mfpmath=sse -Wall -fexceptions -fno-omit-frame-pointer -fmax-errors=15 -Isrc/
 
 ifeq ($(DEBUG), true)
 DCFLAGS=-fno-pie -Og -g3 -fno-eliminate-unused-debug-types -fno-eliminate-unused-debug-symbols -femit-class-debug-always $(EXTERNAL_INCLUDES)

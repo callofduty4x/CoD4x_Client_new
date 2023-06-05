@@ -31,3 +31,4 @@ extern struct scrAnimPub_t gScrAnimPub;
 struct XAnim_s* Scr_GetAnims(unsigned int index);
 const char* XAnimGetAnimDebugName(const XAnim_s *anims, unsigned int animIndex); //Maybe wrong place
 void Scr_UsingTree(const char *filename, unsigned int sourcePos);
+void SetAnimCheck(int bAnimCheck);

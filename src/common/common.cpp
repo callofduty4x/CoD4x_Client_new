@@ -1297,16 +1297,26 @@ void Com_Statmon()
   }
 }
 
-void Com_AssetLoadUI()
+void Com_LoadUiFastFile()
 {
   XZoneInfo zone;
 
   zone.name = "ui_mp";
-  zone.allocFlags = 2;
-  zone.freeFlags = 2;
+  zone.allocFlags = 8;
+  zone.freeFlags = 104;
   DB_LoadXAssets(&zone, 1u, 0);
+}
+
+void Com_AssetLoadUI()
+{
+  if ( useFastFile->current.enabled )
+  {
+    Com_LoadUiFastFile();
+  }
   UI_SetMap("", "");
+  R_BeginRemoteScreenUpdate();
   CL_StartHunkUsers();
+  R_EndRemoteScreenUpdate(NULL);
 }
 
 void Com_StartHunkUsers()

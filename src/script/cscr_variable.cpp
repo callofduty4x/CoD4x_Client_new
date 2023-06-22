@@ -2136,6 +2136,11 @@ void RemoveRefToValue(int type, VariableUnion u)
   }
 }
 
+void RemoveRefToValue(VariableValue *value)
+{
+  RemoveRefToValue(value->type, value->u);
+}
+
 unsigned int GetParentLocalId(unsigned int threadId)
 {
   assert((gScrVarGlob.variableList[VARIABLELIST_PARENT_BEGIN + threadId].w.status & VAR_STAT_MASK) == VAR_STAT_EXTERNAL);

@@ -78,5 +78,6 @@ void Scr_SetLoadedImpureScript(bool loadedImpureScript);
 void AddOpcodePos(unsigned int sourcePos, int type);
 void AddThreadStartOpcodePos(unsigned int sourcePos);
 void RuntimeError(const char *codePos, unsigned int index, const char *msg, const char *dialogMessage);
+void Scr_GetFileAndLine(const char *codePos, char **filename, int *linenum);
 
 #endif

@@ -20,7 +20,6 @@
 	extern _Z10FindObjectj
 	extern _Z22SL_FindLowercaseStringPKc
 	extern _Z12GetValueTypej
-	extern _Z22Scr_EvalVariableExternj
 	extern _Z23Scr_LoadAnimTreeAtIndexjPFPviEi
 	extern _Z14GetNewVariablejj
 	extern _Z18SL_ConvertToStringj

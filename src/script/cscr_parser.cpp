@@ -766,3 +766,34 @@ error:
   }
 }
 
+unsigned int Scr_GetLineNum(unsigned int bufferIndex, unsigned int sourcePos)
+{
+  const char *startLine;
+  int col;
+  assert(gScrVarPub.developer);
+
+  return Scr_GetLineNumInternal(gScrParserPub.sourceBufferLookup[bufferIndex].sourceBuf, sourcePos, &startLine, &col);
+}
+
+void Scr_GetFileAndLine(const char *codePos, char **filename, int *linenum)
+{
+  unsigned int bufferIndex;
+  OpcodeLookup *opcodeLookup;
+  unsigned int sourcePos;
+
+  assert(Scr_IsInOpcodeMemory( codePos ));
+
+  opcodeLookup = Scr_GetPrevSourcePosOpcodeLookup(codePos);
+  if ( opcodeLookup )
+  {
+    sourcePos = gScrParserGlob.sourcePosLookup[opcodeLookup->sourcePosIndex].sourcePos;
+    bufferIndex = Scr_GetSourceBuffer(codePos);
+    *linenum = Scr_GetLineNum(bufferIndex, sourcePos) + 1;
+    *filename = gScrParserPub.sourceBufferLookup[bufferIndex].buf;
+  }
+  else
+  {
+    *linenum = 0;
+    *filename = "";
+  }
+}

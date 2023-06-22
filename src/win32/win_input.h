@@ -5,5 +5,7 @@ void IN_RawMouseInit();
 void IN_ActivateMouse( qboolean force );
 void IN_RecenterMouse( void );
 void IN_MouseEvent( int mstate );
-void IN_RawEvent(LPARAM lParam);
 void IN_Frame();
+#ifdef _WINDOWS_H
+    void IN_RawEvent(LPARAM lParam);
+#endif

@@ -76,6 +76,9 @@ struct scrVmGlob_t
   int loading;
   int starttime;
   unsigned int localVarsStack[2048];
+  bool recordPlace;
+  const char *lastFileName;
+  int lastLine;
 };
 
 

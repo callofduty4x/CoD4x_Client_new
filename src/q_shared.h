@@ -564,6 +564,7 @@ void Assert_ResetAddressInfo();
 #define assertrange RANGEASSERT
 #define assertrangeu RANGEASSERTUNSIGNED
 #define assertarray ARRAYBOUNDSASSERT
+#define assertint ASSERTINTEGERPRINT
 #define release_assert RELEASE_ASSERT
 #define release_assertx RELEASE_XASSERT
 #define ASSERT_HANDLER(x, f, l, fu, ...) (Assert_MyHandler(x, f, l, fu, __VA_ARGS__))
@@ -580,6 +581,7 @@ void Assert_ResetAddressInfo();
 #define RANGEASSERTUNSIGNED(x, limit_low, limit_highNoHit) XASSERT((unsigned int)x >= (unsigned int)limit_low && (unsigned int)x < (unsigned int)limit_highNoHit, #x " doesn't index " #limit_low " and " #limit_highNoHit "\n\t%i not in (%i, %i)", (unsigned int)x, (unsigned int)limit_low, (unsigned int)limit_highNoHit)
 #define LIMITASSERT(x, limit_highNoHit) XASSERT((unsigned)x >= 0 && (unsigned)x < limit_highNoHit, #x " doesn't index 0 and " #limit_highNoHit "\n\t%i not in [0, %i)", x, limit_highNoHit)
 #define ARRAYBOUNDSASSERT(x, array) LIMITASSERT(x, ARRAY_COUNT(array))
+#define ASSERTINTEGERPRINT(x, value) XASSERT(x, "(" #value ") = %i", value)
 
 #define RELEASE_XASSERT XASSERT
 #define RELEASE_ASSERT ASSERT

@@ -10,7 +10,6 @@
 	extern _Z7FS_ReadPvii
 	extern _Z13FS_FCloseFilei
 	extern _Z2vaPKcz
-	extern _Z16Com_PrintMessageiPKci
 	extern vsnprintf
 	extern gScrVarPub
 	extern _Z14Com_PrintErroriPKcz

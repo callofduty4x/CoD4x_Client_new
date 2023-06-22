@@ -1,3 +1,8 @@
+#include "cscr_variable.h"
+#include "cscr_debugger.h"
+
+struct scrVmDebugPub_t gScrVmDebugPub;
+
 bool Scr_IgnoreErrors( )
 {
   return true;
@@ -101,4 +106,24 @@ void EmitPreAssignmentPos( )
 void Scr_ResetAbortDebugger()
 {
   //scrDebuggerGlob.abort = 0;
+}
+
+int Scr_HitBreakpoint(VariableValue *top, const char *pos, unsigned int localId, int hitBreakpoint)
+{
+  return 0;
+}
+
+void Scr_HitBuiltinBreakpoint(VariableValue *top, const char *pos, unsigned int localId, int opcode, int builtinIndex, unsigned int outparamcount)
+{
+
+}
+
+int Scr_HitAssignmentBreakpoint(VariableValue *top, const char *pos, unsigned int localId, int forceBreak)
+{
+  return 0;
+}
+
+void Scr_CheckBreakonNotify(int notifyListOwnerId, int stringValue, VariableValue *top, const char *pos, unsigned int localId)
+{
+
 }

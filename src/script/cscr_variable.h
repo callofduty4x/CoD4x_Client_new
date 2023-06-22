@@ -228,6 +228,7 @@ unsigned int FindObject( unsigned int );
 unsigned int GetNewVariable( unsigned int, unsigned int );
 void Scr_SetClassMap( unsigned int );
 void RemoveRefToValue(int type, union VariableUnion val);
+void RemoveRefToValue(VariableValue *value);
 void Scr_DumpScriptThreads( );
 void RemoveVariable(unsigned int parentId, unsigned int unsignedValue);
 unsigned int GetArray(unsigned int id);
@@ -236,6 +237,8 @@ void AddRefToObject(unsigned int id);
 void RemoveRefToObject(unsigned int id);
 unsigned int FindVariable(unsigned int parentId, unsigned int unsignedValue);
 void Scr_ClearScrVarDebugPub( );
+VariableValue Scr_FindVariableField(unsigned int parentId, unsigned int name);
+VariableValue Scr_EvalVariableField(unsigned int id);
 
 
 #endif

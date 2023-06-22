@@ -93,7 +93,6 @@
 	extern _Z11QuitOnErrorv
 	extern _Z9I_stricmpPKcS0_
 	extern vsnprintf
-	extern _Z11Scr_Cleanupv
 	extern _Z24Sys_EnterCriticalSection15CriticalSection
 	extern _Z13GScr_Shutdownv
 	extern _Z23Sys_DestroySplashWindowv

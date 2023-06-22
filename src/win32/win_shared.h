@@ -1,12 +1,12 @@
 #ifndef __WIN_SHARED_H__
 #define __WIN_SHARED_H__
-
+/*
 #define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
 #include <winnt.h>
-
+*/
 
 
 struct __align(8) SysInfo

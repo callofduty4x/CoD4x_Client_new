@@ -508,18 +508,6 @@ void Scr_DecTime()
 }
 
 
-void Scr_ErrorJumpOut()
-{
-    assert ( (unsigned int)g_script_error_level < ARRAY_COUNT( g_script_error ));
-    longjmp(g_script_error[g_script_error_level], -1);
-}
-
-
-jmp_buf* VM_GetJmpBuf()
-{
-    return &g_script_error[g_script_error_level];
-}
-
 
 void Scr_ClearErrorMessage( )
 {
@@ -1050,40 +1038,37 @@ unsigned int Scr_GetLocalVar(const char *pos)
 
 unsigned int VM_Execute( )
 {
-  unsigned int stackOff; // eax
-  unsigned int ObjectVariable; // eax
-  unsigned int EntityId; // eax
-  unsigned __int16 UnsignedShort; // ax
-  function_frame_t *function_frame; // [esp+18h] [ebp-324h]
-  unsigned int outParCntBackup; // [esp+2ACh] [ebp-90h]
-  unsigned int outparamcount; // [esp+2B0h] [ebp-8Ch]
-  scr_entref_t entref; // [esp+2B4h] [ebp-88h]
-  unsigned int classnum; // [esp+2BCh] [ebp-80h]
-  VariableValue stackValue; // [esp+2C0h] [ebp-7Ch] BYREF
-  unsigned int builtinIndex; // [esp+2C8h] [ebp-74h]
-  unsigned int stringValue; // [esp+2CCh] [ebp-70h]
-  const char *currentCodePos; // [esp+2D0h] [ebp-6Ch]
-  const char *tempCodePos; // [esp+2D4h] [ebp-68h]
-  unsigned int stackId; // [esp+2D8h] [ebp-64h]
-  unsigned int fieldValueId; // [esp+2DCh] [ebp-60h]
-  int waitTime; // [esp+2E0h] [ebp-5Ch]
-  int jumpOffset; // [esp+2E4h] [ebp-58h]
-  function_stack_t localFs; // [esp+2E8h] [ebp-54h] BYREF
-  unsigned int objectId; // [esp+2FCh] [ebp-40h]
-  unsigned int caseValue; // [esp+300h] [ebp-3Ch]
-  unsigned int fieldName; // [esp+304h] [ebp-38h]
-  unsigned int threadId; // [esp+308h] [ebp-34h]
-  unsigned int currentCaseValue; // [esp+30Ch] [ebp-30h]
-  unsigned int parentLocalId; // [esp+310h] [ebp-2Ch]
-  unsigned int paramcount; // [esp+314h] [ebp-28h]
-  int type; // [esp+318h] [ebp-24h]
-  int entnum; // [esp+31Ch] [ebp-20h]
-  unsigned int fieldValueIndex; // [esp+320h] [ebp-1Ch]
-  const char *debugpos; // [esp+324h] [ebp-18h]
-  unsigned int selfId; // [esp+328h] [ebp-14h]
-  VariableValue tempValue; // [esp+32Ch] [ebp-10h] BYREF
-  unsigned int id; // [esp+334h] [ebp-8h]
-  uint8_t removeCount; // [esp+33Bh] [ebp-1h]
+  unsigned int stackOff;
+  function_frame_t *function_frame;
+  unsigned int outParCntBackup;
+  unsigned int outparamcount;
+  scr_entref_t entref;
+  unsigned int classnum;
+  VariableValue stackValue;
+  unsigned int builtinIndex;
+  unsigned int stringValue;
+  const char *currentCodePos;
+  const char *tempCodePos;
+  unsigned int stackId;
+  unsigned int fieldValueId;
+  int waitTime;
+  int jumpOffset;
+  function_stack_t localFs;
+  unsigned int objectId;
+  unsigned int caseValue;
+  unsigned int fieldName;
+  unsigned int threadId;
+  unsigned int currentCaseValue;
+  unsigned int parentLocalId;
+  unsigned int paramcount;
+  int type;
+  int entnum;
+  unsigned int fieldValueIndex;
+  const char *debugpos;
+  unsigned int selfId;
+  VariableValue tempValue;
+  unsigned int id;
+  uint8_t removeCount;
   static int gOpcode;
   static int gCaseCount;
 
@@ -1174,12 +1159,17 @@ error_1:
       case OP_EvalLocalVariableRef:
         fieldValueIndex = 0;
         fieldValueId = GetDummyFieldValue( );
-        goto $LN25_31;
+        RemoveRefToValue(localFs.top);
+        --localFs.top;
+        break;
       case OP_ClearArray:
       case OP_wait:
-        goto $LN25_31;
+        RemoveRefToValue(localFs.top);
+        --localFs.top;
+        break;
       case OP_GetSelfObject:
-        goto $LN38_13;
+        objectId = GetDummyObject( );
+        break;
       case OP_EvalSelfFieldVariable:
       case OP_EvalFieldVariable:
         localFs.top->type = 0;
@@ -1215,11 +1205,13 @@ error_1:
           RemoveRefToValue(localFs.top);
           gScrVmPub.outparamcount = 0;
         }
-        goto error_dec_top;
+        --localFs.top;
+        break;
       case OP_SetSelfFieldVariableField:
         RemoveRefToValue(localFs.top);
         gScrVmPub.outparamcount = 0;
-        goto error_dec_top;
+        --localFs.top;
+        break;
       case OP_CallBuiltin0:
       case OP_CallBuiltin1:
       case OP_CallBuiltin2:
@@ -1256,10 +1248,8 @@ error_1:
       case OP_ScriptThreadCall:
       case OP_ScriptMethodThreadCall:
         Scr_ReadCodePos(&localFs.pos);
-        goto $LN14_59;
       case OP_ScriptThreadCallPointer:
       case OP_ScriptMethodThreadCallPointer:
-$LN14_59:
         for ( paramcount = Scr_ReadUnsigned(&localFs.pos); paramcount; --paramcount )
         {
           RemoveRefToValue(localFs.top);
@@ -1270,10 +1260,10 @@ $LN14_59:
         break;
       case OP_CastFieldObject:
         objectId = GetDummyObject( );
-        goto error_dec_top;
+        --localFs.top;
+        break;
       case OP_EvalLocalVariableObjectCached:
         ++localFs.pos;
-$LN38_13:
         objectId = GetDummyObject( );
         break;
       case OP_JumpOnFalse:
@@ -1281,7 +1271,8 @@ $LN38_13:
       case OP_JumpOnFalseExpr:
       case OP_JumpOnTrueExpr:
         Scr_ReadUnsignedShort(&localFs.pos);
-        goto error_dec_top;
+        --localFs.top;
+        break;
       case OP_jumpback:
         jumpOffset = Scr_ReadUnsignedShort(&localFs.pos);
         localFs.pos -= jumpOffset;
@@ -1302,16 +1293,17 @@ $LN38_13:
       case OP_multiply:
       case OP_divide:
       case OP_mod:
-        goto error_dec_top;
+        --localFs.top;
+        break;
       case OP_waittillmatch:
         ++localFs.pos;
-        goto $LN26_29;
       case OP_waittill:
       case OP_endon:
-$LN26_29:
         RemoveRefToValue(localFs.top);
         localFs.top--;
-        goto $LN25_31;
+        RemoveRefToValue(localFs.top);
+        --localFs.top;
+        break;
       case OP_notify:
         assert(localFs.top->type != VAR_CODEPOS);
         while ( localFs.top->type != VAR_PRECODEPOS )
@@ -1320,7 +1312,9 @@ $LN26_29:
           localFs.top--;
           assert(localFs.top->type != VAR_CODEPOS);
         }
-        goto $LN25_31;
+        RemoveRefToValue(localFs.top);
+        --localFs.top;
+        break;
       case OP_switch:
         if ( gCaseCount )
         {
@@ -1337,9 +1331,7 @@ $LN26_29:
             assert(localFs.pos);
           }
         }
-$LN25_31:
         RemoveRefToValue(localFs.top);
-error_dec_top:
         --localFs.top;
         break;
       default:
@@ -1355,6 +1347,7 @@ error_dec_top:
       Scr_HitBreakpoint(localFs.top, localFs.pos, localFs.localId, 0);
     }
   }
+
   while ( 1 )
   {
     assertx(!gScrVarPub.error_message, "(gScrVarPub.error_message) = %s", gScrVarPub.error_message);
@@ -2588,8 +2581,7 @@ not_an_object_error:
         stackId = GetNewObjectVariable(id, localFs.localId);
         SetNewVariableValue(stackId, &stackValue);
         tempValue.type = VAR_POINTER;
-        ObjectVariable = GetObjectVariable(gScrVarPub.pauseArrayId, Scr_GetSelf(localFs.localId));
-        id = GetNewObjectVariable(GetArray(ObjectVariable), localFs.localId);
+        id = GetNewObjectVariable(GetArray(GetObjectVariable(gScrVarPub.pauseArrayId, Scr_GetSelf(localFs.localId))), localFs.localId);
         SetNewVariableValue(id, &tempValue);
         Scr_SetThreadNotifyName(localFs.localId, stringValue);
         goto thread_end;
@@ -2681,10 +2673,10 @@ not_an_object_error1:
         gCaseCount = Scr_ReadUnsignedShort(&localFs.pos);
         if ( localFs.top->type == VAR_STRING )
         {
-          goto LABEL_647;
-        }
-        if ( localFs.top->type == VAR_INTEGER )
-        {
+            caseValue = localFs.top->u.stringValue;
+            SL_RemoveRefToString(localFs.top->u.stringValue);
+        
+        }else if ( localFs.top->type == VAR_INTEGER ){
           if ( IsValidArrayIndex(localFs.top->u.pointerValue) )
           {
             caseValue = GetInternalVariableIndex(localFs.top->u.pointerValue);
@@ -2693,7 +2685,6 @@ not_an_object_error1:
           {
             gFs = localFs;
             Scr_Errorf("switch index %d out of range", localFs.top->u.intValue);
-LABEL_647:
             caseValue = localFs.top->u.stringValue;
             SL_RemoveRefToString(localFs.top->u.stringValue);
           }
@@ -2747,8 +2738,7 @@ LABEL_647:
         assert(localFs.top <= gScrVmPub.maxstack);
         classnum = Scr_ReadUnsigned(&localFs.pos);
         entnum = Scr_ReadUnsigned(&localFs.pos);
-        EntityId = FindEntityId(entnum, classnum);
-        localFs.top[1].u.intValue = EntityId;
+        localFs.top[1].u.intValue = FindEntityId(entnum, classnum);;
         if ( localFs.top[1].u.intValue )
         {
           ++localFs.top;
@@ -2764,10 +2754,8 @@ LABEL_647:
       case OP_thread_object:
         assert(localFs.top >= gScrVmPub.stack);
         assert(localFs.top+1 <= gScrVmPub.maxstack);
-
-        UnsignedShort = Scr_ReadUnsignedShort(&localFs.pos);
         ++localFs.top;
-        localFs.top[0].u.intValue = UnsignedShort;
+        localFs.top[0].u.intValue = Scr_ReadUnsignedShort(&localFs.pos);
 object:
         localFs.top->type = VAR_POINTER;
         AddRefToObject(localFs.top->u.pointerValue);
@@ -2813,3 +2801,129 @@ object:
     }
   }
 }
+
+
+void VM_TerminateStack(unsigned int endLocalId, unsigned int startLocalId, VariableStackBuffer *stackValue)
+{
+  unsigned int stackId;
+  unsigned int localId;
+  char *buf;
+  int size;
+  unsigned int parentLocalId;
+  VariableUnion u;
+  VariableValue tempValue;
+
+  assert(startLocalId);
+
+  size = stackValue->size;
+  localId = stackValue->localId;
+  buf = &stackValue->buf[5 * size];
+  while ( size )
+  {
+    buf -= 4;
+    u.codePosValue = *reinterpret_cast<const char **>(buf);
+    buf--;
+    --size;
+    if ( *buf == VAR_CODEPOS )
+    {
+      parentLocalId = GetParentLocalId(localId);
+      Scr_KillThread(localId);
+      RemoveRefToObject(localId);
+      if ( localId == endLocalId )
+      {
+        assert(startLocalId != localId);
+        ++size;
+        *buf = VAR_UNDEFINED;
+        assert(stackValue->size >= size);
+
+        Scr_SetThreadWaitTime(startLocalId, gScrVarPub.time);
+        assert(u.codePosValue);
+
+        stackValue->pos = u.codePosValue;
+        stackValue->localId = parentLocalId;
+        stackValue->size = size;
+        tempValue.type = VAR_STACK;
+        tempValue.u.stackValue = stackValue;
+        stackId = GetNewObjectVariable(GetArray(GetVariable(gScrVarPub.timeArrayId, gScrVarPub.time)), startLocalId);
+        SetNewVariableValue(stackId, &tempValue);
+        return;
+      }
+      localId = parentLocalId;
+    }
+    else
+    {
+      RemoveRefToValue(static_cast<unsigned>(*buf), u);
+    }
+  }
+  assert(localId == endLocalId);
+  assert(startLocalId == localId);
+
+  Scr_KillThread(localId);
+  RemoveRefToObject(localId);
+  --gScrVarPub.numScriptThreads;
+  MT_Free(stackValue, stackValue->bufLen);
+}
+
+
+
+void VM_TrimStack(unsigned int startLocalId, VariableStackBuffer *stackValue, bool fromEndon)
+{
+  unsigned int localId;
+  char *buf;
+  int size;
+  unsigned int parentLocalId;
+  VariableUnion u;
+  VariableValue tempValue;
+
+  assert(startLocalId);
+
+  size = stackValue->size;
+  localId = stackValue->localId;
+  buf = &stackValue->buf[5 * size];
+  while ( size )
+  {
+    buf -= 4;
+    u.codePosValue = *reinterpret_cast<const char **>(buf);
+    buf--;
+    --size;
+    if ( *buf == VAR_CODEPOS )
+    {
+      if ( FindObjectVariable(gScrVarPub.pauseArrayId, localId) )
+      {
+        assert(startLocalId != localId);
+
+        stackValue->localId = localId;
+        stackValue->size = size + 1;
+        Scr_StopThread(localId);
+        if ( !fromEndon )
+        {
+          Scr_SetThreadNotifyName(startLocalId, 0);
+          stackValue->pos = 0;
+          tempValue.type = VAR_STACK;
+          tempValue.u.stackValue = stackValue;
+          SetNewVariableValue(GetNewVariable(startLocalId, 0x18001u), &tempValue);
+        }
+        return;
+      }
+      parentLocalId = GetParentLocalId(localId);
+      Scr_KillThread(localId);
+      RemoveRefToObject(localId);
+      localId = parentLocalId;
+    }
+    else
+    {
+      RemoveRefToValue(static_cast<unsigned>(*buf), u);
+    }
+  }
+  assert(startLocalId == localId);
+
+  if ( fromEndon )
+  {
+    RemoveVariable(startLocalId, 0x18001u);
+  }
+  Scr_KillThread(startLocalId);
+  RemoveRefToObject(startLocalId);
+  --gScrVarPub.numScriptThreads;
+  MT_Free(stackValue, stackValue->bufLen);
+}
+

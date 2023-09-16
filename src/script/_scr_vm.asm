@@ -135,21 +135,20 @@
 	extern g_script_error
 	extern _setjmp
 	extern _Z16Scr_ErrorJumpOutv
-	extern _Z12VM_GetJmpBufv
 	extern _Z23Scr_DecNumScriptThreadsv
 	extern _Z23Scr_IncNumScriptThreadsv
 	extern _Z34Scr_ScriptRuntimecheckInfiniteLoopv
-	extern _Z15VM_CalcWaitTimeP13VariableValue
 	extern gScrVmPub
 	extern _Z10VM_ExecutejPKcj
+	extern _Z17VM_TerminateStackjjP19VariableStackBuffer
+	extern _Z12VM_TrimStackjP19VariableStackBufferh
+
 
 
 
 ;Exports of scr_vm:
 	global gScrVmGlob
 	global VM_CancelNotifyInternal
-	global _Z17VM_TerminateStackjjP19VariableStackBuffer
-	global _Z12VM_TrimStackjP19VariableStackBufferh
 	global _Z18Scr_CancelWaittillj
 	global _Z9VM_NotifyjjP13VariableValue
 	global _Z11Scr_Cleanupv
@@ -239,234 +238,6 @@ VM_CancelNotifyInternal_10:
 	jmp _Z14RemoveVariablejj
 
 
-
-
-;VM_TerminateStack(unsigned int, unsigned int, VariableStackBuffer*)
-_Z17VM_TerminateStackjjP19VariableStackBuffer:
-	push ebp
-	mov ebp, esp
-	push edi
-	push esi
-	push ebx
-	sub esp, 0x4c
-	mov [ebp-0x3c], eax
-	mov [ebp-0x40], edx
-	mov [ebp-0x44], ecx
-	movzx edx, word [ecx+0x4]
-	movzx eax, dx
-	mov [ebp-0x2c], eax
-	movzx esi, word [ecx+0x8]
-	lea eax, [eax+eax*4]
-	mov ecx, [ebp-0x44]
-	lea ebx, [ecx+eax+0xb]
-	test dx, dx
-	jz VM_TerminateStack_10
-	mov edi, [ebp-0x2c]
-	mov dword [ebp-0x30], 0x0
-	jmp VM_TerminateStack_20
-VM_TerminateStack_30:
-	mov edx, [ebp-0x38]
-	mov [esp+0x4], edx
-	movzx eax, al
-	mov [esp], eax
-	call _Z16RemoveRefToValuei13VariableUnion
-	add dword [ebp-0x30], 0x1
-	mov eax, [ebp-0x30]
-	cmp [ebp-0x2c], eax
-	jz VM_TerminateStack_10
-VM_TerminateStack_20:
-	mov eax, [ebx-0x4]
-	mov [ebp-0x38], eax
-	sub ebx, 0x5
-	movzx eax, byte [ebx]
-	sub edi, 0x1
-	cmp al, 0x7
-	jnz VM_TerminateStack_30
-	mov [esp], esi
-	call _Z16GetParentLocalIdj
-	mov [ebp-0x34], eax
-	mov [esp], esi
-	call _Z14Scr_KillThreadj
-	mov [esp], esi
-	call _Z17RemoveRefToObjectj
-	cmp [ebp-0x3c], esi
-	jz VM_TerminateStack_40
-	mov esi, [ebp-0x34]
-	add dword [ebp-0x30], 0x1
-	mov eax, [ebp-0x30]
-	cmp [ebp-0x2c], eax
-	jnz VM_TerminateStack_20
-VM_TerminateStack_10:
-	mov [esp], esi
-	call _Z14Scr_KillThreadj
-	mov [esp], esi
-	call _Z17RemoveRefToObjectj
-	mov edx, [ebp-0x44]
-	movzx eax, word [edx+0x6]
-	mov [esp+0x4], eax
-	mov [esp], edx
-	call _Z7MT_FreePvi
-	call _Z23Scr_DecNumScriptThreadsv
-VM_TerminateStack_50:
-	add esp, 0x4c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-VM_TerminateStack_40:
-	mov byte [ebx], 0x0
-	mov ecx, gScrVarPub
-	mov eax, [ecx+0x14]
-	mov [esp+0x4], eax
-	mov eax, [ebp-0x40]
-	mov [esp], eax
-	call _Z21Scr_SetThreadWaitTimejj
-	mov ecx, [ebp-0x38]
-	mov edx, [ebp-0x44]
-	mov [edx], ecx
-	movzx eax, word [ebp-0x34]
-	mov [edx+0x8], ax
-	lea eax, [edi+0x1]
-	mov [edx+0x4], ax
-	mov dword [ebp-0x1c], 0xa
-	mov [ebp-0x20], edx
-	mov edx, gScrVarPub
-	mov eax, [edx+0x14]
-	mov [esp+0x4], eax
-	mov eax, [edx+0x18]
-	mov [esp], eax
-	call _Z11GetVariablejj
-	mov [esp], eax
-	call _Z8GetArrayj
-	mov ecx, [ebp-0x40]
-	mov [esp+0x4], ecx
-	mov [esp], eax
-	call _Z20GetNewObjectVariablejj
-	lea edx, [ebp-0x20]
-	mov [esp+0x4], edx
-	mov [esp], eax
-	call _Z19SetNewVariableValuejP13VariableValue
-	jmp VM_TerminateStack_50
-	nop
-
-
-;VM_TrimStack(unsigned int, VariableStackBuffer*, unsigned char)
-_Z12VM_TrimStackjP19VariableStackBufferh:
-	push ebp
-	mov ebp, esp
-	push edi
-	push esi
-	push ebx
-	sub esp, 0x4c
-	mov [ebp-0x38], eax
-	mov [ebp-0x3c], edx
-	mov [ebp-0x3d], cl
-	mov eax, edx
-	movzx edx, word [edx+0x4]
-	movzx ecx, dx
-	mov [ebp-0x2c], ecx
-	movzx edi, word [eax+0x8]
-	lea eax, [ecx+ecx*4]
-	mov ecx, [ebp-0x3c]
-	lea esi, [ecx+eax+0xb]
-	test dx, dx
-	jz VM_TrimStack_10
-	mov eax, [ebp-0x2c]
-	mov [ebp-0x34], eax
-	mov dword [ebp-0x30], 0x0
-	jmp VM_TrimStack_20
-VM_TrimStack_30:
-	mov [esp+0x4], edx
-	movzx eax, al
-	mov [esp], eax
-	call _Z16RemoveRefToValuei13VariableUnion
-	add dword [ebp-0x30], 0x1
-	mov ecx, [ebp-0x30]
-	cmp [ebp-0x2c], ecx
-	jz VM_TrimStack_10
-VM_TrimStack_20:
-	mov edx, [esi-0x4]
-	sub esi, 0x5
-	movzx eax, byte [esi]
-	sub dword [ebp-0x34], 0x1
-	cmp al, 0x7
-	jnz VM_TrimStack_30
-	mov [esp+0x4], edi
-	mov eax, gScrVarPub
-	mov eax, [eax+0x1c]
-	mov [esp], eax
-	call _Z18FindObjectVariablejj
-	test eax, eax
-	jnz VM_TrimStack_40
-	mov [esp], edi
-	call _Z16GetParentLocalIdj
-	mov ebx, eax
-	mov [esp], edi
-	call _Z14Scr_KillThreadj
-	mov [esp], edi
-	call _Z17RemoveRefToObjectj
-	mov edi, ebx
-	add dword [ebp-0x30], 0x1
-	mov ecx, [ebp-0x30]
-	cmp [ebp-0x2c], ecx
-	jnz VM_TrimStack_20
-VM_TrimStack_10:
-	cmp byte [ebp-0x3d], 0x0
-	jnz VM_TrimStack_50
-VM_TrimStack_60:
-	mov edx, [ebp-0x38]
-	mov [esp], edx
-	call _Z14Scr_KillThreadj
-	mov ecx, [ebp-0x38]
-	mov [esp], ecx
-	call _Z17RemoveRefToObjectj
-	mov edx, [ebp-0x3c]
-	movzx eax, word [edx+0x6]
-	mov [esp+0x4], eax
-	mov [esp], edx
-	call _Z7MT_FreePvi
-	call _Z23Scr_DecNumScriptThreadsv
-VM_TrimStack_70:
-	add esp, 0x4c
-	pop ebx
-	pop esi
-	pop edi
-	pop ebp
-	ret
-VM_TrimStack_50:
-	mov dword [esp+0x4], 0x18001
-	mov eax, [ebp-0x38]
-	mov [esp], eax
-	call _Z14RemoveVariablejj
-	jmp VM_TrimStack_60
-VM_TrimStack_40:
-	mov edx, [ebp-0x3c]
-	mov [edx+0x8], di
-	mov eax, [ebp-0x34]
-	add eax, 0x1
-	mov [edx+0x4], ax
-	mov [esp], edi
-	call _Z14Scr_StopThreadj
-	cmp byte [ebp-0x3d], 0x0
-	jnz VM_TrimStack_70
-	mov dword [esp+0x4], 0x0
-	mov ecx, [ebp-0x38]
-	mov [esp], ecx
-	call _Z23Scr_SetThreadNotifyNamejj
-	mov eax, [ebp-0x3c]
-	mov dword [eax], 0x0
-	mov dword [ebp-0x1c], 0xa
-	mov [ebp-0x20], eax
-	mov dword [esp+0x4], 0x18001
-	mov edx, [ebp-0x38]
-	mov [esp], edx
-	call _Z14GetNewVariablejj
-	lea edx, [ebp-0x20]
-	mov [esp+0x4], edx
-	mov [esp], eax
-	call _Z19SetNewVariableValuejP13VariableValue
-	jmp VM_TrimStack_70
 
 
 ;Scr_CancelWaittill(unsigned int)
@@ -1003,6 +774,9 @@ VM_Notify_330:
 	mov ecx, [ebp-0x64]
 	mov edx, [ebp-0x60]
 	mov eax, [ebp-0x7c]
+	mov [esp+8], ecx
+	mov [esp+4], edx
+	mov [esp+0], eax
 	call _Z17VM_TerminateStackjjP19VariableStackBuffer
 	jmp VM_Notify_130
 VM_Notify_230:
@@ -1055,6 +829,9 @@ VM_Notify_320:
 	mov ecx, edi
 	mov edx, [ebp-0x60]
 	mov eax, [ebp-0x7c]
+	mov [esp+8], ecx
+	mov [esp+4], edx
+	mov [esp+0], eax
 	call _Z17VM_TerminateStackjjP19VariableStackBuffer
 	jmp VM_Notify_130
 VM_Notify_290:
@@ -3331,6 +3108,9 @@ Scr_ShutdownSystem_80:
 	mov ecx, esi
 	mov edx, ebx
 	mov eax, ebx
+	mov [esp+8], ecx
+	mov [esp+4], edx
+	mov [esp+0], eax
 	call _Z17VM_TerminateStackjjP19VariableStackBuffer
 Scr_ShutdownSystem_70:
 	mov [esp], edi
@@ -3639,8 +3419,9 @@ Scr_CancelNotifyList_20:
 	mov eax, esi
 	call _Z18Scr_CancelWaittillj
 	xor ecx, ecx
-	mov edx, ebx
-	mov eax, esi
+	mov [esp+8], ecx
+	mov [esp+4], ebx
+	mov [esp+0], esi
 	call _Z12VM_TrimStackjP19VariableStackBufferh
 	jmp Scr_CancelNotifyList_50
 Scr_CancelNotifyList_30:
@@ -3648,7 +3429,9 @@ Scr_CancelNotifyList_30:
 	call _Z23GetVariableValueAddressj
 	mov ecx, 0x1
 	mov edx, [eax]
-	mov eax, ebx
+	mov [esp+8], ecx
+	mov [esp+4], edx
+	mov [esp+0], ebx	
 	call _Z12VM_TrimStackjP19VariableStackBufferh
 	jmp Scr_CancelNotifyList_60
 	nop

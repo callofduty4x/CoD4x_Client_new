@@ -1,3 +1,4 @@
 *.o
 *.exe
 .vscode
+make_and_install.cmd

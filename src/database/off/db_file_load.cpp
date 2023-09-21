@@ -100,7 +100,7 @@ void DB_ResetZoneSize(bool trackLoadProgress)
 
 void DB_LoadedExternalData(int size)
 {
-  InterlockedExchangeAdd((volatile DWORD*)&g_loadedExternalBytes, size);
+  InterlockedExchangeAdd((volatile long int*)&g_loadedExternalBytes, size);
 }
 
 

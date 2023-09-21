@@ -32,7 +32,7 @@ void RB_TouchImage(GfxImage *image)
   {
     R_SetCodeImageTexture(&gfxCmdBufSourceState, 9u, image);
     R_Set2D(&gfxCmdBufSourceState);
-    RB_DrawStretchPic(rgp.feedbackReplaceMaterial, 0.0, 0.0, 8.0, 8.0, 0.0, 0.0, 1.0, 1.0, {.packed = 0xFFFFFFFF}, GFX_PRIM_STATS_CODE);
+    RB_DrawStretchPic(rgp.feedbackReplaceMaterial, 0.0, 0.0, 8.0, 8.0, 0.0, 0.0, 1.0, 1.0, 0xFFFFFFFF, GFX_PRIM_STATS_CODE);
     RB_EndTessSurface();
   }
 }

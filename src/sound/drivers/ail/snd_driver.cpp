@@ -240,9 +240,9 @@ int SND_InitDriver(void)
   return 0;
 }
 
-void SND_SetRoomtype(int a1)
+void SND_SetRoomtype(int room_type)
 {
-  AIL_set_room_type(milesGlob.driver, a1);
+  AIL_set_room_type(milesGlob.driver, room_type);
   AIL_set_digital_master_reverb_levels(milesGlob.driver, 1.0, g_snd.effect->wetlevel);
 }
 

@@ -467,7 +467,7 @@ int PrintableCharsCount(MessageWindow *msgwnd, MessageLine *line)
     if ( letter == '^' )
     {
       c[0] = msgwnd->circularTextBuffer[(msgwnd->textBufSize - 1) & (idx + line->textBufPos)];
-      if ( (c && c[0] != '^' && c[0] >= '0' && c[0] <= '@') || (c && c[0] != '^' && c[0] == 'F') )
+      if ( (c[0] != '^' && c[0] >= '0' && c[0] <= '@') || (c[0] != '^' && c[0] == 'F') )
       {
         ++idx;
       }

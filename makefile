@@ -50,7 +50,7 @@ CC=gcc
 CPP=g++
 WIN_DEFINES=WINVER=0x501
 LINUX_DEFINES=_GNU_SOURCE
-CFLAGS=-m32 -fno-common -msse2 -mfpmath=sse -Wall -fexceptions -fno-omit-frame-pointer -fmax-errors=15 -Isrc/
+CFLAGS=-m32 -fno-common -msse2 -mfpmath=sse -Wall -fno-omit-frame-pointer -fmax-errors=15 -Isrc/
 
 ifeq ($(DEBUG), true)
 DCFLAGS=-fno-pie -Og -g3 -fno-eliminate-unused-debug-types -fno-eliminate-unused-debug-symbols -femit-class-debug-always $(EXTERNAL_INCLUDES)
@@ -151,8 +151,20 @@ endif
 ifeq ($(snd_driver), null)
 SND_DRIVER=null
 else
+ifeq ($(snd_driver), soloud)
+SND_DRIVER=soloud
+WIN_LLIBS+=soloud_static_x86_d winmm stdc++
+EXTERNAL_INCLUDES+=-Iexternal/soloud/include
+else
+ifeq ($(snd_driver), openal)
+SND_DRIVER=openal
+WIN_LLIBS+=OpenAL32.dll
+EXTERNAL_INCLUDES+=-Iexternal/openal/include
+else
 SND_DRIVER=ail
 WIN_LLIBS+= mss32
+endif
+endif
 endif
 
 #####################

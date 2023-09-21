@@ -1,20 +1,27 @@
 #include "../win32/win_debugcon.h"
 #include <fmt/format.h>
+#include <fstream>
 
 
 class ComDebugConsole : public DebugConsole
 {
 public:
-    using DebugConsole::DebugConsole;
+    ComDebugConsole(HINSTANCE hInstance, const char* title) : DebugConsole(hInstance, title), m_logfile("debug_out.log"){}
+	  ComDebugConsole(HINSTANCE hInstance, const char* title, int initialwidth, int initialheigth) : DebugConsole(hInstance, title, initialwidth, initialheigth), m_logfile("debug_out.log"){}
     
     template <typename... T> void Print(fmt::format_string<T...> fmt, T&&... args)
     {
         try {
-            this->PrintInternal(fmt::format(fmt, std::forward<T>(args)...).c_str());
+            const std::string msg = fmt::format(fmt, std::forward<T>(args)...);
+            this->PrintInternal(msg.c_str());
+            m_logfile << msg;
         } catch (const std::exception& e) {
             fprintf(stderr, "Error in the format: %s\n", e.what());
         }
     }
+
+private:
+    std::ofstream m_logfile;
 
 };
 

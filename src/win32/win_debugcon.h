@@ -24,13 +24,14 @@
 
 #include <string>
 #include <queue>
-
+/*
 #ifdef __MINGW32__
 	#include <mingw.mutex.h>
 #else
 	#include <mutex>
 #endif
-
+*/
+#include <mutex>
 #include <windows.h>
 
 class DebugConsole

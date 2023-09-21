@@ -1,7 +1,7 @@
 ;Imports of stringed_hooks:
 	extern _Z19DB_FindXAssetHeader10XAssetTypePKc
 	extern strdup
-	extern _Z15SE_LoadLanguageh
+	extern _Z15SE_LoadLanguageb
 	extern fs_ignoreLocalized
 	extern _Z9Com_Error11errorParm_tPKcz
 	extern _Z16Com_PrintWarningiPKcz
@@ -555,7 +555,7 @@ _Z31SEH_StringEd_SetLanguageStringsi_10:
 	mov eax, [loc_forceEnglish]
 	movzx eax, byte [eax+0xc]
 	mov [esp], eax
-	call _Z15SE_LoadLanguageh
+	call _Z15SE_LoadLanguageb
 	mov edx, eax
 	test eax, eax
 	jz _Z31SEH_StringEd_SetLanguageStringsi_20

@@ -9,8 +9,6 @@ ComDebugConsole& Com_CreateDebugConsole()
 
     static ComDebugConsole dbgcon(h, "Com Debug Console", 800, 600);
     dbgcon.Show(1, true);
-    dbgcon.Print("Test message"  "Another message");
-
     return dbgcon;
 }
 
@@ -18,6 +16,7 @@ ComDebugConsole& Com_CreateDebugConsole()
 
 void Com_InitDebugSystems()
 {
-   //dbgCon = &Com_CreateDebugConsole();
+   dbgCon = &Com_CreateDebugConsole();
 
 }
+

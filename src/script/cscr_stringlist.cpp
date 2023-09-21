@@ -383,8 +383,7 @@ void SL_RemoveRefToStringOfSize(unsigned int stringValue, unsigned int len)
   {
     return;
   }
-
-  if ( InterlockedDecrement((volatile DWORD*)&refStr->data) << 16 )
+  if ( (InterlockedDecrement((volatile long int*)&refStr->data) << 16) != 0 )
   {
     if ( gScrStringDebugGlob )
     {
@@ -396,8 +395,8 @@ void SL_RemoveRefToStringOfSize(unsigned int stringValue, unsigned int len)
       assertx(gScrStringDebugGlob->refCount[stringValue] != 0, "SL_DebugConvertToString( stringValue ) = %s", 
             SL_DebugConvertToString(stringValue));
 
-      InterlockedDecrement((volatile DWORD*)&gScrStringDebugGlob->totalRefCount);
-      InterlockedDecrement((volatile DWORD*)&gScrStringDebugGlob->refCount[stringValue]);
+      InterlockedDecrement((volatile long int*)&gScrStringDebugGlob->totalRefCount);
+      InterlockedDecrement((volatile long int*)&gScrStringDebugGlob->refCount[stringValue]);
     }
   }
   else
@@ -415,7 +414,7 @@ void SL_RemoveRefToStringOfSize(unsigned int stringValue, unsigned int len)
         }
         exchange.data = compare.data;
         exchange.user = 0;
-    }while(InterlockedCompareExchange((DWORD*)&refStr->data, exchange.data, compare.data) != (DWORD)compare.data);
+    }while(InterlockedCompareExchange((volatile long int*)&refStr->data, exchange.data, compare.data) != (long int)compare.data);
 
     SL_FreeString(stringValue, refStr, len);
     if ( gScrStringDebugGlob )
@@ -429,8 +428,8 @@ void SL_RemoveRefToStringOfSize(unsigned int stringValue, unsigned int len)
       assertx(gScrStringDebugGlob->refCount[stringValue] != 0, "SL_DebugConvertToString( stringValue ) = %s", 
             SL_DebugConvertToString(stringValue));
 
-      InterlockedDecrement((volatile DWORD*)&gScrStringDebugGlob->totalRefCount);
-      InterlockedDecrement((volatile DWORD*)&gScrStringDebugGlob->refCount[stringValue]);
+      InterlockedDecrement((volatile long int*)&gScrStringDebugGlob->totalRefCount);
+      InterlockedDecrement((volatile long int*)&gScrStringDebugGlob->refCount[stringValue]);
     }
   }
 }
@@ -448,12 +447,12 @@ void SL_AddRefToString(unsigned int stringValue)
     assertx(gScrStringDebugGlob->refCount[stringValue], "%d '%s'", stringValue, SL_DebugConvertToString(stringValue));
     assertx(gScrStringDebugGlob->refCount[stringValue] < DEBUG_REFCOUNT_SIZE, "SL_DebugConvertToString( stringValue ) = %s", SL_DebugConvertToString(stringValue));
 
-    InterlockedIncrement((volatile DWORD*)&gScrStringDebugGlob->totalRefCount);
-    InterlockedIncrement((volatile DWORD*)&gScrStringDebugGlob->refCount[stringValue]);
+    InterlockedIncrement((volatile long int*)&gScrStringDebugGlob->totalRefCount);
+    InterlockedIncrement((volatile long int*)&gScrStringDebugGlob->refCount[stringValue]);
   }
   refStr = GetRefString(stringValue);
 
-  InterlockedIncrement((volatile DWORD*)&refStr->data);
+  InterlockedIncrement((volatile long int*)&refStr->data);
 
   if ( !refStr->refCount )
   {
@@ -639,8 +638,8 @@ void SL_AddUserInternal(RefString *refStr, unsigned int user)
     {
       assertx(gScrStringDebugGlob->refCount[str] < DEBUG_REFCOUNT_SIZE, "SL_DebugConvertToString( str ) = %s",  SL_DebugConvertToString(str));
       assertx(gScrStringDebugGlob->refCount[str] >= 0,"SL_DebugConvertToString( str ) = %s", SL_DebugConvertToString(str));
-      InterlockedIncrement((DWORD*)&gScrStringDebugGlob->totalRefCount);
-      InterlockedIncrement((DWORD*)&gScrStringDebugGlob->refCount[str]);
+      InterlockedIncrement((volatile long int*)&gScrStringDebugGlob->totalRefCount);
+      InterlockedIncrement((volatile long int*)&gScrStringDebugGlob->refCount[str]);
     }
 
     RefString exchange;
@@ -651,9 +650,9 @@ void SL_AddUserInternal(RefString *refStr, unsigned int user)
 
         exchange.data = compare.data;
         exchange.user |= user;
-    }while(InterlockedCompareExchange((DWORD*)&refStr->data, exchange.data, compare.data) != (DWORD)compare.data);
+    }while(InterlockedCompareExchange((volatile long int*)&refStr->data, exchange.data, compare.data) != (long int)compare.data);
 
-    InterlockedIncrement((DWORD*)&refStr->data);
+    InterlockedIncrement((volatile long int*)&refStr->data);
   }
 
 }
@@ -788,8 +787,8 @@ unsigned int SL_GetStringOfSize(const char *str, unsigned int user, unsigned int
 
   if ( gScrStringDebugGlob )
   {
-    InterlockedIncrement((volatile DWORD*)&gScrStringDebugGlob->totalRefCount);
-    InterlockedIncrement((volatile DWORD*)&gScrStringDebugGlob->refCount[stringValue]);
+    InterlockedIncrement((volatile long int*)&gScrStringDebugGlob->totalRefCount);
+    InterlockedIncrement((volatile long int*)&gScrStringDebugGlob->refCount[stringValue]);
   }
   assert((entry->status_next & HASH_STAT_MASK) != HASH_STAT_FREE);
   assert(refStr->str == SL_ConvertToString( stringValue ));
@@ -842,11 +841,11 @@ void SL_TransferRefToUser(unsigned int stringValue, unsigned int user)
     if ( gScrStringDebugGlob )
     {
       assertx(gScrStringDebugGlob->refCount[stringValue], "SL_DebugConvertToString( stringValue, inst ) = %s", SL_DebugConvertToString(stringValue));
-      InterlockedDecrement((volatile DWORD*)&gScrStringDebugGlob->totalRefCount);
-      InterlockedDecrement((volatile DWORD*)&gScrStringDebugGlob->refCount[stringValue]);
+      InterlockedDecrement((volatile long int*)&gScrStringDebugGlob->totalRefCount);
+      InterlockedDecrement((volatile long int*)&gScrStringDebugGlob->refCount[stringValue]);
     }
 
-    InterlockedDecrement((volatile DWORD*)refStr);
+    InterlockedDecrement((volatile long int*)refStr);
   }
   else
   {
@@ -858,7 +857,7 @@ void SL_TransferRefToUser(unsigned int stringValue, unsigned int user)
 
         exchange.data = compare.data;
         exchange.user |= user;
-    }while(InterlockedCompareExchange((DWORD*)&refStr->data, exchange.data, compare.data) != (DWORD)compare.data);
+    }while(InterlockedCompareExchange((volatile long int*)&refStr->data, exchange.data, compare.data) != (long int)compare.data);
   }
 
 
@@ -1032,11 +1031,11 @@ float *Scr_AllocVectorInternal()
 
   refVec = (RefVector*)MT_Alloc(16, 2);
   refVec->head = 0;
-  InterlockedIncrement((DWORD*)&gScrVarPub.totalVectorRefCount);
+  InterlockedIncrement((volatile long int*)&gScrVarPub.totalVectorRefCount);
   if ( gScrStringDebugGlob )
   {
     unsigned int value = MT_GetIndexByRef((byte*)refVec);
-    InterlockedIncrement((DWORD*)&gScrStringDebugGlob->refCount[value]);
+    InterlockedIncrement((volatile long int*)&gScrStringDebugGlob->refCount[value]);
   }
   return refVec->vec;
 }
@@ -1049,12 +1048,12 @@ void RemoveRefToVector(const float *vectorValue)
 
   if ( !refVec->byteLen )
   {
-    InterlockedDecrement((DWORD*)&gScrVarPub.totalVectorRefCount);
+    InterlockedDecrement((volatile long int*)&gScrVarPub.totalVectorRefCount);
     if ( gScrStringDebugGlob )
     {
       unsigned int value = MT_GetIndexByRef((byte*)refVec);
       assert(gScrStringDebugGlob->refCount[value] >= 0);
-      InterlockedDecrement((DWORD*)&gScrStringDebugGlob->refCount[value]);
+      InterlockedDecrement((volatile long int*)&gScrStringDebugGlob->refCount[value]);
     }
     if ( refVec->refCount )
     {
@@ -1075,12 +1074,12 @@ void AddRefToVector(const float *vectorValue)
 
   if ( !refVec->byteLen )
   {
-    InterlockedIncrement((DWORD*)&gScrVarPub.totalVectorRefCount);
+    InterlockedIncrement((volatile long int*)&gScrVarPub.totalVectorRefCount);
     if ( gScrStringDebugGlob )
     {
       unsigned int value = MT_GetIndexByRef((byte*)refVec);
       assert( gScrStringDebugGlob->refCount[value] >= 0);
-      InterlockedIncrement((DWORD*)&gScrStringDebugGlob->refCount[value]);
+      InterlockedIncrement((volatile long int*)&gScrStringDebugGlob->refCount[value]);
     }
     ++refVec->refCount;
     assert(refVec->refCount);

@@ -1,13 +1,13 @@
 #pragma once
-
+#include <q_shared.h>
 // Filename:-	stringed_ingame.h
 //
 
 // alter these to suit your own game...
 //
-#define SE_BOOL					byte
-#define SE_TRUE					qtrue
-#define SE_FALSE				qfalse
+#define SE_BOOL					bool
+#define SE_TRUE					true
+#define SE_FALSE				false
 #define	iSE_MAX_FILENAME_LENGTH	MAX_QPATH
 #define sSE_STRINGS_DIR			"localizedstrings"
 #define sSE_DEBUGSTR_PREFIX		"["		// any string you want prefixing onto the debug versions of strings (to spot hardwired english etc)

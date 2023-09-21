@@ -1,3 +1,6 @@
 [submodule "external/fmt"]
 	path = external/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "external/soloud"]
+	path = external/soloud
+	url = https://github.com/jarikomppa/soloud.git
